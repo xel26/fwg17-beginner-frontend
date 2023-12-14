@@ -8,11 +8,13 @@ import { FiMessageCircle } from "react-icons/fi";
 import Testimonial from "../components/Testimonial";
 import Data from "../components/Data";
 import HomeCardProduct from "../components/HomeCardProduct";
+import Rating from "../components/Rating";
 
 const Home = () => {
+  const HomeCardProducts = [1, 2, 3, 4]
   return (
     <wrap className="font relative flex flex-col items-center">
-      <Navbar />
+      <Navbar unAuthenticated={true}/>
 
       <button
         id="chat-icon"
@@ -167,29 +169,15 @@ const Home = () => {
         </div>
 
         <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
-          <HomeCardProduct
-            productName="Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-            price="20"
-          />
-
-          <HomeCardProduct
-            productName="Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-            price="20"
-          />
-
-          <HomeCardProduct
-            productName="Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-            price="20"
-          />
-
-          <HomeCardProduct
-            productName="Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-            price="20"
-          />
+          {
+            HomeCardProducts.map(index => (
+              <HomeCardProduct key={index}
+              productName="Hazelnut Latte"
+              description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
+              price="20"
+            />
+            ))
+          }
         </div>
       </section>
 

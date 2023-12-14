@@ -1,16 +1,11 @@
-import { FaStar } from "react-icons/fa";
+import Rating from "./Rating";
 import { FiShoppingCart } from "react-icons/fi";
 import Tag from "./Tag";
 import ProductImage from "../assets/media/home-product1.jpg"
 import { Link } from "react-router-dom";
 import Price from "./Price"
 
-const CardProduct = ({productName, description, rating, basePrice, discountPrice }) => {
-  const stars = [];
-  for (let i = 1; i <= parseInt(rating); i++) {
-    stars.push(i);
-  }
-
+const CardProduct = ({productName, description, rating }) => {
   return (
     <div className="relative flex justify-center w-fit h-fit">
       <div>
@@ -26,16 +21,7 @@ const CardProduct = ({productName, description, rating, basePrice, discountPrice
         <p className="text-[0.6rem] sm:text-[0.7rem] text-[#4F5665]">
           {description}
         </p>
-        <div className="flex items-center gap-2 sm:gap-4">
-          <div className="flex items-center gap-2 sm:gap-4">
-            {stars.map((index) => (
-              <FaStar key={index} color="orange" />
-            ))}
-          </div>
-          <p className="text-[#4F5665] text-xs sm:text-sm" id="rating-number">
-            {rating}.0
-          </p>
-        </div>
+        <Rating rating="5"/>
         <Price basePrice="20" discountPrice="10"/>
         <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
           <Link to="/product-details" className=" w-full sm:w-9/12 bg-[#FF8906] rounded-md text-xs sm:text-sm py-1 active:scale-95 transition-all flex justify-center">

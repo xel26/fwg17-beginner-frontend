@@ -3,7 +3,7 @@ import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png"
 
 const Kupon = ({title, description, klaim, bg}) => {
   return (
-    <div className={`flex bg-[${bg}] rounded-2xl items-center pl-2 w-64 sm:w-72 h-20 sm:h-auto`}>
+    <div className={`flex ${bg == "green" ? 'bg-[#88B788]' : 'bg-[#F5C361]'} rounded-2xl items-center pl-2 w-64 sm:w-72 h-20 sm:h-auto`}>
       <div>
         <img
           className="h-20 sm:h-24 translate-y-1"

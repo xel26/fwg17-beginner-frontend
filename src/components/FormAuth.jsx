@@ -1,55 +1,133 @@
-import ButtonSubmit from './ButtonSubmit'
-import Input from './InputForm'
+import Button from "./Button";
+import InputForm from "../components/InputForm";
+import ButtonAuth from "../components/ButtonAuth";
+import CupCoffee from '../assets/media/cup-coffe-icon.png'
+import TextLogo from "../assets/media/text-logo.png"
 
-const FormAuth = ({type, text}) => {
-    return (
-        <div className="flex flex-col gap-5">
-        <h1 className="text-[#8e6447] font-semibold text-xl">{type}</h1>
-        <p className="text-[#4f5665]">{type == "Register" || type == "Login" ? "Fill out the form correctly" : "We will send new password to your email"}</p>
-
-        <form id="form" className="flex flex-col gap-5">
-        {
-            if(type == "Register"){
-                (
-                    <Input/>
-                )
-            }
-        }
-
-        <ButtonSubmit />
-        </form>
-
-        <div className="flex justify-center">
-          <p className="text-[#4f5665] text-sm">Have An Account?</p>
-          <a className="text-[#ff8906] text-sm" href="./login.html">
-            Login
-          </a>
+const FormAuth = ({ type }) => {
+  return (
+    <div className="flex flex-col w-11/12">
+      <div className="flex items-center gap-4 mb-8">
+        <div>
+          <img src={CupCoffee} />
         </div>
-
-        <div className="grid grid-cols-3">
-          <hr className="border-[0.5px] border-[#dedede] h-0" />
-          <p className="text-[#aaaaaa] text-xs text-center">Or</p>
-          <hr className="border-[0.5px] border-[#dedede] h-0" />
-        </div>
-
-        <div className="flex justify-between gap-4">
-          <button
-            className="flex justify-center items-center gap-4 w-2/4 p-2 rounded shadow-md hover:shadow-none transition-all duration-500"
-            id="facebook"
-          >
-            <img src="../assets/media/facebook-logo.png" alt="" />
-            <p className="text-[#4f5665] text-semibold">Facebook</p>
-          </button>
-          <button
-            className="flex justify-center items-center gap-4 w-2/4 p-2 rounded shadow-md hover:shadow-none transition-all duration-500"
-            id="google"
-          >
-            <img src="../assets/media/google-logo.png" alt="" />
-            <p className="text-[#4f5665] text-semibold ">Google</p>
-          </button>
+        <div>
+          <img src={TextLogo} />
         </div>
       </div>
-    )
-}
 
-export default FormAuth
+      <div className="flex flex-col gap-5">
+        <h1 className="text-[#8e6447] font-semibold text-xl">{type}</h1>
+        <p className="text-[#4f5665]">
+          {type == "Register" || type == "Login"
+            ? "Fill out the form correctly"
+            : "We will send new password to your email"}
+        </p>
+
+        <form id="form" className="flex flex-col gap-5">
+          {type == "Register" ? (
+            <>
+              <InputForm
+                name="full-name"
+                label="Full Name"
+                type="text"
+                placeholder="Enter Your Full Name"
+              />
+              <InputForm
+                name="email"
+                label="Email"
+                type="email"
+                placeholder="Enter Your Email"
+              />
+              <InputForm
+                name="password"
+                label="Password"
+                type="password"
+                placeholder="Enter Your Password"
+              />
+              <InputForm
+                name="confirm-password"
+                label="Confirm Password"
+                type="password"
+                placeholder="Enter Your Password Again"
+              />
+            </>
+          ) : type == "Login" ? (
+            <>
+              <InputForm
+                name="email"
+                label="Email"
+                type="email"
+                placeholder="Enter Your Email"
+              />
+              <InputForm
+                name="password"
+                label="Password"
+                type="password"
+                placeholder="Enter Your Password"
+              />
+            </>
+          ) : (
+            <InputForm
+              name="email"
+              label="Email"
+              type="email"
+              placeholder="Enter Your Email"
+            />
+          )}
+
+          <Button
+            destination={
+              type == "Register"
+                ? "/login"
+                : type == "Login"
+                ? "/home"
+                : "/login"
+            }
+            value={
+              type == "Register"
+                ? "Register"
+                : type == "Login"
+                ? "Login"
+                : "Submit"
+            }
+            py="2"
+          />
+        </form>
+
+        {type == "Register" || type == "Login" ? (
+          <>
+            <div className="flex justify-center">
+              <p className="text-[#4f5665] text-sm">
+                {type == "Register"
+                  ? "Have An Account?"
+                  : "Not Have An Account?"}
+              </p>
+              <a
+                className="text-[#ff8906] text-sm"
+                href={type == "Register" ? "/login" : "/register"}
+              >
+                {type == "Register" ? "Login" : "Register"}
+              </a>
+            </div>
+
+            <div className="grid grid-cols-3">
+              <hr className="border-[0.5px] border-[#dedede] h-0" />
+              <p className="text-[#aaaaaa] text-xs text-center">Or</p>
+              <hr className="border-[0.5px] border-[#dedede] h-0" />
+            </div>
+
+            <div className="flex justify-center sm:justify-between gap-10 sm:gap-4">
+              <ButtonAuth value="Google" />
+              <ButtonAuth value="Facebook" />
+            </div>
+          </>
+        ) : (
+          ""
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default FormAuth;

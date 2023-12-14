@@ -11,8 +11,9 @@ import { FiList, FiSearch } from "react-icons/fi";
 const Product = () => {
   const products = [1, 2, 3, 4, 5, 6];
   const GreenKupon = [1, 2, 3, 4];
+
   return (
-    <wrap className="flex flex-col items-center gap-6 sm:gap-12">
+    <div className="flex flex-col items-center gap-6 sm:gap-12">
       <Navbar bg="#0B090921" />
       <header className="hidden sm:flex items-center bg-[url('../assets/media/header-product-page.jpg')] bg-center w-full h-72 mt-12">
         <h1 className="text-white text-5xl ml-28">
@@ -75,18 +76,22 @@ const Product = () => {
 
         <div className="w-fit flex gap-10">
           {GreenKupon.map((index) => (
-            <Kupon
+            <Kupon klaim={true}
               key={index}
               title="HAPPY MOTHER'S DAY!"
               description={`Get one of our favorite menu \n for free!`}
-              klaim
-              bg="#88B788"
+              bg="green"
+              // bg="#88B788"  warna hijau tidak bisa muncul warna lain bisa muncul
+              // bg= "#FF8906"
+              // bg="black"
             />
           ))}
           <Kupon
             title={`Get a cup of coffee for free \n on sunday morning`}
             description="Only at 7 to 9 AM"
-            bg="#F5C361"
+            bg="yellow"
+            // bg="#F5C361" warna kuning tidak bisa muncul warna lain bisa muncul
+            // bg="black"
           />
         </div>
 
@@ -127,7 +132,7 @@ const Product = () => {
       </section>
 
       <Footer />
-    </wrap>
+    </div>
   );
 };
 

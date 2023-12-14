@@ -1,5 +1,7 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import InputForm from "../components/InputForm";
+import Button from "../components/Button"
 
 const Profile = () => {
   return (
@@ -30,97 +32,12 @@ const Profile = () => {
         </div>
 
         <div className="w-full sm:flex-1 border border-[#E8E8E8] p-4 flex flex-col gap-6 outline-none">
-          <div className="flex flex-col gap-1">
-            <label className="font-bold text-sm" for="full-name">
-              Full Name
-            </label>
-            <div className="flex border border-[#DEDEDE] rounded-md text-[#4F5665] p-2 gap-2">
-              <i className="h-5" data-feather="user"></i>
-              <input
-                className="text-xs w-full outline-none"
-                id="full-name"
-                type="text"
-                placeholder="Enter Your Full Name"
-                value="Ghaluh Wizard"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="font-bold text-sm" for="email">
-              Email
-            </label>
-            <div className="flex border border-[#DEDEDE] rounded-md text-[#4F5665] p-2 gap-2">
-              <i className="h-4" data-feather="mail"></i>
-              <input
-                className="text-xs w-full outline-none"
-                id="email"
-                type="email"
-                placeholder="Enter Your Email"
-                value="ghaluhwizz@gmail.com"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="font-bold text-sm" for="phone">
-              Phone
-            </label>
-            <div className="flex  border border-[#DEDEDE] rounded-md text-[#4F5665] p-2 gap-2">
-              <i className="h-4" data-feather="phone-call"></i>
-              <input
-                className="text-xs w-full outline-none"
-                id="phone"
-                type="text"
-                placeholder="Enter Your Phone Number"
-                value="082116304338"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <div className="flex justify-between items-center">
-              <label className="font-bold text-sm" for="password">
-                Password
-              </label>
-              <a className="text-[#FF8906] text-xs" href="#">
-                Set New Password
-              </a>
-            </div>
-            <div className="flex border border-[#DEDEDE] rounded-md text-[#4F5665] p-2 gap-2">
-              <i className="h-4" data-feather="lock"></i>
-              <input
-                className="text-xs w-full outline-none"
-                id="password"
-                type="password"
-                placeholder="Enter Your Password"
-                value="1234567890"
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <label className="font-bold text-sm" for="address">
-              Address
-            </label>
-            <div className="flex border border-[#DEDEDE] rounded-md text-[#4F5665] p-2 gap-2">
-              <i className="h-4" data-feather="map-pin"></i>
-              <input
-                className="text-xs w-full outline-none"
-                id="address"
-                type="text"
-                placeholder="Enter Your Adress"
-                value="Griya Bandung Indah"
-              />
-            </div>
-          </div>
-
-          <button
-            className="w-full bg-[#FF8906] rounded text-xs p-2"
-            type="submit"
-          >
-            Submit
-          </button>
+          <InputForm name="full-name" label="Full Name" type="text" placeholder="Enter Your Full Name" value="Ghaluh Wizard"/>
+          <InputForm name="email" label="Email" type="email" placeholder="Enter Your Email" value="ghaluhwizz@gmail.com"/>
+          <InputForm name="phone" label="Phone" type="text" placeholder="Enter Your Phone Number" value="082116304338"/>
+          <InputForm name="password" label="Password" type="password" placeholder="Enter Your Password" value="1234567890" passProfile={true}/>
+          <InputForm name="address" label="Address" type="text" placeholder="Enter Your address" value="Griya Bandung Indah"/>
+          <Button destination="#" value="Submit" py="2"/>
         </div>
       </form>
 

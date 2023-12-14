@@ -15,7 +15,7 @@ const Filter = ({mobile}) => {
 
         {!mobile ?
         <div className="flex flex-col gap-1">
-          <label className="font-semibold text-sm" for="search-product">
+          <label className="font-semibold text-sm" htmlFor="search-product">
             Search
           </label>
           <input
@@ -30,7 +30,7 @@ const Filter = ({mobile}) => {
         <FilterProduct filterBy="SortBy"/>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-semibold" for="range-price">
+          <label className="text-sm font-semibold" htmlFor="range-price">
             Range Price
           </label>
           <input id="range-price" type="range" />

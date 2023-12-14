@@ -7,7 +7,7 @@ const CheckBox = ({label, value, name}) => {
           id={value}
           value={value}
         />
-        <label for={value}>{label}</label>
+        <label htmlFor={value}>{label}</label>
       </div>
     )
 }

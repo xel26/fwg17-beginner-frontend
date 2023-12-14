@@ -1,13 +1,9 @@
-import { FaStar } from "react-icons/fa";
 import PageIndicator from "../components/PageIndicator";
 import CustomerImage from "../assets/media/home-customer-image1.jpg";
 import ButtonSwipe from "../components/ButtonSwipe";
+import Rating from "./Rating";
 
-const Testimonial = ({ customerName, role, message, rating }) => {
-  const stars = [];
-  for (let i = 1; i <= parseInt(rating); i++) {
-    stars.push(i);
-  }
+const Testimonial = ({ customerName, role, message, rating}) => {
   return (
     <div className="flex flex-col sm:flex-row w-5/6 gap-4">
       <div className="flex flex-col items-center gap-4">
@@ -22,16 +18,7 @@ const Testimonial = ({ customerName, role, message, rating }) => {
         </h1>
         <p className="text-[#FF8906]">{role}</p>
         <p className="text-white text-sm sm:text-base">{message}</p>
-        <div className="flex items-center gap-4">
-          <div className="flex gap-4">
-            {stars.map((index) => (
-              <FaStar key={index} color="orange" />
-            ))}
-          </div>
-          <p className="text-white" id="rating-number">
-            {rating}.0
-          </p>
-        </div>
+        <Rating rating={rating} color/>
 
         <div className="flex gap-2">
           <ButtonSwipe />
