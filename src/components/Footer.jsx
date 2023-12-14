@@ -1,3 +1,11 @@
+import CupCoffee from "../assets/media/cup-coffe-icon.png"
+import TextLogo from "../assets/media/text-logo.png"
+import Facebook from "../assets/media/facebook-logo-circle.png"
+import Twitter from "../assets/media/twitter-logo-circle.png" 
+import Instagram from "../assets/media/instagram-logo-circle.png"
+import { Link } from "react-router-dom";
+import FooterLink from "./FooterLink"
+
 const Footer = () => {
     return (
     <footer className="flex justify-center items-center w-full h-fit py-6 sm:h-fit sm:py-12 bg-[#F8F8F8]">
@@ -7,10 +15,10 @@ const Footer = () => {
             <div className="flex flex-col gap-4 w-full sm:w-[21rem]">
               <div className="flex gap-4">
                 <div>
-                  <img src="./assets/cup-coffe-icon.png" />
+                  <img src={CupCoffee} />
                 </div>
                 <div>
-                  <img src="./assets/text-logo.png" />
+                  <img src={TextLogo} />
                 </div>
               </div>
               <p className="text-[#4F5665] text-sm sm:text-base">
@@ -20,35 +28,25 @@ const Footer = () => {
             </div>
   
             <div className="flex gap-5 sm:gap-20">
-              <div className="flex flex-col gap-4 text-sm sm:text-base">
-                <p className="font-semibold">Product</p>
-                <div className="flex flex-col gap-2">
-                  <a className="text-[#4F5665]" href="#">Our Product</a>
-                  <a className="text-[#4F5665]" href="#">Pricing</a>
-                  <a className="text-[#4F5665]" href="#">Location</a>
-                  <a className="text-[#4F5665]" href="#">Countries</a>
-                  <a className="text-[#4F5665]" href="#">Blog</a>
-                </div>
-              </div>
-  
-              <div className="flex flex-col gap-4 text-sm sm:text-base">
-                <p className="font-semibold">Engage</p>
-                <div className="flex flex-col gap-2">
-                  <a className="text-[#4F5665]" href="#">Partner</a>
-                  <a className="text-[#4F5665]" href="#">FAQ</a>
-                  <a className="text-[#4F5665]" href="#">About Us</a>
-                  <a className="text-[#4F5665]" href="#">Privacy Policy</a>
-                  <a className="text-[#4F5665]" href="#">Terms of Service</a>
-                </div>
-              </div>
+              <FooterLink destination1="#" text1="Our Product" 
+              destination2="#" text2="Pricing"
+              destination3="#" text3="Location"
+              destination4="#" text4="Countries"
+              destination5="#" text5="Blog"/>
+
+              <FooterLink destination1="#" text1="Partner" 
+              destination2="#" text2="FAQ"
+              destination3="#" text3="About Us"
+              destination4="#" text4="Privacy Policy"
+              destination5="#" text5="Terms of Service"/>
             </div>
   
             <div className="flex flex-col gap-4 text-sm sm:text-base">
               <p className="font-semibold">Social Media</p>
               <div className="flex gap-4">
-                <a href="#"><img src="/assets/facebook-logo-circle.png" /></a>
-                <a href="#"><img src="/assets/twitter-logo-circle.png" /></a>
-                <a href="#"><img src="/assets/instagram-logo-circle.png" /></a>
+                <Link to="#"><img src={Facebook} /></Link>
+                <Link to="#"><img src={Twitter} /></Link>
+                <Link to="#"><img src={Instagram} /></Link>
               </div>
             </div>
           </div>

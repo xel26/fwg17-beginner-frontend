@@ -95,7 +95,7 @@ const HistoryOrder = () => {
                     </div>
                   </div>
     
-                  <a href="./detail-order.html" className="text-[#FF8906] underline text-xs sm:text-base" href="#"
+                  <a href="./detail-order.html" className="text-[#FF8906] underline text-xs sm:text-base"
                     >Views Order Detail</a
                   >
                 </div>

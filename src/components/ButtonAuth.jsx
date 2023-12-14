@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const ButtonLink = ({value}) => {
+const ButtonAuth = ({value}) => {
   return (
     <Link to="#"
       className="flex justify-center items-center gap-4 w-2/4 p-2 rounded shadow-md hover:shadow-none transition-all duration-500"
@@ -11,4 +11,4 @@ const ButtonLink = ({value}) => {
   );
 };
 
-export default ButtonLink;
+export default ButtonAuth;

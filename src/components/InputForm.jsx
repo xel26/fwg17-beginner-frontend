@@ -1,4 +1,4 @@
-const Input = ({id, label, placeholder, type}) => {
+const InputForm = ({id, label, placeholder, type}) => {
   return (
     <label htmlFor={id} className="flex flex-col gap-2">
       <div className="text-[#0b132a] font-semibold text-sm">
@@ -17,4 +17,4 @@ const Input = ({id, label, placeholder, type}) => {
   );
 };
 
-export default Input;
+export default InputForm;

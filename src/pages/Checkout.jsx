@@ -1,5 +1,7 @@
 import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
+import OptionVariety from '../components/OptionVariety'
+
 
 const Checkout = () => {
     return (
@@ -41,7 +43,7 @@ const Checkout = () => {
                         <div className="flex items-center gap-4">
                           <h1 className="text-[#D00000] text-[0.6rem] sm:text-xs font-semibold line-through">IDR 40.000</h1>
                           <h1 className="text-[#FF8906] font-semibold text-xs sm:text-base" id="product-price">IDR 10.000</h1>
-                        </div>className
+                        </div>
                         <button className="absolute text-[#D00000] top-2 right-2 sm:top-auto sm:right-4">
                           <i className="delete h-4" data-feather="x-circle"></i>
                         </button>
@@ -149,8 +151,8 @@ const Checkout = () => {
                     <label
                       className="text-[#0b132a] font-semibold text-xs sm:text-sm"
                       for="full-name"
-                      >Full Name</label
-                    >
+                      >Full Name
+                      </label>
                     <div className="flex border border-[#dedede] rounded-lg p-2 gap-3 items-center">
                       <i className="text-[#4F5665] h-4" data-feather="user"></i>
                       <input
@@ -178,7 +180,11 @@ const Checkout = () => {
                       />
                     </div>
                   </div>
+                  
+                <OptionVariety option="Delivery"/>
                 </div>
+
+
               </div>
     
               <div className="flex-1 h-fit flex flex-col">
