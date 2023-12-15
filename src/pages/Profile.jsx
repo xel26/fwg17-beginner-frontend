@@ -32,11 +32,11 @@ const Profile = () => {
         </div>
 
         <div className="w-full sm:flex-1 border border-[#E8E8E8] p-4 flex flex-col gap-6 outline-none">
-          <InputForm name="full-name" label="Full Name" type="text" placeholder="Enter Your Full Name" value="Ghaluh Wizard"/>
-          <InputForm name="email" label="Email" type="email" placeholder="Enter Your Email" value="ghaluhwizz@gmail.com"/>
-          <InputForm name="phone" label="Phone" type="text" placeholder="Enter Your Phone Number" value="082116304338"/>
-          <InputForm name="password" label="Password" type="password" placeholder="Enter Your Password" value="1234567890" passProfile={true}/>
-          <InputForm name="address" label="Address" type="text" placeholder="Enter Your address" value="Griya Bandung Indah"/>
+          <InputForm profile={true} name="full-name" label="Full Name" type="text" placeholder="Enter Your Full Name" value="Ghaluh Wizard"/>
+          <InputForm profile={true} name="email" label="Email" type="email" placeholder="Enter Your Email" value="ghaluhwizz@gmail.com"/>
+          <InputForm profile={true} name="phone" label="Phone" type="text" placeholder="Enter Your Phone Number" value="082116304338"/>
+          <InputForm profile={true} name="password" label="Password" type="password" placeholder="Enter Your Password" value="1234567890" passProfile={true}/>
+          <InputForm profile={true} name="address" label="Address" type="text" placeholder="Enter Your address" value="Griya Bandung Indah"/>
           <Button destination="#" value="Submit" py="2"/>
         </div>
       </form>

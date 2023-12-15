@@ -2,15 +2,55 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import ButtonSwipe from "../components/ButtonSwipe";
 import PageIndicator from "../components/PageIndicator";
-import Kupon from "../components/Kupon";
 import PageNavigation from "../components/PageNavigation";
 import CardProduct from "../components/CardProduct";
 import Filter from "../components/Filter";
 import { FiList, FiSearch } from "react-icons/fi";
+import GreenKuponStiker from "../assets/media/stiker-kupon-hijau.png";
+import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
+import Product1 from '../assets/media/detail-product1.jpg'
+import Product2 from '../assets/media/detail-product2.jpg'
+import Product3 from '../assets/media/detail-product3.jpg'
+import Product4 from '../assets/media/home-product1.jpg'
+import Product5 from '../assets/media/home-product2.jpg'
+import Product6 from '../assets/media/home-product3.jpg'
 
-const Product = () => {
+const Kupon = ({ title, description, klaim, bg }) => {
+  return (
+    <div
+      className={`flex ${
+        bg == "green" ? "bg-[#88B788]" : "bg-[#F5C361]"
+      } rounded-2xl items-center pl-2 w-64 sm:w-72 h-20 sm:h-auto`}
+    >
+      <div>
+        <img
+          className="h-20 sm:h-24 translate-y-1"
+          src={klaim ? GreenKuponStiker : YellowKuponStiker}
+        />
+      </div>
+      <div className="flex flex-col gap-1">
+        <div className={`flex flex-col ${klaim ? "gap-0" : "gap-3"}`}>
+          <h5 className="text-xs sm:text-sm font-bold">{title}</h5>
+          <p className="text-[0.7rem] sm:text-xs">{description}</p>
+        </div>
+        {klaim ? (
+          <p className="text-[0.7rem] sm:text-xs text-white">Klaim Kupon</p>
+        ) : (
+          ""
+        )}
+      </div>
+    </div>
+  );
+};
+
+const Products = () => {
   const products = [1, 2, 3, 4, 5, 6];
   const GreenKupon = [1, 2, 3, 4];
+
+  const filterMobile = () => {
+    const filterMobile = document.querySelector("#filter-mobile");
+    filterMobile.classList.toggle("hidden");
+  };
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
@@ -48,7 +88,7 @@ const Product = () => {
           </label>
 
           <button
-            id="btn-filter"
+            onClick={filterMobile}
             className=" bg-[#FF8906] rounded-md p-2 w-fit flex items-center  justify-center active:scale-95 transition-all"
           >
             <FiList size={20} />
@@ -57,10 +97,10 @@ const Product = () => {
       </section>
 
       <section
-        id="filter-option"
+        id="filter-mobile"
         className="hidden sm:hidden absolute h-fit w-5/6 z-40 top-32 flex justify-end"
       >
-        <Filter mobile />
+        <Filter mobile={true} />
       </section>
 
       <section className="flex flex-col w-full items-center gap-4 overflow-x-hidden">
@@ -76,7 +116,8 @@ const Product = () => {
 
         <div className="w-fit flex gap-10">
           {GreenKupon.map((index) => (
-            <Kupon klaim={true}
+            <Kupon
+              klaim={true}
               key={index}
               title="HAPPY MOTHER'S DAY!"
               description={`Get one of our favorite menu \n for free!`}
@@ -112,17 +153,60 @@ const Product = () => {
 
           <main className="flex flex-col items-end sm:flex-1">
             <div className="relative flex justify-center w-full">
-              <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-44 mb-48 max-w-xl">
-                {products.map((index) => (
-                  <CardProduct
-                    key={index}
-                    productName=" Hazelnut Latte"
-                    description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-                    rating="5"
-                    basePrice="20"
-                    discountPrice="10"
-                  />
-                ))}
+              <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-48 sm:gap-y-44 mb-48 max-w-xl">
+                <CardProduct
+                  productName=" Hazelnut Latte"
+                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
+                  rating="5"
+                  basePrice="20.000"
+                  discountPrice="10.000"
+                  image={Product1}
+                />
+
+                <CardProduct
+                  productName=" Hazelnut Latte"
+                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
+                  rating="5"
+                  basePrice="20.000"
+                  discountPrice="10.000"
+                  image={Product2}
+                />
+
+                <CardProduct
+                  productName=" Hazelnut Latte"
+                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
+                  rating="5"
+                  basePrice="20.000"
+                  discountPrice="10.000"
+                  image={Product3}
+                />
+
+                <CardProduct
+                  productName=" Hazelnut Latte"
+                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
+                  rating="5"
+                  basePrice="20.000"
+                  discountPrice="10.000"
+                  image={Product4}
+                />
+
+                <CardProduct
+                  productName=" Hazelnut Latte"
+                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
+                  rating="5"
+                  basePrice="20.000"
+                  discountPrice="10.000"
+                  image={Product5}
+                />
+
+                <CardProduct
+                  productName=" Hazelnut Latte"
+                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
+                  rating="5"
+                  basePrice="20.000"
+                  discountPrice="10.000"
+                  image={Product6}
+                />
               </div>
             </div>
 
@@ -136,4 +220,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Products;

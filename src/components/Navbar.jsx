@@ -2,9 +2,24 @@ import { Link } from "react-router-dom";
 import CupCoffee from "../assets/media/cup-coffee-icon-white.png";
 import TextLogo from "../assets/media/text-logo-white.png";
 import { FiShoppingCart, FiMenu, FiSearch, FiUser } from "react-icons/fi";
-import LinkNav from "./LinkNav";
+import { useState } from "react";
+
+const LinkNav = ({mobile, destination, value}) => {
+  return (
+      <Link
+      to={destination}
+      className={`focus:border-b-2 focus:border-[#ff8906] text-white ${!mobile ? 'hidden sm:block' : ''}`}
+    >
+      {value}
+    </Link>
+  )
+}
 
 const Navbar = ({ unAuthenticated }) => {
+
+  const [navMobile, setNavMobile] = useState(false)
+  const [navSearch, setNavSearch] = useState(false)
+
   return (
     <nav
       className={`fixed w-full h-fit py-3 sm:py-0 sm:h-14 flex flex-col gap-4 items-center ${
@@ -29,8 +44,8 @@ const Navbar = ({ unAuthenticated }) => {
 
         <div className="relative flex items-center gap-5 sm:w-[32rem] justify-end">
           <form
-            id="search-input"
-            className="hidden absolute flex items-center left-12 border border-white rounded w-60 py-1 px-1.5 transition-all"
+            id="nav-search"
+            className={`${!navSearch ? 'hidden' : 'flex'} absolute items-center ${unAuthenticated ? 'left-12' : 'left-[11.5rem]'} border border-white rounded w-60 py-1 px-1.5 transition-all`}
           >
             <input
               className="bg-transparent text-white placeholder-white text-base w-52 flex px-1 outline-none "
@@ -39,22 +54,19 @@ const Navbar = ({ unAuthenticated }) => {
             />
             <button className="hidden" type="submit"></button>
           </form>
-          <FiSearch
+          <FiSearch onClick={() => setNavSearch(!navSearch)}
             color="white"
-            size={25}
-            className="text-white hidden sm:block z-50 active:scale-90 transition-all cursor-pointer"
+            className="text-2xl text-white hidden sm:block z-50 active:scale-90 transition-all cursor-pointer"
           />
           <Link to="/checkout">
             <FiShoppingCart
               color="white"
-              size={25}
-              className="text-white active:scale-90 transition-all"
+              className="text-2xl text-white active:scale-90 transition-all"
             />
           </Link>
 
-          <FiMenu
-            size={25}
-            className="sm:hidden text-white active:scale-90 transition-all"
+          <FiMenu onClick={() => setNavMobile(!navMobile)}
+            className="text-2xl sm:hidden text-white active:scale-90 transition-all"
           />
           {unAuthenticated ? (
             <>
@@ -76,9 +88,8 @@ const Navbar = ({ unAuthenticated }) => {
           ) : (
             <Link to="/profile" className="hidden sm:block">
             <FiUser
-              size={30}
               color="white"
-              className="text-sm rounded  active:scale-95 transition-all"
+              className="text-3xl rounded  active:scale-95 transition-all"
             />
           </Link>
           )
@@ -87,8 +98,8 @@ const Navbar = ({ unAuthenticated }) => {
       </div>
 
       <div
-        id="more-nav-menu"
-        className="hidden sm:hidden flex flex-col gap-3 w-5/6 h-fit"
+        id="nav-mobile"
+        className={`${!navMobile ? 'hidden' : 'flex'} sm:hidden flex-col gap-3 w-5/6 h-fit`}
       >
         <div className="w-full flex justify-between items-center text-white h-6">
           {unAuthenticated ? (

@@ -1,4 +1,29 @@
-import FilterProduct from "../components/FilterProduct";
+const CheckBox = ({label, value, name}) => {
+  return (
+      <div className="flex gap-3">
+      <input
+        type="checkbox"
+        name={name}
+        id={value}
+        value={value}
+      />
+      <label htmlFor={value}>{label}</label>
+    </div>
+  )
+}
+
+const FilterProduct = ({ filterBy }) => {
+  return (
+    <div className="flex flex-col gap-3 text-xs">
+      <h4 className="font-semibold text-sm">{filterBy}</h4>
+      <CheckBox label={filterBy == "Category" ? "Favorite Product" : "Buy1Get1"} value={filterBy == "Category" ? "favorite-product" : "buy1get1"} name={filterBy.toLowerCase()}/>
+      <CheckBox label={filterBy == "Category" ? "Coffee" : "Flashsale"} value={filterBy == "Category" ? "coffee" : "flashsale"} name={filterBy.toLowerCase()}/>
+      <CheckBox label={filterBy == "Category" ? "Non Coffee" : "Birthday Package"} value={filterBy == "Category" ? "non-coffee" : "birthday-package"} name={filterBy.toLowerCase()}/>
+      <CheckBox label={filterBy == "Category" ? "Foods" : "Cheap"} value={filterBy == "Category" ? "foods" : "cheap"} name={filterBy.toLowerCase()}/>
+      {filterBy == "Category" ? <CheckBox label="Add-On" value="add-on" name={filterBy.toLowerCase()} /> : ''}
+    </div>
+  );
+};
 
 const Filter = ({mobile}) => {
     return (

@@ -3,21 +3,51 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Map from "../assets/media/home-map.png";
 import MapMobile from "../assets/media/map-mobile.png";
-import ListProvide from "../components/ListProvide";
-import { FiMessageCircle } from "react-icons/fi";
+import { FiMessageCircle, FiSend, FiCheckCircle } from "react-icons/fi";
 import Testimonial from "../components/Testimonial";
-import Data from "../components/Data";
-import HomeCardProduct from "../components/HomeCardProduct";
-import Rating from "../components/Rating";
+import CardProduct from "../components/CardProduct";
+import { useState, useEffect } from "react";
+import Product1 from '../assets/media/detail-product1.jpg'
+import Product2 from '../assets/media/detail-product2.jpg'
+import Product3 from '../assets/media/detail-product3.jpg'
+import Product4 from '../assets/media/home-product1.jpg'
+
+const Data = ({ value, text }) => {
+
+
+  return (
+    <div>
+      <h1 className={`text-[#ff8906] text-2xl sm:text-4xl font-semibold flex justify-between ${text == "Staff" || text == "Stores" ? 'w-[4.5rem]' : 'w-24'}`}>
+        <h1>
+        {value}
+        </h1>
+        <p>+</p>
+      </h1>
+      <p className="text-white text-xs sm:text-sm">{text}</p>
+    </div>
+  );
+};
+
+const ListProvide = ({ text }) => {
+  return (
+    <div className="flex gap-4">
+      <div className="bg-[#2FAB73] rounded-full text-white w-fit h-fit">
+        <FiCheckCircle className="h-5 w-fit" />
+      </div>
+      <p className="text-sm text-[#4F5665]">{text}</p>
+    </div>
+  );
+};
 
 const Home = () => {
-  const HomeCardProducts = [1, 2, 3, 4]
+  const [chatBox, setChatBox] = useState(false);
+
   return (
-    <wrap className="font relative flex flex-col items-center">
-      <Navbar unAuthenticated={true}/>
+    <div className="font relative flex flex-col items-center">
+      <Navbar unAuthenticated={true} />
 
       <button
-        id="chat-icon"
+        onClick={() => setChatBox(!chatBox)}
         className="fixed flex justify-center items-center right-6 bottom-6 sm:right-12 sm:bottom-12 bg-[#ff8906] rounded-full p-1 w-10 h-10 sm:p-2 sm:w-12 sm:h-12 z-50 active:scale-90 transition"
       >
         <FiMessageCircle size={25} />
@@ -25,12 +55,14 @@ const Home = () => {
 
       <div
         id="chat-box"
-        className="hidden fixed w-60 h-80 sm:w-72 sm:h-96 rounded-xl sm:rounded-2xl flex flex-col bg-white top-24 sm:right-24 z-50"
+        className={`${
+          !chatBox ? "hidden" : "flex"
+        } fixed w-60 h-80 sm:w-72 sm:h-96 rounded-xl sm:rounded-2xl flex-col bg-white top-24 sm:right-24 z-50`}
       >
         <div className="flex border-t-[0.8rem] sm:border-t-[1rem] border-[#FF8906] rounded-tr-xl rounded-tl-xl sm:rounded-tr-2xl sm:rounded-tl-2xl pl-4 gap-4 py-2">
           <div>
             <img
-              className=" w-12 h-12 sm:w-16 sm:h-16 rounded-full"
+              className=" w-10 h-10 sm:w-14 sm:h-14 rounded-full"
               src="https://images.pexels.com/photos/712513/pexels-photo-712513.jpeg?auto=compress&cs=tinysrgb&w=800"
             />
           </div>
@@ -72,12 +104,12 @@ const Home = () => {
 
         <div className="flex-1 flex items-center justify-center px-2 gap-2">
           <input
-            className="w-4/5 rounded-md text-[0.6rem] sm:text-xs p-1.5 sm:p-2 sm:p-3 border border-[#DEDEDE] outline-none"
+            className="w-4/5 rounded-md text-[0.6rem] sm:text-xs p-1.5 sm:p-2 border border-[#DEDEDE] outline-none"
             type="text"
             placeholder="Masukan Pesan Anda"
           />
-          <div className="flex-1 flex justify-center items-center bg-[#FF8906] rounded-md p-1.5 sm:p-2">
-            <i className="h-4 sm:h-5" data-feather="send"></i>
+          <div className="flex-1 flex justify-center items-center bg-[#FF8906] rounded-md p-1 sm:p-1.5 active:scale-95 transition-all">
+            <FiSend size={20} />
           </div>
         </div>
       </div>
@@ -85,10 +117,16 @@ const Home = () => {
       <section className="flex flex-col-reverse sm:flex-row h-[64rem] sm:h-screen w-full">
         <div className="flex h-fit py-16 sm:py-0 sm:h-screen sm:flex-1 justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909]">
           <div className="flex flex-col gap-6 max-w-md h-fit px-4 sm:px-0">
-            <h1 id="header" className="text-2xl sm:text-5xl text-white font-medium">
+            <h1
+              id="header"
+              className={`text-2xl sm:text-5xl text-white font-medium`}
+            >
               Start Your Day with <br /> Coffee and Good <br /> Meals
             </h1>
-            <p id="description" className="text-white text-xs sm:text-sm w-11/12">
+            <p
+              id="description"
+              className="text-white text-xs sm:text-sm w-11/12"
+            >
               We provide high quality beans, good taste, and healthy meals made
               by love just for you. Start your day with us for a bigger smile!
             </p>
@@ -96,7 +134,7 @@ const Home = () => {
               to="/products"
               className="relative w-fit bg-[#ff8906] py-2 px-3 rounded-md text-xs sm:text-sm font-semibold active:scale-95 transition-all overflow-hidden"
             >
-            Get Started
+              Get Started
             </Link>
             <div className="flex divide-x-2">
               <div className="flex-1 flex">
@@ -169,15 +207,29 @@ const Home = () => {
         </div>
 
         <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
-          {
-            HomeCardProducts.map(index => (
-              <HomeCardProduct key={index}
-              productName="Hazelnut Latte"
-              description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-              price="20"
-            />
-            ))
-          }
+          <CardProduct
+            productName="Hazelnut Latte"
+            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
+            price="20.000" image={Product1}
+          />
+          
+          <CardProduct
+            productName="Hazelnut Latte"
+            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
+            price="20.000" image={Product2}
+          />
+
+          <CardProduct
+            productName="Hazelnut Latte"
+            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
+            price="20.000" image={Product3}
+          />
+
+          <CardProduct
+            productName="Hazelnut Latte"
+            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
+            price="20.000" image={Product4}
+          />
         </div>
       </section>
 
@@ -210,7 +262,7 @@ const Home = () => {
       </section>
 
       <Footer />
-    </wrap>
+    </div>
   );
 };
 

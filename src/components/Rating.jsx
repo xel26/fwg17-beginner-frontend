@@ -8,12 +8,12 @@ const Rating = ({rating, color}) => {
 
     return (
         <div className="flex items-center gap-2 sm:gap-4">
-        <div className="flex gap-4">
+        <div className="flex gap-1 sm:gap-2">
           {stars.map((index) => (
-            <FaStar key={index} color="orange" />
+            <FaStar key={index} color="orange"/>
           ))}
         </div>
-        <p className={`${color ? 'text-white' : 'text-[#4F5665]'}`} id="rating-number">
+        <p className={`text-sm sm:text-base ${color ? 'text-white' : 'text-[#4F5665]'}`} id="rating-number">
           {rating}.0
         </p>
       </div>

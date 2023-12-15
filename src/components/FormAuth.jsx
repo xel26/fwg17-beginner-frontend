@@ -1,8 +1,21 @@
 import Button from "./Button";
 import InputForm from "../components/InputForm";
-import ButtonAuth from "../components/ButtonAuth";
 import CupCoffee from '../assets/media/cup-coffe-icon.png'
 import TextLogo from "../assets/media/text-logo.png"
+import { Link } from "react-router-dom";
+import facebook from '../assets/media/facebook-logo.png'
+import google from '../assets/media/google-logo.png'
+
+const ButtonAuth = ({value}) => {
+  return (
+    <Link to="#"
+      className="w-fit sm:flex-1 flex justify-center items-center gap-4 p-3 sm:p-2 rounded shadow-md hover:shadow-none transition-all duration-500"
+    >
+      <img src={value == "Facebook" ? facebook : google} className="h-6"/>
+      <p className="text-[#4f5665] text-semibold hidden sm:block">{value}</p>
+    </Link>
+  );
+};
 
 const FormAuth = ({ type }) => {
   return (
@@ -76,12 +89,18 @@ const FormAuth = ({ type }) => {
             />
           )}
 
+          {
+            type == "Login" ? (
+              <Link to="/forgot-password" class="text-[#FF8906] flex justify-end text-sm">Lupa Password?</Link>
+            ): ''
+          }
+
           <Button
             destination={
               type == "Register"
                 ? "/login"
                 : type == "Login"
-                ? "/home"
+                ? "/products"
                 : "/login"
             }
             value={

@@ -1,11 +1,10 @@
-import ProductImage from "../assets/media/detail-product3.jpg"
 import { Link } from "react-router-dom"
 
-const CardHistoryOrder = ({numberOrder, date, total, statusDelivery}) => {
+const CardHistoryOrder = ({numberOrder, date, total, statusDelivery, image}) => {
     return (
         <div className="flex gap-4 items-center p-2 bg-[#E8E8E84D] text-sm">
         <div className="hidden sm:block w-28">
-          <img src={ProductImage} />
+          <img src={image} />
         </div>
 
         <div className="flex-1 flex flex-col gap-4">
@@ -38,7 +37,7 @@ const CardHistoryOrder = ({numberOrder, date, total, statusDelivery}) => {
                 <p className="text-xs sm:text-base">Total</p>
               </div>
               <h5 className="font-semibold text-black text-xs sm:text-base">
-                Idr {total}.000
+                Idr {total}
               </h5>
             </div>
 

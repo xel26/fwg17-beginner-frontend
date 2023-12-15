@@ -1,10 +1,47 @@
 import Tag from "../components/Tag";
 import { FiThumbsUp, FiShoppingCart, FiPlus, FiMinus } from "react-icons/fi";
-import OptionVariety from "../components/OptionVariety";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Price from "./Price";
 import Rating from "./Rating";
+
+const OptionList = ({variety}) => {
+  return (
+      <button type="button" className="flex-1 flex justify-center border focus:border-[#FF8906] border-[#E8E8E8] text-[0.65rem] sm:text-sm text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all">
+      {variety}
+    </button>
+    )
+}
+
+
+const OptionVariety = ({option}) => {
+  return (
+      <div className="flex flex-col gap-2">
+      <h4 className="font-semibold text-[0.7rem] sm:text-sm">{option}</h4>
+      <div className="flex justify-between gap-4">
+      {option == "Choose Size" ?(
+          <>
+          <OptionList variety="Regular"/>
+          <OptionList variety="Medium"/>
+          <OptionList variety="Large"/>
+          </>
+      ) : option == "Hot/Ice?" ? (
+          <>
+          <OptionList variety="Cold"/>
+          <OptionList variety="Hot"/>
+          </>
+      ) :
+      <>
+      <OptionList variety="Dine In"/>
+      <OptionList variety="Door Delivery"/>
+      <OptionList variety="Pick Up"/>
+      </>
+      }
+      </div>
+    </div>
+  )
+}
+
 
 const Details = ({ productName, rating, review, description }) => {
 
@@ -22,17 +59,17 @@ const Details = ({ productName, rating, review, description }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col gap-2 h-5/6">
+    <div className="flex-1 flex flex-col gap-3 sm:gap-1 h-5/6 ">
       <Tag text="FLASHSALE!" />
       <h1 className="text-xl sm:text-3xl font-bold">{productName}</h1>
-      <Price basePrice="20" discountPrice="10" />
+      <Price basePrice="20.000" discountPrice="10.000" />
       <Rating rating="5"/>
       <div className="flex items-center divide-[#4F5665] divide-x-2 w-[15rem] sm:w-3/5 text-sm text-[#4F5665]">
         <p className="w-[35%] text-xs sm:text-sm">{review}+ Review</p>
         {parseInt(rating) >= 4 ? (
-          <div className="flex-1 flex gap-2 sm:gap-4 justify-center items-center">
+          <div className="flex-1 flex gap-2 sm:gap-4 justify-center items-center ">
             <p className="text-xs sm:text-sm">Recommendation</p>
-            <FiThumbsUp size={18} color="#FF8906" />
+            <FiThumbsUp color="#FF8906" className="translate-y-[-3px] text-lg sm:text-xl"/>
           </div>
         ) : (
           ''
@@ -46,7 +83,7 @@ const Details = ({ productName, rating, review, description }) => {
           id="decrement"
           className="border border-[#FF8906] bg-white rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-1 active:scale-95 transition-all"
         >
-          <FiMinus />
+          <FiMinus/>
         </button>
         <div className="border border-[#E8E8E8] w-9 sm:w-12 flex justify-center items-center rounded-sm">
           <h1 id="quantity" className="text-xs sm:text-sm sm:py-[0.1rem]">
@@ -64,6 +101,7 @@ const Details = ({ productName, rating, review, description }) => {
 
       <OptionVariety option="Choose Size" />
       <OptionVariety option="Hot/Ice?" />
+      <OptionVariety option="Delivery"/>
 
       <div
         to="checkout"

@@ -4,7 +4,7 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPassword'
 import Home from './pages/Home'
-import Product from './pages/Products'
+import Products from './pages/Products'
 import ProductDetails from './pages/ProductDetails'
 import Checkout from './pages/Checkout'
 import HistoryOrder from './pages/HistoryOrder'
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/products',
-    element: <Product />
+    element: <Products />
   },
   {
     path: '/product-details',
