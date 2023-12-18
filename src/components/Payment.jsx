@@ -5,6 +5,7 @@ import gopay from "../assets/media/gopay.png"
 import ovo from "../assets/media/ovo.png"
 import PayPal from "../assets/media/paypal.png"
 import Button from '../components/Button'
+import { Link } from "react-router-dom"
 
 const PaymentList = ({list, idr}) => {
   return (
@@ -32,7 +33,7 @@ const Payment = () => {
 
           <PaymentList list="Sub Total" idr="44.000"/>
 
-        <Button destination="/history-order" value="Checkout" py="1.5"/>
+        <Link to="/history-order" className="bg-[#FF8906] w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 transition-all flex justify-center">Checkout</Link>
           <p className="text-xs text-[#4F5665]">We Accept</p>
 
           <div className="flex flex-wrap justify-between gap-2 items-center">

@@ -22,7 +22,7 @@ const ButtonAuth = ({value}) => {
 const FormAuth = ({ handleAuth, type }) => {
   const [register, setRegister] = useState([
     {
-      name:"full-name",
+      name:"fullName",
       label:"Full Name",
       type:"text",
       placeholder:"Enter Your Full Name"
@@ -40,7 +40,7 @@ const FormAuth = ({ handleAuth, type }) => {
       placeholder:"Enter Your Password"
     },
     {
-      name:"confirm-password",
+      name:"confirmPassword",
       label:"Confirm Password",
       type:"password",
       placeholder:"Enter Your Password Again"
@@ -90,7 +90,7 @@ const FormAuth = ({ handleAuth, type }) => {
             : "We will send new password to your email"}
         </p>
 
-        <form onSubmit={handleAuth} id="form" className="flex flex-col gap-5">
+        <form onSubmit={handleAuth} className="flex flex-col gap-5">
           {type == "Register" ? (
             register.map((item, index) => (
               <InputForm
@@ -125,7 +125,7 @@ const FormAuth = ({ handleAuth, type }) => {
 
           {
             type == "Login" ? (
-              <Link to="/forgot-password" class="text-[#FF8906] flex justify-end text-sm">Lupa Password?</Link>
+              <Link to="/forgot-password" className="text-[#FF8906] flex justify-end text-sm">Lupa Password?</Link>
             ): ''
           }
 

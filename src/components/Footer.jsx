@@ -4,6 +4,7 @@ import Facebook from "../assets/media/facebook-logo-circle.png"
 import Twitter from "../assets/media/twitter-logo-circle.png" 
 import Instagram from "../assets/media/instagram-logo-circle.png"
 import { Link } from "react-router-dom";
+import { useState } from "react"
 
 const FooterLink = ({destination1, text1, destination2, text2, destination3, text3, destination4, text4, destination5, text5}) => {
   return (
@@ -21,12 +22,23 @@ const FooterLink = ({destination1, text1, destination2, text2, destination3, tex
 };
 
 const Footer = () => {
+  const [show, setShow] = useState(false)
+  window.addEventListener('scroll', () => {
+    let top = window.scrollY               
+    let offsetTop = section.offsetTop - 1000
+    let offsetHeight = section.offsetHeight
+
+    if(top >= offsetTop && top < offsetTop + offsetHeight){
+      setShow(true)
+    }
+  })
+
     return (
     <footer className="flex justify-center items-center w-full h-fit py-6 sm:h-fit sm:py-12 bg-[#F8F8F8]">
         <div className="flex flex-col w-5/6 gap-6 sm:gap-0">
   
           <div className="flex flex-col sm:flex-row gap-8 sm:gap-20">
-            <div className="flex flex-col gap-4 w-full sm:w-[21rem]">
+            <div className={`flex flex-col gap-4 w-full sm:w-[21rem]`}>
               <div className="flex gap-4">
                 <div>
                   <img src={CupCoffee} />

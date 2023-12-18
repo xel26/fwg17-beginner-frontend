@@ -19,7 +19,6 @@ const Login = () => {
     try{
       const {data} = await axios.post('http://localhost:8888/auth/login', form)
       console.log(data)
-      const {token: resultToken} = data.results
 
       setSuccess(true)
       setTimeout(() => {
@@ -35,7 +34,7 @@ const Login = () => {
   }
 
     return (
-        <wrap className="flex m-0 p-0 h-[38rem] xl:h-screen">
+        <div className="flex m-0 p-0 h-[38rem] xl:h-screen">
         <div
           className="hidden sm:block sm:w-2/5 md:w-2/6 lg:w-1/4
           bg-[url('../assets/media/bg-login.jpg')] w-1/4 bg-center bg-cover"
@@ -50,7 +49,7 @@ const Login = () => {
           </div>
           <FormAuth handleAuth={authLogin} type="Login"/>
         </div>
-      </wrap>
+      </div>
     )
 }
 

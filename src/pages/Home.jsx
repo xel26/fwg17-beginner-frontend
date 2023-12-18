@@ -91,6 +91,35 @@ const Home = () => {
     }
   ])
 
+  const [display, setDisplay] = useState(false)
+  const [show, setShow] = useState(false)
+  const [staff, setStaff] = useState(0)
+
+  window.addEventListener('load', () => {
+    setDisplay(true)
+
+      const dataStaff = setInterval(() => {
+        if(staff >= 90){
+          console.log('stop')
+          setStaff(90)
+          clearInterval(dataStaff)
+        }else{
+          setStaff(staff => staff + 1)
+        }
+      }, 100);
+
+  })
+
+  window.addEventListener('scroll', () => {
+    let top = window.scrollY               
+    let offsetTop = section.offsetTop - 100
+    let offsetHeight = section.offsetHeight
+
+    if(top >= offsetTop && top < offsetTop + offsetHeight){
+      setShow(true)
+    }
+  })
+
   return (
     <div className="font relative flex flex-col items-center">
       <Navbar unAuthenticated={true} />
@@ -168,27 +197,29 @@ const Home = () => {
           <div className="flex flex-col gap-6 max-w-md h-fit px-4 sm:px-0">
             <h1
               id="header"
-              className={`text-2xl sm:text-5xl text-white font-medium`}
+              className={`text-2xl sm:text-5xl text-white font-medium transition-all duration-1000 ${display ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}
             >
               Start Your Day with <br /> Coffee and Good <br /> Meals
             </h1>
             <p
               id="description"
-              className="text-white text-xs sm:text-sm w-11/12"
+              className={`text-white text-xs sm:text-sm w-11/12 transition-all duration-1000 delay-500 ${display ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}
             >
               We provide high quality beans, good taste, and healthy meals made
               by love just for you. Start your day with us for a bigger smile!
             </p>
+            
             <Link
               to="/products"
               className="relative w-fit bg-[#ff8906] py-2 px-3 rounded-md text-xs sm:text-sm font-semibold active:scale-95 transition-all overflow-hidden"
             >
-              Get Started
+             Get Started
+            <span className={`absolute top-0 right-0 h-full bg-[#ff8906] transition-all duration-1000 delay-1000 ${display ? 'w-0' : ' w-full'}`}></span>
             </Link>
             <div className="flex divide-x-2">
               <div className="flex-1 flex">
                 <div className="flex flex-col sm:gap-2  w-5/6">
-                  <Data value="90" text="Staff" />
+                  <Data value={staff} text="Staff" />
                 </div>
               </div>
 
@@ -216,7 +247,7 @@ const Home = () => {
       >
         <div className="h-fit py-16 sm:py-0 sm:h-screen sm:flex-1  flex items-center">
           <div className="flex flex-col ml-8 sm:ml-28 gap-4 h-fit max-w-lg">
-            <div id="provide-header" className="flex items-center gap-4">
+            <div id="provide-header" className={`flex items-center gap-4 transition-all duration-1000 ${show ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}>
               <hr className="border-[#ff8906] border-2 sm:border-4 h-14" />
               <h1 className="text-2xl sm:text-5xl font-medium">
                 We Provide{" "}
@@ -227,11 +258,11 @@ const Home = () => {
                 <span className="text-[#8E6447]">Healthy Meals</span>
               </h1>
             </div>
-            <p id="provide-description" className="text-sm text-[#4F5665]">
+            <p id="provide-description" className={`text-sm text-[#4F5665] transition-all duration-1000 delay-500 ${show ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}>
               You can explore the menu that we provide with fun and have their
               own <br /> taste and make your day better.
             </p>
-            <div id="list-provide" className="flex flex-col gap-4">
+            <div id="list-provide" className={`flex flex-col gap-4 transition-all duration-1000 delay-1000 ${show ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}>
               {
                 listProvide.map((item, index) => (
                   <ListProvide
@@ -250,7 +281,7 @@ const Home = () => {
 
       <section className="h-fit sm:h-screen flex flex-col items-center sm:pt-10 w-full sm:w-5/6 gap-6 sm:gap-12">
         <div className="flex flex-col items-center gap-2 sm:gap-4">
-          <h1 className="text-2xl text-center sm:text-5xl font-medium sm:mb-2 px-4">
+          <h1 className={`relative text-2xl text-center sm:text-5xl font-medium sm:mb-2 px-4`}>
             Here is People's <span className="text-[#8E6447]">Favorite</span>
           </h1>
           <hr className="border-[#ff8906] border-2 sm:border-4 w-16" />
