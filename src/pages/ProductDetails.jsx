@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardProduct from "../components/CardProduct";
@@ -8,6 +9,32 @@ import Product2 from "../assets/media/home-product2.jpg";
 import Product3 from "../assets/media/home-product3.jpg";
 
 const ProductDetails = () => {
+  const [products, setProducts] = useState([
+    {
+      productName:"Affogato",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"5",
+      basePrice:"20.000",
+      discountPrice:"10.000",
+      image: Product1
+    },
+    {
+      productName:"Latte",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"4",
+      basePrice:"25.000",
+      discountPrice:"15.000",
+      image: Product2
+    },
+    {
+      productName:"French Fries",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"4",
+      basePrice:"30.000",
+      discountPrice:"25.000",
+      image: Product3
+    }
+  ])
   return (
     <body className="flex flex-col items-center gap-8">
       <Navbar />
@@ -40,32 +67,19 @@ const ProductDetails = () => {
         </h1>
 
         <div className="flex justify-center gap-4 sm:gap-12 mb-44 w-md sm:w-fit flex-wrap gap-y-44">
-          <CardProduct
-            productName=" Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-            rating="5"
-            basePrice="20.000"
-            discountPrice="10.000"
-            image={Product1}
-          />
-
-          <CardProduct
-            productName=" Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-            rating="5"
-            basePrice="20.000"
-            discountPrice="10.000"
-            image={Product2}
-          />
-
-          <CardProduct
-            productName=" Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-            rating="5"
-            basePrice="20.000"
-            discountPrice="10.000"
-            image={Product3}
-          />
+        {
+          products.map((product, index) => (
+            <CardProduct
+              key={index}
+              productName={product.productName}
+              description={product.description}
+              rating={product.rating}
+              basePrice={product.basePrice}
+              discountPrice={product.discountPrice}
+              image={product.image}
+            />
+          ))
+        }
         </div>
 
         <PageNavigation />

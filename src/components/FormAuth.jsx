@@ -5,6 +5,7 @@ import TextLogo from "../assets/media/text-logo.png"
 import { Link } from "react-router-dom";
 import facebook from '../assets/media/facebook-logo.png'
 import google from '../assets/media/google-logo.png'
+import { useState } from "react";
 
 const ButtonAuth = ({value}) => {
   return (
@@ -17,7 +18,59 @@ const ButtonAuth = ({value}) => {
   );
 };
 
-const FormAuth = ({ type }) => {
+
+const FormAuth = ({ handleAuth, type }) => {
+  const [register, setRegister] = useState([
+    {
+      name:"full-name",
+      label:"Full Name",
+      type:"text",
+      placeholder:"Enter Your Full Name"
+    },
+    {
+      name:"email",
+      label:"Email",
+      type:"email",
+      placeholder:"Enter Your Email"
+    },
+    {
+      name:"password",
+      label:"Password",
+      type:"password",
+      placeholder:"Enter Your Password"
+    },
+    {
+      name:"confirm-password",
+      label:"Confirm Password",
+      type:"password",
+      placeholder:"Enter Your Password Again"
+    }
+  ])
+
+  const [login, setLogin] = useState([
+    {
+      name:"email",
+      label:"Email",
+      type:"email",
+      placeholder:"Enter Your Email"
+    },
+    {
+      name:"password",
+      label:"Password",
+      type:"password",
+      placeholder:"Enter Your Password"
+    }
+  ])
+
+  const [forgotPass, setForgotPass] = useState([
+    {
+      name:"email",
+      label:"Email",
+      type:"email",
+      placeholder:"Enter Your Email"
+    }
+  ])
+
   return (
     <div className="flex flex-col w-11/12">
       <div className="flex items-center gap-4 mb-8">
@@ -37,56 +90,37 @@ const FormAuth = ({ type }) => {
             : "We will send new password to your email"}
         </p>
 
-        <form id="form" className="flex flex-col gap-5">
+        <form onSubmit={handleAuth} id="form" className="flex flex-col gap-5">
           {type == "Register" ? (
-            <>
+            register.map((item, index) => (
               <InputForm
-                name="full-name"
-                label="Full Name"
-                type="text"
-                placeholder="Enter Your Full Name"
+                key={index}
+                name={item.name}
+                label={item.label}
+                type={item.type}
+                placeholder={item.placeholder}
               />
-              <InputForm
-                name="email"
-                label="Email"
-                type="email"
-                placeholder="Enter Your Email"
-              />
-              <InputForm
-                name="password"
-                label="Password"
-                type="password"
-                placeholder="Enter Your Password"
-              />
-              <InputForm
-                name="confirm-password"
-                label="Confirm Password"
-                type="password"
-                placeholder="Enter Your Password Again"
-              />
-            </>
+            ))
           ) : type == "Login" ? (
-            <>
+            login.map((item, index) => (
               <InputForm
-                name="email"
-                label="Email"
-                type="email"
-                placeholder="Enter Your Email"
+                key={index}
+                name={item.name}
+                label={item.label}
+                type={item.type}
+                placeholder={item.placeholder}
               />
-              <InputForm
-                name="password"
-                label="Password"
-                type="password"
-                placeholder="Enter Your Password"
-              />
-            </>
+            ))
           ) : (
-            <InputForm
-              name="email"
-              label="Email"
-              type="email"
-              placeholder="Enter Your Email"
-            />
+            forgotPass.map((item, index) => (
+              <InputForm
+                key={index}
+                name={item.name}
+                label={item.label}
+                type={item.type}
+                placeholder={item.placeholder}
+              />
+            ))
           )}
 
           {
@@ -96,13 +130,6 @@ const FormAuth = ({ type }) => {
           }
 
           <Button
-            destination={
-              type == "Register"
-                ? "/login"
-                : type == "Login"
-                ? "/products"
-                : "/login"
-            }
             value={
               type == "Register"
                 ? "Register"

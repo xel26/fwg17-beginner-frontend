@@ -13,8 +13,6 @@ import Product3 from '../assets/media/detail-product3.jpg'
 import Product4 from '../assets/media/home-product1.jpg'
 
 const Data = ({ value, text }) => {
-
-
   return (
     <div>
       <h1 className={`text-[#ff8906] text-2xl sm:text-4xl font-semibold flex justify-between ${text == "Staff" || text == "Stores" ? 'w-[4.5rem]' : 'w-24'}`}>
@@ -41,6 +39,57 @@ const ListProvide = ({ text }) => {
 
 const Home = () => {
   const [chatBox, setChatBox] = useState(false);
+
+  const [products, setProducts] = useState([
+    {
+      productName:'Hazelnut Latte',
+      description:"You can explore the menu that we provide with fun and have theirown taste and make your day better.",
+      price:"20.000",
+      image:Product1
+    },
+    {
+      productName:'Cappucino',
+      description:"You can explore the menu that we provide with fun and have theirown taste and make your day better.",
+      price:"25.000",
+      image:Product2
+    },
+    {
+      productName:'Mochacino',
+      description:"You can explore the menu that we provide with fun and have theirown taste and make your day better.",
+      price:"15.000",
+      image:Product3
+    },
+    {
+      productName:'Affogato',
+      description:"You can explore the menu that we provide with fun and have theirown taste and make your day better.",
+      price:"30.000",
+      image:Product4
+    }
+  ])
+
+  const [listProvide, setListProvide] = useState([
+    {
+      text:"High quality beans"
+    },
+    {
+      text:"Healthy meals, you can request the ingredients"
+    },
+    {
+      text:"Free member card with a minimum purchase of IDR 200.000."
+    },
+    {
+      text:"Chat with our staff to get better experience for ordering"
+    }
+  ])
+
+  const [testimonial, setTestimoial] = useState([
+    {
+      customerName:"Viezh Robert",
+      role:"Manager Coffe Shop",
+      message:"Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!",
+      rating:"5"
+    }
+  ])
 
   return (
     <div className="font relative flex flex-col items-center">
@@ -183,10 +232,15 @@ const Home = () => {
               own <br /> taste and make your day better.
             </p>
             <div id="list-provide" className="flex flex-col gap-4">
-              <ListProvide text="High quality beans" />
-              <ListProvide text="Healthy meals, you can request the ingredients" />
-              <ListProvide text="Free member card with a minimum purchase of IDR 200.000." />
-              <ListProvide text="Chat with our staff to get better experience for ordering" />
+              {
+                listProvide.map((item, index) => (
+                  <ListProvide
+                  key={index}
+                  text={item.text}
+                  />
+
+                ))
+              }
             </div>
           </div>
         </div>
@@ -207,29 +261,17 @@ const Home = () => {
         </div>
 
         <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
-          <CardProduct
-            productName="Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-            price="20.000" image={Product1}
-          />
-          
-          <CardProduct
-            productName="Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-            price="20.000" image={Product2}
-          />
-
-          <CardProduct
-            productName="Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-            price="20.000" image={Product3}
-          />
-
-          <CardProduct
-            productName="Hazelnut Latte"
-            description="You can explore the menu that we provide with fun and have theirown taste and make your day better."
-            price="20.000" image={Product4}
-          />
+          {
+            products.map((product, index) => (
+              <CardProduct
+              key={index}
+              productName={product.productName}
+              description={product.description}
+              price={product.price}
+              image={product.image}
+            />
+            ))
+          }
         </div>
       </section>
 
@@ -253,12 +295,16 @@ const Home = () => {
       </section>
 
       <section className="flex justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909] w-full h-fit py-6 sm:h-fit sm:py-12">
-        <Testimonial
-          customerName="Viezh Robert"
-          role="Manager Coffe Shop"
-          message="Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!"
-          rating="5"
-        />
+        {
+          testimonial.map((data, index) => (
+            <Testimonial
+            customerName={data.customerName}
+            role={data.role}
+            message={data.message}
+            rating={data.rating}
+          />
+          ))
+        }
       </section>
 
       <Footer />

@@ -1,6 +1,39 @@
+import { useState } from 'react'
 import FormAuth from '../components/FormAuth'
+import axios from 'axios'
 
 const Login = () => {
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const authLogin = async (event) => {
+    event.preventDefault()
+    const {value: email} = event.target.email
+    const {value: password} = event.target.password
+
+    const form = new URLSearchParams()
+    form.append('email', email)
+    form.append('password', password)
+
+    try{
+      const {data} = await axios.post('http://localhost:8888/auth/login', form)
+      console.log(data)
+      const {token: resultToken} = data.results
+
+      setSuccess(true)
+      setTimeout(() => {
+        window.location = '/products'
+      }, 2000);
+    }catch(err){
+      setError(true)
+      setTimeout(() => {
+        setError(false)
+      }, 2000);
+      setErrorMessage(err.response.data.message)
+    }
+  }
+
     return (
         <wrap className="flex m-0 p-0 h-[38rem] xl:h-screen">
         <div
@@ -8,8 +41,14 @@ const Login = () => {
           bg-[url('../assets/media/bg-login.jpg')] w-1/4 bg-center bg-cover"
         ></div>
     
-        <div className="flex flex-1 items-center justify-center">
-          <FormAuth type="Login"/>
+        <div className="relative flex flex-1 items-center justify-center">
+          <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-green-400 rounded text-sm flex justify-center items-center font-bold ${success? 'block' : 'hidden'}`}>
+            <h1>login success</h1>
+          </div>
+          <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error? 'block' : 'hidden'}`}>
+            <h1>{errorMessage}</h1>
+          </div>
+          <FormAuth handleAuth={authLogin} type="Login"/>
         </div>
       </wrap>
     )

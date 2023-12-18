@@ -14,6 +14,7 @@ const InputForm = ({ name, label, type, placeholder, value, passProfile, profile
       ) : (
         <div className="text-[#0b132a] font-semibold text-sm">{label}</div>
       )}
+      
       <div className="flex border border-[#dedede] rounded-md p-2 gap-3 items-center">
         {name == "full-name" ? (
           <FiUser color="#4F5665" />

@@ -8,8 +8,52 @@ import Product1 from "../assets/media/detail-product1.jpg";
 import Product2 from "../assets/media/detail-product2.jpg";
 import Product3 from "../assets/media/detail-product3.jpg";
 import Product4 from "../assets/media/home-product1.jpg";
+import { useState } from "react";
 
 const Checkout = () => {
+  const [products, setProducts] = useState([
+    {
+      productName:"Hazelnut Latte",
+      quantity:"2",
+      size:"Regular",
+      variant:"Ice",
+      delivery:"Dine in",
+      basePrice:"20.000",
+      discountPrice:"10.000",
+      image:Product1
+    },
+    {
+      productName:"Latte",
+      quantity:"1",
+      size:"Small",
+      variant:"Ice",
+      delivery:"Door Delivery",
+      basePrice:"25.000",
+      discountPrice:"20.000",
+      image:Product2
+    },
+    {
+      productName:"Cappucino",
+      quantity:"2",
+      size:"Regular",
+      variant:"Hot",
+      delivery:"Dine in",
+      basePrice:"30.000",
+      discountPrice:"25.000",
+      image:Product3
+    },
+    {
+      productName:"Affogato",
+      quantity:"3",
+      size:"Medium",
+      variant:"Ice",
+      delivery:"Pick Up",
+      basePrice:"20.000",
+      discountPrice:"15.000",
+      image:Product4
+    }
+  ])
+  
   return (
     <body className="flex flex-col items-center">
       <Navbar />
@@ -29,49 +73,21 @@ const Checkout = () => {
               </div>
 
               <div className="order flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[22rem] sm:max-h-[21rem]">
-                <CardProductOrder
-                  productName="Hazelnut Latte"
-                  quantity="2"
-                  size="Regular"
-                  variant="Ice"
-                  delivery="Dine in"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product1}
-                />
-
-                <CardProductOrder
-                  productName="Hazelnut Latte"
-                  quantity="2"
-                  size="Regular"
-                  variant="Ice"
-                  delivery="Dine in"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product2}
-                />
-
-                <CardProductOrder
-                  productName="Hazelnut Latte"
-                  quantity="2"
-                  size="Regular"
-                  variant="Ice"
-                  delivery="Dine in"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product3}
-                />
-
-                <CardProductOrder
-                  productName="Hazelnut Latte"
-                  quantity="2"
-                  size="Regular"
-                  variant="Ice"
-                  delivery="Dine in"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product4}
-                />
+                {
+                  products.map((product, index) => (
+                    <CardProductOrder
+                    key={index}
+                    productName={product.productName}
+                    quantity={product.quantity}
+                    size={product.size}
+                    variant={product.variant}
+                    delivery={product.delivery}
+                    basePrice={product.basePrice}
+                    discountPrice={product.discountPrice}
+                    image={product.image}
+                  />
+                  ))
+                }
               </div>
             </div>
 

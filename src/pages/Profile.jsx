@@ -2,8 +2,52 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import InputForm from "../components/InputForm";
 import Button from "../components/Button"
+import { useState } from "react";
 
 const Profile = () => {
+  const [inputForm, setInputForm] = useState([
+    {
+      profile:true,
+      name:"full-name",
+      label:"Full Name",
+      type:"text",
+      placeholder:"Enter Your Full Name",
+      value:"Ghaluh Wizard",
+    },
+    {
+      profile:true,
+      name:"email",
+      label:"Email",
+      type:"email",
+      placeholder:"Enter Your Email",
+      value:"ghaluhwizz@gmail.com",
+    },
+    {
+      profile:true,
+      name:"phone",
+      label:"Phone",
+      type:"text",
+      placeholder:"Enter Your Phone Number",
+      value:"082116304338",
+    },
+    {
+      profile:true,
+      name:"password",
+      label:"Password",
+      type:"password",
+      placeholder:"Enter Your Password",
+      value:"1234567890",
+      passProfile:true,
+    },
+    {
+      profile:true,
+      name:"address",
+      label:"Address",
+      type:"text",
+      placeholder:"Enter Your Address",
+      value:"Griya Bandung Indah",
+    },
+  ])
   return (
     <wrap className="flex flex-col items-center gap-6 sm:gap-12">
       <Navbar />
@@ -32,11 +76,19 @@ const Profile = () => {
         </div>
 
         <div className="w-full sm:flex-1 border border-[#E8E8E8] p-4 flex flex-col gap-6 outline-none">
-          <InputForm profile={true} name="full-name" label="Full Name" type="text" placeholder="Enter Your Full Name" value="Ghaluh Wizard"/>
-          <InputForm profile={true} name="email" label="Email" type="email" placeholder="Enter Your Email" value="ghaluhwizz@gmail.com"/>
-          <InputForm profile={true} name="phone" label="Phone" type="text" placeholder="Enter Your Phone Number" value="082116304338"/>
-          <InputForm profile={true} name="password" label="Password" type="password" placeholder="Enter Your Password" value="1234567890" passProfile={true}/>
-          <InputForm profile={true} name="address" label="Address" type="text" placeholder="Enter Your address" value="Griya Bandung Indah"/>
+          {
+            inputForm.map((item, index) => (
+              <InputForm
+              key={index}
+              profile={true}
+              name={item.name}
+              label={item.label}
+              type={item.type}
+              placeholder={item.placeholder}
+              value={item.value}
+              passProfile={item.passProfile}/>
+            ))
+          }
           <Button destination="#" value="Submit" py="2"/>
         </div>
       </form>

@@ -7,7 +7,7 @@ import Rating from "./Rating";
 
 const OptionList = ({variety}) => {
   return (
-      <button type="button" className="flex-1 flex justify-center border focus:border-[#FF8906] border-[#E8E8E8] text-[0.65rem] sm:text-sm text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all">
+      <button type="button" className="flex-1 flex justify-center border focus:border-[#FF8906] border-[#E8E8E8] text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all">
       {variety}
     </button>
     )
@@ -16,8 +16,8 @@ const OptionList = ({variety}) => {
 
 const OptionVariety = ({option}) => {
   return (
-      <div className="flex flex-col gap-2">
-      <h4 className="font-semibold text-[0.7rem] sm:text-sm">{option}</h4>
+      <div className="flex flex-col gap-1">
+      <h4 className="font-semibold text-[0.7rem] sm:text-xs">{option}</h4>
       <div className="flex justify-between gap-4">
       {option == "Choose Size" ?(
           <>
@@ -59,7 +59,7 @@ const Details = ({ productName, rating, review, description }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col gap-3 sm:gap-1 h-5/6 ">
+    <div className="flex-1 flex flex-col gap-3 sm:gap-[0.45rem] h-5/6 ">
       <Tag text="FLASHSALE!" />
       <h1 className="text-xl sm:text-3xl font-bold">{productName}</h1>
       <Price basePrice="20.000" discountPrice="10.000" />

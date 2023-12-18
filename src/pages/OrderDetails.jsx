@@ -6,6 +6,7 @@ import Product1 from "../assets/media/detail-product1.jpg";
 import Product2 from "../assets/media/detail-product2.jpg";
 import Product3 from "../assets/media/detail-product3.jpg";
 import Product4 from "../assets/media/home-product1.jpg";
+import { useState } from 'react';
 
 const ListOrderInformation = ({field, value, color}) => {
     return (
@@ -28,7 +29,7 @@ const ListOrderInformation = ({field, value, color}) => {
         }
           <p className="text-xs sm:text-base">{field}</p>
         </div>
-        <h5 className={`font-bold text-xs sm:text-base ${color? `text-[${color}]`: ''} ${field == "Status" ? " text-[0.6rem] sm:text-xs bg-[#00A70033] py-1 px-2 rounded-full flex items-center" : ''}`}>
+        <h5 className={`font-bold text-xs sm:text-base ${color == "green" ? `text-[#00A700]` : ''} ${color?  `text-[${color}]`: ''} ${field == "Status" ? " text-[0.6rem] sm:text-xs bg-[#00A70033] py-1 px-2 rounded-full flex items-center" : ''}`}>
           {field == "Total Transaksi" ? `Idr ${value}` : value}
         </h5>
       </div>
@@ -36,6 +37,83 @@ const ListOrderInformation = ({field, value, color}) => {
 }
 
 const OrderDetails = () => {
+  const [orderInformation, setOrderInformation] = useState([
+    {
+      field:"Full Name",
+      value:"Ghaluh Wizard Anggoro"
+    },
+    {
+      field:"Address",
+      value:"Griya bandung indah"
+    },
+    {
+      field:"Phone",
+      value:"082116304338"
+    },
+    {
+      field:"Payment Method",
+      value:"Cash"
+    },
+    {
+      field:"Shipping",
+      value:"Dine In"
+    },
+    {
+      field:"Status",
+      value:"Done",
+      color:"green"
+      // color:"#00A700"
+    },
+    {
+      field:"Total Transaksi",
+      value:"40.000",
+      color:"#FF8906"
+    },
+  ])
+
+  const [products, setProducts] = useState([
+    {
+      productName:"Hazelnut Latte",
+      quantity:"2",
+      size:"Regular",
+      variant:"Ice",
+      delivery:"Dine in",
+      basePrice:"20.000",
+      discountPrice:"10.000",
+      image:Product1
+    },
+    {
+      productName:"Latte",
+      quantity:"1",
+      size:"Small",
+      variant:"Ice",
+      delivery:"Door Delivery",
+      basePrice:"25.000",
+      discountPrice:"20.000",
+      image:Product2
+    },
+    {
+      productName:"Cappucino",
+      quantity:"2",
+      size:"Regular",
+      variant:"Hot",
+      delivery:"Dine in",
+      basePrice:"30.000",
+      discountPrice:"25.000",
+      image:Product3
+    },
+    {
+      productName:"Affogato",
+      quantity:"3",
+      size:"Medium",
+      variant:"Ice",
+      delivery:"Pick Up",
+      basePrice:"20.000",
+      discountPrice:"15.000",
+      image:Product4
+    }
+  ])
+
     return (
         <body className="flex flex-col items-center">
             
@@ -54,13 +132,15 @@ const OrderDetails = () => {
             <h1 className="font-semibold text-base sm:text-xl">Order Information</h1>
     
             <div className="flex flex-col divide-y">
-              <ListOrderInformation field="Full Name" value="Ghaluh Wizard Anggoro"/>
-              <ListOrderInformation field="Address" value="Griya bandung indah"/>
-              <ListOrderInformation field="Phone" value="082116304338"/>
-              <ListOrderInformation field="Payment Method" value="Cash"/>
-              <ListOrderInformation field="Shipping" value="Dine In"/>
-              <ListOrderInformation field="Status" value="Done" color="#00A700"/>
-              <ListOrderInformation field="Total Transaksi" value="40.000" color="#FF8906"/>
+              {
+                orderInformation.map((list, index) => (
+                  <ListOrderInformation 
+                  key={index}
+                  field={list.field} 
+                  value={list.value}
+                  color={list.color}/>
+                ))
+              }
             </div>
           </div>
     
@@ -68,49 +148,21 @@ const OrderDetails = () => {
             <h4 className="font-semibold">Your Order</h4>
     
             <div className="flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[22rem] sm:max-h-[21rem]">
-            <CardProductOrder
-                  productName="Hazelnut Latte"
-                  quantity="2"
-                  size="Regular"
-                  variant="Ice"
-                  delivery="Dine in"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product1}
-                />
-
-                <CardProductOrder
-                  productName="Hazelnut Latte"
-                  quantity="2"
-                  size="Regular"
-                  variant="Ice"
-                  delivery="Dine in"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product2}
-                />
-
-                <CardProductOrder
-                  productName="Hazelnut Latte"
-                  quantity="2"
-                  size="Regular"
-                  variant="Ice"
-                  delivery="Dine in"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product3}
-                />
-
-                <CardProductOrder
-                  productName="Hazelnut Latte"
-                  quantity="2"
-                  size="Regular"
-                  variant="Ice"
-                  delivery="Dine in"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product4}
-                />
+                {
+                  products.map((product, index) => (
+                    <CardProductOrder
+                    key={index}
+                    productName={product.productName}
+                    quantity={product.quantity}
+                    size={product.size}
+                    variant={product.variant}
+                    delivery={product.delivery}
+                    basePrice={product.basePrice}
+                    discountPrice={product.discountPrice}
+                    image={product.image}
+                  />
+                  ))
+                }
             </div>
           </div>
         </div>

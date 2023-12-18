@@ -14,6 +14,7 @@ import Product3 from '../assets/media/detail-product3.jpg'
 import Product4 from '../assets/media/home-product1.jpg'
 import Product5 from '../assets/media/home-product2.jpg'
 import Product6 from '../assets/media/home-product3.jpg'
+import { useState } from "react";
 
 const Kupon = ({ title, description, klaim, bg }) => {
   return (
@@ -44,8 +45,90 @@ const Kupon = ({ title, description, klaim, bg }) => {
 };
 
 const Products = () => {
-  const products = [1, 2, 3, 4, 5, 6];
-  const GreenKupon = [1, 2, 3, 4];
+  
+  const [kupon, setKupon] = useState([
+    {
+      klaim:true,
+      title:"HAPPY MOTHER'S DAY!",
+      description:`Get one of our favorite menu \n for free!`,
+      bg:"green",
+    },
+    {
+      klaim:true,
+      title:"HAPPY MOTHER'S DAY!",
+      description:`Get one of our favorite menu \n for free!`,
+      bg:"green",
+    },
+    {
+      klaim:true,
+      title:"HAPPY MOTHER'S DAY!",
+      description:`Get one of our favorite menu \n for free!`,
+      bg:"green",
+    },
+    {
+      klaim:true,
+      title:"HAPPY MOTHER'S DAY!",
+      description:`Get one of our favorite menu \n for free!`,
+      bg:"green",
+    },
+    {
+      klaim:false,
+      title:`Get a cup of coffee for free \n on sunday morning`,
+      description:"Only at 7 to 9 AM",
+      bg:"yellow"
+    }
+  ])
+
+  const [products, setProducts] = useState([
+    {
+      productName:"Hazelnut Latte",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"5",
+      basePrice:"20.000",
+      discountPrice:"10.000",
+      image: Product1
+    },
+    {
+      productName:"Latte",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"4",
+      basePrice:"25.000",
+      discountPrice:"15.000",
+      image: Product2
+    },
+    {
+      productName:"Cappuccino",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"4",
+      basePrice:"30.000",
+      discountPrice:"25.000",
+      image: Product3
+    },
+    {
+      productName:"Mochacino",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"5",
+      basePrice:"35.000",
+      discountPrice:"30.000",
+      image: Product4
+    },
+    {
+      productName:"Affogato",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"4",
+      basePrice:"25.000",
+      discountPrice:"20.000",
+      image: Product5
+    },
+    {
+      productName:"French Fries",
+      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+      rating:"3",
+      basePrice:"20.000",
+      discountPrice:"15.000",
+      image: Product6
+    },
+  ])
 
   const filterMobile = () => {
     const filterMobile = document.querySelector("#filter-mobile");
@@ -115,25 +198,15 @@ const Products = () => {
         </div>
 
         <div className="w-fit flex gap-10">
-          {GreenKupon.map((index) => (
+          {kupon.map((item, index) => (
             <Kupon
-              klaim={true}
               key={index}
-              title="HAPPY MOTHER'S DAY!"
-              description={`Get one of our favorite menu \n for free!`}
-              bg="green"
-              // bg="#88B788"  warna hijau tidak bisa muncul warna lain bisa muncul
-              // bg= "#FF8906"
-              // bg="black"
+              klaim={item.klaim}
+              title={item.title}
+              description={item.description}
+              bg={item.bg}
             />
           ))}
-          <Kupon
-            title={`Get a cup of coffee for free \n on sunday morning`}
-            description="Only at 7 to 9 AM"
-            bg="yellow"
-            // bg="#F5C361" warna kuning tidak bisa muncul warna lain bisa muncul
-            // bg="black"
-          />
         </div>
 
         <div className="w-5/6">
@@ -154,59 +227,18 @@ const Products = () => {
           <main className="flex flex-col items-end sm:flex-1">
             <div className="relative flex justify-center w-full">
               <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-48 sm:gap-y-44 mb-48 max-w-xl">
-                <CardProduct
-                  productName=" Hazelnut Latte"
-                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-                  rating="5"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product1}
-                />
-
-                <CardProduct
-                  productName=" Hazelnut Latte"
-                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-                  rating="5"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product2}
-                />
-
-                <CardProduct
-                  productName=" Hazelnut Latte"
-                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-                  rating="5"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product3}
-                />
-
-                <CardProduct
-                  productName=" Hazelnut Latte"
-                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-                  rating="5"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product4}
-                />
-
-                <CardProduct
-                  productName=" Hazelnut Latte"
-                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-                  rating="5"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product5}
-                />
-
-                <CardProduct
-                  productName=" Hazelnut Latte"
-                  description="You can explore the menu that we provide with fun and have their own taste and make your day better."
-                  rating="5"
-                  basePrice="20.000"
-                  discountPrice="10.000"
-                  image={Product6}
-                />
+                {
+                  products.map((product, index) => (
+                    <CardProduct
+                      productName={product.productName}
+                      description={product.description}
+                      rating={product.rating}
+                      basePrice={product.basePrice}
+                      discountPrice={product.discountPrice}
+                      image={product.image}
+                    />
+                  ))
+                }
               </div>
             </div>
 
