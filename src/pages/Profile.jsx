@@ -67,7 +67,7 @@ const Profile = () => {
               id="photo"
             ></img>
           </div>className
-          <button className="text-xs bg-[#FF8906] w-full rounded p-2">
+          <button className="text-xs bg-[#FF8906] w-full rounded p-2 transition-all active:scale-95">
             Upload New Photo
           </button>
           <p className="text-xs text-[#4F5665]">

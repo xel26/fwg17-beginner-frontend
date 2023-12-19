@@ -66,7 +66,7 @@ const ProductDetails = () => {
           Recommendation <span className="text-[#8E6447]">For You</span>
         </h1>
 
-        <div className="flex justify-center gap-4 sm:gap-12 mb-44 w-md sm:w-fit flex-wrap gap-y-44">
+        <div className="flex justify-center gap-4 sm:gap-12 mb-44 w-md sm:w-fit flex-wrap gap-y-48">
         {
           products.map((product, index) => (
             <CardProduct

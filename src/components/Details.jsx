@@ -46,12 +46,14 @@ const OptionVariety = ({option}) => {
 const Details = ({ productName, rating, review, description }) => {
 
   const [quantity, setQuantity] = useState(1);
+  const mininum = quantity <= 1
+  const maximum = quantity >= 10
   const increment = () => {
     setQuantity(quantity + 1);
   };
 
   const decrement = () => {
-    if (quantity == 1) {
+    if (mininum) {
       setQuantity(1);
     } else {
       setQuantity(quantity - 1);
@@ -80,10 +82,10 @@ const Details = ({ productName, rating, review, description }) => {
       <div className="flex items-center">
         <button
           onClick={decrement}
-          id="decrement"
-          className="border border-[#FF8906] bg-white rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-1 active:scale-95 transition-all"
+          disabled={mininum}
+          className={`${mininum ? 'border-gray-300 active:scale-100' : 'border-[rgb(255,137,6)] active:scale-95'} border bg-white rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-1 transition-all`}
         >
-          <FiMinus/>
+          <FiMinus className="text-xs sm:text-base"/>
         </button>
         <div className="border border-[#E8E8E8] w-9 sm:w-12 flex justify-center items-center rounded-sm">
           <h1 id="quantity" className="text-xs sm:text-sm sm:py-[0.1rem]">
@@ -92,10 +94,10 @@ const Details = ({ productName, rating, review, description }) => {
         </div>
         <button
           onClick={increment}
-          id="increment"
-          className="bg-[#FF8906] rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-[-0.25rem] active:scale-95 transition-all"
+          disabled={maximum}
+          className={`${maximum? 'bg-gray-300 active:scale-100' : 'bg-[#FF8906] active:scale-95'}  rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-[-0.25rem] transition-all`}
         >
-          <FiPlus />
+          <FiPlus className="text-xs sm:text-base"/>
         </button>
       </div>
 

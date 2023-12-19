@@ -4,9 +4,14 @@ import { Link } from "react-router-dom";
 
 const InputForm = ({ name, label, type, placeholder, value, passProfile, profile }) => {
   const [show, setShow] = useState(false)
+  const [inputValue, setInputValue] = useState(value)
 
   const passReveal = () => {
     setShow(!show)
+  }
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value)
   }
 
   return (
@@ -43,7 +48,8 @@ const InputForm = ({ name, label, type, placeholder, value, passProfile, profile
             name={name}
             type={type === 'password' && show ? 'text' : type}
             placeholder={placeholder}
-            value={value}
+            value={inputValue}
+            onChange={handleInputChange}
           />
           ): (
             <input

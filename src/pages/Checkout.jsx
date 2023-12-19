@@ -9,6 +9,7 @@ import Product2 from "../assets/media/detail-product2.jpg";
 import Product3 from "../assets/media/detail-product3.jpg";
 import Product4 from "../assets/media/home-product1.jpg";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Checkout = () => {
   const [products, setProducts] = useState([
@@ -66,10 +67,10 @@ const Checkout = () => {
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
                 <h4 className="font-semibold">Your Order</h4>
-                <button className="flex items-center justify-center gap-2 bg-[#FF8906] rounded-md active:scale-95 transition-all p-1.5 sm:p-2">
+                <Link to='/products' className="flex items-center justify-center gap-2 bg-[#FF8906] rounded-md active:scale-95 transition-all p-1.5 sm:p-2">
                   <FiPlus />
                   <h5 className="text-xs">Add Menu</h5>
-                </button>
+                </Link>
               </div>
 
               <div className="order flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[22rem] sm:max-h-[21rem]">

@@ -15,7 +15,7 @@ import Product4 from '../assets/media/home-product1.jpg'
 const Data = ({ value, text }) => {
   return (
     <div>
-      <h1 className={`text-[#ff8906] text-2xl sm:text-4xl font-semibold flex justify-between ${text == "Staff" || text == "Stores" ? 'w-[4.5rem]' : 'w-24'}`}>
+      <h1 className={`text-[#ff8906] text-2xl sm:text-4xl font-semibold flex justify-between ${text == "Staff" || text == "Stores" ? 'w-12 sm:w-[4.5rem]' : 'w-16 sm:w-24'}`}>
         <h1>
         {value}
         </h1>
@@ -98,15 +98,14 @@ const Home = () => {
   window.addEventListener('load', () => {
     setDisplay(true)
 
-      const dataStaff = setInterval(() => {
-        if(staff >= 90){
-          console.log('stop')
-          setStaff(90)
-          clearInterval(dataStaff)
-        }else{
-          setStaff(staff => staff + 1)
-        }
-      }, 100);
+      // const dataStaff = setInterval(() => {
+      //   if(staff >= 90){
+      //     setStaff(90)
+      //     return clearInterval(dataStaff)
+      //   }else{
+      //     return setStaff(staff => staff + 1)
+      //   }
+      // }, 100);
 
   })
 
@@ -219,7 +218,7 @@ const Home = () => {
             <div className="flex divide-x-2">
               <div className="flex-1 flex">
                 <div className="flex flex-col sm:gap-2  w-5/6">
-                  <Data value={staff} text="Staff" />
+                  <Data value='90' text="Staff" />
                 </div>
               </div>
 
