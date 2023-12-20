@@ -14,7 +14,8 @@ import Product3 from '../assets/media/detail-product3.jpg'
 import Product4 from '../assets/media/home-product1.jpg'
 import Product5 from '../assets/media/home-product2.jpg'
 import Product6 from '../assets/media/home-product3.jpg'
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Kupon = ({ title, description, klaim, bg }) => {
   return (
@@ -130,10 +131,40 @@ const Products = () => {
     },
   ])
 
+  const [mobileFilter, setMobileFilter] = useState(false)
   const filterMobile = () => {
-    const filterMobile = document.querySelector("#filter-mobile");
-    filterMobile.classList.toggle("hidden");
+    setMobileFilter(!mobileFilter)
   };
+
+  const [dataProducts, setDataProducts] = useState()
+  const [totalPage, setTotalPage] = useState()
+  const listAllProducts = async () => {
+    try {
+      const {data} = await axios.get("http://localhost:8888/products")
+      console.log(data)
+      console.log(data.results)
+      console.log(data.pageInfo.totalPage)
+      setTotalPage(data.pageInfo.totalPage)
+      setDataProducts(data.results)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const pageNavigator = async (page) => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/products?page=${page}`)
+      setDataProducts(data.results)
+      setTotalPage(data.pageInfo.totalPage)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+      listAllProducts()
+      console.log(dataProducts)
+  }, [])
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
@@ -180,8 +211,7 @@ const Products = () => {
       </section>
 
       <section
-        id="filter-mobile"
-        className="hidden sm:hidden absolute h-fit w-5/6 z-40 top-32 flex justify-end"
+        className={`${mobileFilter ? 'flex' : 'hidden'} sm:hidden absolute h-fit w-5/6 z-40 top-32 justify-end`}
       >
         <Filter mobile={true} />
       </section>
@@ -210,7 +240,7 @@ const Products = () => {
         </div>
 
         <div className="w-5/6">
-          <PageIndicator />
+          <PageIndicator/>
         </div>
       </section>
 
@@ -227,9 +257,23 @@ const Products = () => {
           <main className="flex flex-col items-end sm:flex-1">
             <div className="relative flex justify-center w-full">
               <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-48 sm:gap-y-44 mb-48 max-w-xl">
-                {
+                { dataProducts &&
+                  dataProducts.map((product) => (
+                    <CardProduct
+                    key={product.id}
+                    productName={product.name}
+                    description={product.description}
+                    rating='5'
+                    basePrice={product.basePrice}
+                    discountPrice={product.basePrice - product.discount}
+                    image={Product1}
+                  />
+                  ))
+                }
+                {/* {
                   products.map((product, index) => (
                     <CardProduct
+                      key={index}
                       productName={product.productName}
                       description={product.description}
                       rating={product.rating}
@@ -238,11 +282,11 @@ const Products = () => {
                       image={product.image}
                     />
                   ))
-                }
+                } */}
               </div>
             </div>
 
-            <PageNavigation />
+            <PageNavigation totalPage={totalPage} pageHandle={pageNavigator}/>
           </main>
         </div>
       </section>

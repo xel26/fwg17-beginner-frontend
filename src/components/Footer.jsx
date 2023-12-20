@@ -22,16 +22,6 @@ const FooterLink = ({destination1, text1, destination2, text2, destination3, tex
 };
 
 const Footer = () => {
-  const [show, setShow] = useState(false)
-  window.addEventListener('scroll', () => {
-    let top = window.scrollY               
-    let offsetTop = section.offsetTop - 1000
-    let offsetHeight = section.offsetHeight
-
-    if(top >= offsetTop && top < offsetTop + offsetHeight){
-      setShow(true)
-    }
-  })
 
     return (
     <footer className="flex justify-center items-center w-full h-fit py-6 sm:h-fit sm:py-12 bg-[#F8F8F8]">

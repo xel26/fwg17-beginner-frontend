@@ -24,7 +24,6 @@ const Register = () => {
 
       try {
         const { data } = await axios.post("http://localhost:8888/auth/register",form);
-        console.log(data)
 
         setSuccess(true);
         setTimeout(() => {
@@ -32,7 +31,6 @@ const Register = () => {
           window.location = "/login";
         }, 2000);
       } catch (err) {
-        console.log(err);
         setErrorMessage(err.response.data.message);
         setError(true);
         setTimeout(() => {

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardProduct from "../components/CardProduct";
@@ -35,6 +36,36 @@ const ProductDetails = () => {
       image: Product3
     }
   ])
+
+  const [dataProducts, setDataProducts] = useState()
+  const [totalPage, setTotalPage] = useState()
+  const listAllProducts = async () => {
+    try {
+      const {data} = await axios.get("http://localhost:8888/products?limit=3")
+      console.log(data)
+      console.log(data.results)
+      console.log(data.pageInfo.totalPage)
+      setTotalPage(data.pageInfo.totalPage)
+      setDataProducts(data.results)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const pageNavigator = async (page) => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/products?limit=3&page=${page}`)
+      setDataProducts(data.results)
+      setTotalPage(data.pageInfo.totalPage)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+      listAllProducts()
+      console.log(dataProducts)
+  }, [])
   return (
     <body className="flex flex-col items-center gap-8">
       <Navbar />
@@ -67,7 +98,20 @@ const ProductDetails = () => {
         </h1>
 
         <div className="flex justify-center gap-4 sm:gap-12 mb-44 w-md sm:w-fit flex-wrap gap-y-48">
-        {
+        { dataProducts &&
+            dataProducts.map((product) => (
+              <CardProduct
+              key={product.id}
+              productName={product.name}
+              description={product.description}
+              rating='5'
+              basePrice={product.basePrice}
+              discountPrice={product.basePrice - product.discount}
+              image={Product1}
+          />
+          ))
+        }
+        {/* {
           products.map((product, index) => (
             <CardProduct
               key={index}
@@ -79,10 +123,10 @@ const ProductDetails = () => {
               image={product.image}
             />
           ))
-        }
+        } */}
         </div>
 
-        <PageNavigation />
+        <PageNavigation totalPage={totalPage} pageHandle={pageNavigator}/>
       </div>
 
       <Footer />

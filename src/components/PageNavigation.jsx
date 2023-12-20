@@ -1,25 +1,38 @@
+import { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 
-const PageNavigation = () => {
+const PageNavigation = ({totalPage, pageHandle}) => {
+  const pages = []
+  for(let i = 1; i <= totalPage; i++){
+    pages.push(i)
+  }
+
+
+  const page = document.querySelectorAll('.page')
+  const handleClick = (event) => {
+    page.forEach(item => {
+      item.classList.remove("bg-[#FF8906]", "text-black")
+    })
+
+    event.target.classList.add("bg-[#FF8906]", "text-black")
+    pageHandle(event.target.innerText)
+  }
+
+  // useEffect(() => {
+  //   page.length > 0 && page[0].classList.add("bg-[#FF8906]", "text-black")
+  // })
+
   return (
     <div className="flex justify-center gap-2 w-full">
-      <button className="indicator-page flex justify-center items-center bg-[#E8E8E8] text-[#A0A3BD] focus:bg-[#FF8906] focus:text-black active:scale-90 transition-all text-xs sm:text-sm rounded-full h-6 w-6 sm:h-8 sm:w-8">
-        <h3>1</h3>
-      </button>
+      {
+        pages.map((item, index) => (
+          <button onClick={handleClick} key={index} className={`page flex justify-center items-center bg-[#E8E8E8] text-[#A0A3BD] active:scale-90 transition-all text-xs sm:text-sm rounded-full h-6 w-6 sm:h-8 sm:w-8`}>
+          {item}
+        </button>
+        ))
+      }
 
-      <button className="indicator-page flex justify-center items-center text-[#A0A3BD] text-xs sm:text-sm bg-[#E8E8E8] focus:bg-[#FF8906] focus:text-black active:scale-90 transition-all rounded-full h-6 w-6 sm:h-8 sm:w-8">
-        <h3>2</h3>
-      </button>
-
-      <button className="indicator-page flex justify-center items-center text-[#A0A3BD] text-xs sm:text-sm bg-[#E8E8E8] focus:bg-[#FF8906] focus:text-black active:scale-90 transition-all rounded-full h-6 w-6 sm:h-8 sm:w-8">
-        <h3>3</h3>
-      </button>
-
-      <button className="indicator-page flex justify-center items-center text-[#A0A3BD] text-xs sm:text-sm bg-[#E8E8E8] focus:bg-[#FF8906] focus:text-black active:scale-90 transition-all rounded-full h-6 w-6 sm:h-8 sm:w-8">
-        <h3>4</h3>
-      </button>
-
-      <button id="btn-next" className="flex justify-center items-center bg-[#FF8906] rounded-full h-6 w-6 sm:h-8 sm:w-8 active:scale-90 transition-all">
+      <button className="flex justify-center items-center bg-[#FF8906] rounded-full h-6 w-6 sm:h-8 sm:w-8 active:scale-90 transition-all">
         <FiArrowRight size={20} className="text-white sm:h-auto"/>
       </button>
     </div>
