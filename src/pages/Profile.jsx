@@ -2,9 +2,12 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import InputForm from "../components/InputForm";
 import Button from "../components/Button"
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Profile = () => {
+
+
   const [inputForm, setInputForm] = useState([
     {
       profile:true,
@@ -12,7 +15,7 @@ const Profile = () => {
       label:"Full Name",
       type:"text",
       placeholder:"Enter Your Full Name",
-      value:"Ghaluh Wizard",
+      value: "Ghaluh Wizard"
     },
     {
       profile:true,
@@ -48,8 +51,9 @@ const Profile = () => {
       value:"Griya Bandung Indah",
     },
   ])
+
   return (
-    <wrap className="flex flex-col items-center gap-6 sm:gap-12">
+    <div className="flex flex-col items-center gap-6 sm:gap-12">
       <Navbar />
 
       <h1 className="w-5/6 mt-20 sm:mt-24 text-3xl font-bold">Profile</h1>
@@ -94,7 +98,7 @@ const Profile = () => {
       </form>
 
       <Footer />
-    </wrap>
+    </div>
   );
 };
 

@@ -16,9 +16,10 @@ const Login = () => {
     const form = new URLSearchParams()
     form.append('email', email)
     form.append('password', password)
+    console.log(form)
 
     try{
-      const {data} = await axios.post('http://localhost:8888/auth/login', form)
+      const {data} = await axios.post('http://localhost:8888/auth/login', form.toString())
       console.log(data)
       console.log(data.results.token)
 

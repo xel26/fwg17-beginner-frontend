@@ -4,7 +4,6 @@ import ButtonSwipe from "../components/ButtonSwipe";
 import PageIndicator from "../components/PageIndicator";
 import PageNavigation from "../components/PageNavigation";
 import CardProduct from "../components/CardProduct";
-import Filter from "../components/Filter";
 import { FiList, FiSearch } from "react-icons/fi";
 import GreenKuponStiker from "../assets/media/stiker-kupon-hijau.png";
 import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
@@ -16,6 +15,157 @@ import Product5 from '../assets/media/home-product2.jpg'
 import Product6 from '../assets/media/home-product3.jpg'
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+
+// filter start
+const CheckBox = ({label, value, name}) => {
+  return (
+      <div className="flex gap-3">
+      <input
+        type="checkbox"
+        name={name}
+        value={value}
+      />
+      <label htmlFor={value}>{label}</label>
+    </div>
+  )
+}
+
+const FilterProduct = ({ filterBy }) => {
+  const [category, setCategory] = useState([
+    {
+      label: "Favorite Product",
+      value: "favorite product",
+      name: "category"
+    },
+    {
+      label: "Coffee",
+      value: "coffee",
+      name: "category"
+    },
+    {
+      label: "Non Coffee",
+      value: "non coffee",
+      name: "category"
+    },
+    {
+      label: "Foods",
+      value: "foods",
+      name: "category"
+    },
+    {
+      label: "Add-On",
+      value: "add on",
+      name: "category"
+    }
+  ])
+
+  const [sortBy, setSortBy] = useState([
+    // {
+    //   label: "Buy1Get1",
+    //   value: "buy1get1",
+    //   name: "sortBy"
+    // },
+    // {
+    //   label: "Flashsale",
+    //   value: "flashsale",
+    //   name: "sortBy"
+    // },
+    // {
+    //   label: "Birthday Package",
+    //   value: "birthday package",
+    //   name: "sortBy"
+    // },
+    {
+      label: "Latest Products",
+      value: "createdAt",
+      name: "sortBy"
+    },
+    {
+      label: "Name",
+      value: "name",
+      name: "sortBy"
+    },
+    {
+      label: "Cheap",
+      value: "basePrice",
+      name: "sortBy"
+    },
+  ])
+
+  return (
+    <div className="flex flex-col gap-3 text-xs">
+      <h4 className="font-semibold text-sm">{filterBy}</h4>
+      {filterBy === "Category" ? 
+        category.map((item, index) => (
+          <CheckBox key={index}
+          label={item.label}
+          value={item.value}
+          name={item.name}
+          />
+        ))
+      : sortBy.map((item, index) => (
+        <CheckBox key={index}
+        label={item.label}
+        value={item.value}
+        name={item.name}
+        />
+      ))
+      }
+    </div>
+  );
+};
+
+const Filter = ({mobile, handleFilter}) => {
+    return (
+        <form onSubmit={handleFilter} className={`flex flex-col gap-4 ${mobile? "bg-black p-4 text-white rounded-xl" : ''}`}>
+        <div className="flex justify-between">
+          <h4 className="font-semibold text-sm">Filter</h4>
+          <button
+            className="font-semibold text-sm active:scale-95 transition-all"
+            type="reset"
+          >
+            Reset Filter
+          </button>
+        </div>
+
+        {!mobile ?
+        <div className="flex flex-col gap-1">
+          <label className="font-semibold text-sm" htmlFor="search-product">
+            Search
+          </label>
+          <input
+            name="searchKey"
+            className="rounded text-xs p-2 outline-none text-black"
+            id="search-product"
+            type="text"
+            placeholder="Search Your Product"
+          />
+        </div> : ''}
+        
+        <FilterProduct filterBy="Category"/>
+        <FilterProduct filterBy="SortBy"/>
+
+        {/* <div className="flex flex-col gap-1">
+          <label className="text-sm font-semibold" htmlFor="range-price">
+            Range Price
+          </label>
+          <input id="range-price" type="range"/>
+        </div> */}
+
+        <button
+          className="bg-[#FF8906] rounded p-2 text-xs text-black font-semibold active:scale-95 transition-all"
+          type="submit"
+        >
+          Apply Filter
+        </button>
+      </form>
+    )
+}
+// filter end
+
+
+
 
 const Kupon = ({ title, description, klaim, bg }) => {
   return (
@@ -44,6 +194,9 @@ const Kupon = ({ title, description, klaim, bg }) => {
     </div>
   );
 };
+
+
+
 
 const Products = () => {
   
@@ -80,56 +233,56 @@ const Products = () => {
     }
   ])
 
-  const [products, setProducts] = useState([
-    {
-      productName:"Hazelnut Latte",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"5",
-      basePrice:"20.000",
-      discountPrice:"10.000",
-      image: Product1
-    },
-    {
-      productName:"Latte",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"4",
-      basePrice:"25.000",
-      discountPrice:"15.000",
-      image: Product2
-    },
-    {
-      productName:"Cappuccino",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"4",
-      basePrice:"30.000",
-      discountPrice:"25.000",
-      image: Product3
-    },
-    {
-      productName:"Mochacino",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"5",
-      basePrice:"35.000",
-      discountPrice:"30.000",
-      image: Product4
-    },
-    {
-      productName:"Affogato",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"4",
-      basePrice:"25.000",
-      discountPrice:"20.000",
-      image: Product5
-    },
-    {
-      productName:"French Fries",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"3",
-      basePrice:"20.000",
-      discountPrice:"15.000",
-      image: Product6
-    },
-  ])
+  // const [products, setProducts] = useState([
+  //   {
+  //     productName:"Hazelnut Latte",
+  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+  //     rating:"5",
+  //     basePrice:"20.000",
+  //     discountPrice:"10.000",
+  //     image: Product1
+  //   },
+  //   {
+  //     productName:"Latte",
+  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+  //     rating:"4",
+  //     basePrice:"25.000",
+  //     discountPrice:"15.000",
+  //     image: Product2
+  //   },
+  //   {
+  //     productName:"Cappuccino",
+  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+  //     rating:"4",
+  //     basePrice:"30.000",
+  //     discountPrice:"25.000",
+  //     image: Product3
+  //   },
+  //   {
+  //     productName:"Mochacino",
+  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+  //     rating:"5",
+  //     basePrice:"35.000",
+  //     discountPrice:"30.000",
+  //     image: Product4
+  //   },
+  //   {
+  //     productName:"Affogato",
+  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+  //     rating:"4",
+  //     basePrice:"25.000",
+  //     discountPrice:"20.000",
+  //     image: Product5
+  //   },
+  //   {
+  //     productName:"French Fries",
+  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
+  //     rating:"3",
+  //     basePrice:"20.000",
+  //     discountPrice:"15.000",
+  //     image: Product6
+  //   },
+  // ])
 
   const [mobileFilter, setMobileFilter] = useState(false)
   const filterMobile = () => {
@@ -138,14 +291,53 @@ const Products = () => {
 
   const [dataProducts, setDataProducts] = useState()
   const [totalPage, setTotalPage] = useState()
+  const [queryParameter, setQueryParameter] = useState(null)
+
   const listAllProducts = async () => {
     try {
       const {data} = await axios.get("http://localhost:8888/products")
       console.log(data)
-      console.log(data.results)
-      console.log(data.pageInfo.totalPage)
       setTotalPage(data.pageInfo.totalPage)
       setDataProducts(data.results)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  const filterProduct = async (event) => {
+    event.preventDefault()
+
+    const { value: searchKey } = event.target.searchKey
+    const category = Array.from(event.target.category)
+    const sortBy = Array.from(event.target.sortBy)
+    
+    const form = new URLSearchParams()
+    if(searchKey){
+      form.append("searchKey", searchKey)
+    }
+
+    category.map(checkBox => {
+      if(checkBox.checked) {
+        form.append("category", checkBox.value)
+      }
+    })
+
+    sortBy.map(checkBox => {
+      if(checkBox.checked) {
+        form.append("sortBy", checkBox.value)
+      }
+    })
+    console.log(form.toString())
+
+    const queryParams = form.toString()
+
+    try {
+      const {data} = await axios.get(`http://localhost:8888/products?${queryParams}`)
+      console.log(data)
+      setTotalPage(data.pageInfo.totalPage)
+      setDataProducts(data.results)
+      setQueryParameter(queryParams)
     } catch (error) {
       console.log(error)
     }
@@ -153,9 +345,13 @@ const Products = () => {
 
   const pageNavigator = async (page) => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/products?page=${page}`)
-      setDataProducts(data.results)
-      setTotalPage(data.pageInfo.totalPage)
+      if(queryParameter){
+        const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${page}`)
+        setDataProducts(data.results)
+      }else{
+        const {data} = await axios.get(`http://localhost:8888/products?page=${page}`)
+        setDataProducts(data.results)
+      }
     } catch (error) {
       console.log(error)
     }
@@ -163,7 +359,6 @@ const Products = () => {
 
   useEffect(() => {
       listAllProducts()
-      console.log(dataProducts)
   }, [])
 
   return (
@@ -251,7 +446,7 @@ const Products = () => {
 
         <div className="w-full px-2 sm:px-0 sm:w-5/6 flex gap-4">
           <aside className="hidden sm:block w-1/4 bg-black rounded-xl h-fit p-4 text-white">
-            <Filter />
+            <Filter handleFilter={filterProduct}/>
           </aside>
 
           <main className="flex flex-col items-end sm:flex-1">
@@ -259,15 +454,24 @@ const Products = () => {
               <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-48 sm:gap-y-44 mb-48 max-w-xl">
                 { dataProducts &&
                   dataProducts.map((product) => (
-                    <CardProduct
-                    key={product.id}
-                    productName={product.name}
-                    description={product.description}
-                    rating='5'
-                    basePrice={product.basePrice}
-                    discountPrice={product.basePrice - product.discount}
-                    image={Product1}
-                  />
+                      product.discount == 0 ? 
+                        (<CardProduct
+                        key={product.id}
+                        productName={product.name}
+                        description={product.description}
+                        rating='5'
+                        price={product.basePrice}
+                        image={Product1}
+                      /> ) :
+                      (<CardProduct
+                      key={product.id}
+                      productName={product.name}
+                      description={product.description}
+                      rating='5'
+                      basePrice={product.basePrice}
+                      discountPrice={product.basePrice - product.discount}
+                      image={Product1}
+                      />)
                   ))
                 }
                 {/* {

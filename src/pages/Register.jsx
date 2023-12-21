@@ -24,7 +24,7 @@ const Register = () => {
       form.append("role", "customer");
 
       try {
-        const { data } = await axios.post("http://localhost:8888/auth/register",form);
+        const { data } = await axios.post("http://localhost:8888/auth/register", form.toString());
         console.log(data)
 
         setSuccessMessage(data.message)
