@@ -4,6 +4,7 @@ import axios from "axios";
 
 const Register = () => {
   const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -24,7 +25,9 @@ const Register = () => {
 
       try {
         const { data } = await axios.post("http://localhost:8888/auth/register",form);
+        console.log(data)
 
+        setSuccessMessage(data.message)
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
@@ -49,7 +52,7 @@ const Register = () => {
 
       <div className="flex flex-1 items-center justify-center">
         <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-green-400 rounded text-sm flex justify-center items-center font-bold ${success ? "block" : "hidden"}`}>
-          <h1>register success. please login</h1>
+          <h1>{successMessage}</h1>
         </div>
 
         <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error ? "block" : "hidden"}`}>

@@ -1,10 +1,11 @@
+import { useState } from "react";
+
 const CheckBox = ({label, value, name}) => {
   return (
       <div className="flex gap-3">
       <input
         type="checkbox"
         name={name}
-        id={value}
         value={value}
       />
       <label htmlFor={value}>{label}</label>
@@ -13,14 +14,85 @@ const CheckBox = ({label, value, name}) => {
 }
 
 const FilterProduct = ({ filterBy }) => {
+  const [category, setCategory] = useState([
+    {
+      label: "Favorite Product",
+      value: "favorite product",
+      name: "category"
+    },
+    {
+      label: "Coffee",
+      value: "coffee",
+      name: "category"
+    },
+    {
+      label: "Non Coffee",
+      value: "non coffee",
+      name: "category"
+    },
+    {
+      label: "Foods",
+      value: "foods",
+      name: "category"
+    },
+    {
+      label: "Add-On",
+      value: "add on",
+      name: "category"
+    }
+  ])
+
+  const [sortBy, setSortBy] = useState([
+    // {
+    //   label: "Buy1Get1",
+    //   value: "buy1get1",
+    //   name: "sortby"
+    // },
+    // {
+    //   label: "Flashsale",
+    //   value: "flashsale",
+    //   name: "sortby"
+    // },
+    // {
+    //   label: "Birthday Package",
+    //   value: "birthday package",
+    //   name: "sortby"
+    // },
+    {
+      label: "Latest Products",
+      value: "createdAt",
+      name: "sortby"
+    },
+    {
+      label: "Name",
+      value: "name",
+      name: "sortby"
+    },
+    {
+      label: "Cheap",
+      value: "basePrice",
+      name: "sortby"
+    },
+  ])
   return (
     <div className="flex flex-col gap-3 text-xs">
       <h4 className="font-semibold text-sm">{filterBy}</h4>
-      <CheckBox label={filterBy == "Category" ? "Favorite Product" : "Buy1Get1"} value={filterBy == "Category" ? "favorite-product" : "buy1get1"} name={filterBy.toLowerCase()}/>
-      <CheckBox label={filterBy == "Category" ? "Coffee" : "Flashsale"} value={filterBy == "Category" ? "coffee" : "flashsale"} name={filterBy.toLowerCase()}/>
-      <CheckBox label={filterBy == "Category" ? "Non Coffee" : "Birthday Package"} value={filterBy == "Category" ? "non-coffee" : "birthday-package"} name={filterBy.toLowerCase()}/>
-      <CheckBox label={filterBy == "Category" ? "Foods" : "Cheap"} value={filterBy == "Category" ? "foods" : "cheap"} name={filterBy.toLowerCase()}/>
-      {filterBy == "Category" ? <CheckBox label="Add-On" value="add-on" name={filterBy.toLowerCase()} /> : ''}
+      {filterBy === "Category" ? 
+        category.map((item, index) => (
+          <CheckBox key={index}
+          label={item.label}
+          value={item.value}
+          name={item.name}
+          />
+        ))
+      : sortBy.map((item, index) => (
+        <CheckBox key={index}
+        label={item.label}
+        value={item.value}
+        name={item.name}
+        />
+      ))
+      }
     </div>
   );
 };

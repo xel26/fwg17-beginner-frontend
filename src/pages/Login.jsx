@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const Login = () => {
   const [success, setSuccess] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -19,7 +20,9 @@ const Login = () => {
     try{
       const {data} = await axios.post('http://localhost:8888/auth/login', form)
       console.log(data)
+      console.log(data.results.token)
 
+      setSuccessMessage(data.message)
       setSuccess(true)
       setTimeout(() => {
         window.location = '/products'
@@ -42,7 +45,7 @@ const Login = () => {
     
         <div className="relative flex flex-1 items-center justify-center">
           <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-green-400 rounded text-sm flex justify-center items-center font-bold ${success? 'block' : 'hidden'}`}>
-            <h1>login success</h1>
+            <h1>{successMessage}</h1>
           </div>
           <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error? 'block' : 'hidden'}`}>
             <h1>{errorMessage}</h1>
