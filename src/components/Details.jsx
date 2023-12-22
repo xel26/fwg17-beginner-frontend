@@ -18,7 +18,7 @@ const OptionVariety = ({option}) => {
   return (
       <div className="flex flex-col gap-1">
       <h4 className="font-semibold text-[0.7rem] sm:text-xs">{option}</h4>
-      <div className="flex justify-between gap-4">
+      <div className="flex justify-between gap-2 sm:gap-4">
       {option == "Choose Size" ?(
           <>
           <OptionList variety="Regular"/>
@@ -43,7 +43,7 @@ const OptionVariety = ({option}) => {
 }
 
 
-const Details = ({ productName, rating, review, description }) => {
+const Details = ({ productName, rating, review, description, basePrice, discountPrice, price }) => {
 
   const [quantity, setQuantity] = useState(1);
   const mininum = quantity <= 1
@@ -61,11 +61,11 @@ const Details = ({ productName, rating, review, description }) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col gap-3 sm:gap-[0.45rem] h-5/6 ">
+    <div className="w-full sm:flex-1 flex flex-col gap-3 sm:gap-[0.45rem] h-5/6 ">
       <Tag text="FLASHSALE!" />
       <h1 className="text-xl sm:text-3xl font-bold">{productName}</h1>
-      <Price basePrice="20.000" discountPrice="10.000" />
-      <Rating rating="5"/>
+      <Price basePrice={basePrice} discountPrice={discountPrice} price={price}/>
+      <Rating rating={rating}/>
       <div className="flex items-center divide-[#4F5665] divide-x-2 w-[15rem] sm:w-3/5 text-sm text-[#4F5665]">
         <p className="w-[35%] text-xs sm:text-sm">{review}+ Review</p>
         {parseInt(rating) >= 4 ? (
@@ -83,19 +83,19 @@ const Details = ({ productName, rating, review, description }) => {
         <button
           onClick={decrement}
           disabled={mininum}
-          className={`${mininum ? 'border-gray-300 active:scale-100' : 'border-[rgb(255,137,6)] active:scale-95'} border bg-white rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-1 transition-all`}
+          className={`${mininum ? 'border-gray-300' : 'border-[rgb(255,137,6)] active:scale-95'} border bg-white rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-1 transition-all`}
         >
           <FiMinus className="text-xs sm:text-base"/>
         </button>
         <div className="border border-[#E8E8E8] w-9 sm:w-12 flex justify-center items-center rounded-sm">
-          <h1 id="quantity" className="text-xs sm:text-sm sm:py-[0.1rem]">
+          <h1 id="quantity" className="text-[0.65rem] sm:text-sm sm:py-[0.1rem]">
             {quantity}
           </h1>
         </div>
         <button
           onClick={increment}
           disabled={maximum}
-          className={`${maximum? 'bg-gray-300 active:scale-100' : 'bg-[#FF8906] active:scale-95'}  rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-[-0.25rem] transition-all`}
+          className={`${maximum? 'bg-gray-300' : 'bg-[#FF8906] active:scale-95'}  rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-[-0.25rem] transition-all`}
         >
           <FiPlus className="text-xs sm:text-base"/>
         </button>

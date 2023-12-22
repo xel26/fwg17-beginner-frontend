@@ -20,13 +20,13 @@ import axios from "axios";
 // filter start
 const CheckBox = ({label, value, name}) => {
   return (
-      <div className="flex gap-3">
+      <div className="flex gap-2 sm:gap-3">
       <input
         type="checkbox"
         name={name}
         value={value}
       />
-      <label htmlFor={value}>{label}</label>
+      <label htmlFor={value} className="text-xs sm:text-sm">{label}</label>
     </div>
   )
 }
@@ -95,7 +95,7 @@ const FilterProduct = ({ filterBy }) => {
 
   return (
     <div className="flex flex-col gap-3 text-xs">
-      <h4 className="font-semibold text-sm">{filterBy}</h4>
+      <h4 className="font-semibold text-xs sm:text-sm">{filterBy}</h4>
       {filterBy === "Category" ? 
         category.map((item, index) => (
           <CheckBox key={index}
@@ -120,9 +120,9 @@ const Filter = ({mobile, handleFilter}) => {
     return (
         <form onSubmit={handleFilter} className={`flex flex-col gap-4 ${mobile? "bg-black p-4 text-white rounded-xl" : ''}`}>
         <div className="flex justify-between">
-          <h4 className="font-semibold text-sm">Filter</h4>
+          <h4 className="font-semibold text-xs sm:text-sm">Filter</h4>
           <button
-            className="font-semibold text-sm active:scale-95 transition-all"
+            className="font-semibold text-xs sm:text-sm active:scale-95 transition-all"
             type="reset"
           >
             Reset Filter
@@ -233,57 +233,6 @@ const Products = () => {
     }
   ])
 
-  // const [products, setProducts] = useState([
-  //   {
-  //     productName:"Hazelnut Latte",
-  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-  //     rating:"5",
-  //     basePrice:"20.000",
-  //     discountPrice:"10.000",
-  //     image: Product1
-  //   },
-  //   {
-  //     productName:"Latte",
-  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-  //     rating:"4",
-  //     basePrice:"25.000",
-  //     discountPrice:"15.000",
-  //     image: Product2
-  //   },
-  //   {
-  //     productName:"Cappuccino",
-  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-  //     rating:"4",
-  //     basePrice:"30.000",
-  //     discountPrice:"25.000",
-  //     image: Product3
-  //   },
-  //   {
-  //     productName:"Mochacino",
-  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-  //     rating:"5",
-  //     basePrice:"35.000",
-  //     discountPrice:"30.000",
-  //     image: Product4
-  //   },
-  //   {
-  //     productName:"Affogato",
-  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-  //     rating:"4",
-  //     basePrice:"25.000",
-  //     discountPrice:"20.000",
-  //     image: Product5
-  //   },
-  //   {
-  //     productName:"French Fries",
-  //     description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-  //     rating:"3",
-  //     basePrice:"20.000",
-  //     discountPrice:"15.000",
-  //     image: Product6
-  //   },
-  // ])
-
   const [mobileFilter, setMobileFilter] = useState(false)
   const filterMobile = () => {
     setMobileFilter(!mobileFilter)
@@ -291,13 +240,19 @@ const Products = () => {
 
   const [dataProducts, setDataProducts] = useState()
   const [totalPage, setTotalPage] = useState()
+  const [nextPage, setNextPage] = useState()
   const [queryParameter, setQueryParameter] = useState(null)
+  const [errorMessage, setErrorMessage] = useState()
+  const [error, setError] = useState(false)
+  const [disable, setDisable] = useState(false)
+  const [mobile, setMobile] = useState(true)
 
   const listAllProducts = async () => {
     try {
       const {data} = await axios.get("http://localhost:8888/products")
       console.log(data)
       setTotalPage(data.pageInfo.totalPage)
+      setNextPage(data.pageInfo.nextPage)
       setDataProducts(data.results)
     } catch (error) {
       console.log(error)
@@ -305,10 +260,11 @@ const Products = () => {
   }
 
 
-  const filterProduct = async (event) => {
+  const filterProduct = async (event, mobile) => {
     event.preventDefault()
 
-    const { value: searchKey } = event.target.searchKey
+     
+    const { value: searchKey } = !mobile ? event.target.searchKey : null
     const category = Array.from(event.target.category)
     const sortBy = Array.from(event.target.sortBy)
     
@@ -336,10 +292,14 @@ const Products = () => {
       const {data} = await axios.get(`http://localhost:8888/products?${queryParams}`)
       console.log(data)
       setTotalPage(data.pageInfo.totalPage)
+      setNextPage(data.pageInfo.nextPage)
       setDataProducts(data.results)
       setQueryParameter(queryParams)
     } catch (error) {
-      console.log(error)
+      console.log(error.response.data.message)
+      setErrorMessage(error.response.data.message)
+      setError(true)
+      setDataProducts(null)
     }
   }
 
@@ -347,15 +307,59 @@ const Products = () => {
     try {
       if(queryParameter){
         const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${page}`)
+        console.log(data)
         setDataProducts(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        if(data.pageInfo.nextPage === null){
+          setDisable(true)
+        }else{
+          setDisable(false)
+        }
       }else{
         const {data} = await axios.get(`http://localhost:8888/products?page=${page}`)
+        console.log(data)
         setDataProducts(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        if(data.pageInfo.nextPage === null){
+          setDisable(true)
+        }else{
+          setDisable(false)
+        }
       }
     } catch (error) {
       console.log(error)
     }
   }
+
+
+  const nextPageNavigator = async () => {
+    try {
+      if(queryParameter){
+        const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${nextPage}`)
+        console.log(data)
+        setDataProducts(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        if(data.pageInfo.nextPage === null){
+          setDisable(true)
+        }else{
+          setDisable(false)
+        }
+      }else{
+        const {data} = await axios.get(`http://localhost:8888/products?page=${nextPage}`)
+        setDataProducts(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        if(data.pageInfo.nextPage === null){
+          setDisable(true)
+        }else{
+          setDisable(false)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
 
   useEffect(() => {
       listAllProducts()
@@ -377,7 +381,7 @@ const Products = () => {
             htmlFor="find-product"
             className="w-11/12 flex gap-2 border border-[#DEDEDE] rounded-md p-2"
           >
-            <form
+            <form onSubmit={filterProduct}
               className="flex gap-2 items-center  w-full"
               id="search-by-name"
             >
@@ -387,7 +391,7 @@ const Products = () => {
                 className="active:scale-90 transition-all"
               />
               <input
-                id="find-product"
+                name="searchKey"
                 className="text-[#4F5665] outline-none bg-transparent text-xs w-full"
                 type="text"
                 placeholder="Find Product"
@@ -405,10 +409,8 @@ const Products = () => {
         </div>
       </section>
 
-      <section
-        className={`${mobileFilter ? 'flex' : 'hidden'} sm:hidden absolute h-fit w-5/6 z-40 top-32 justify-end`}
-      >
-        <Filter mobile={true} />
+      <section className={`${mobileFilter ? 'flex' : 'hidden'} sm:hidden absolute h-fit w-5/6 z-40 top-32 justify-end`}>
+        <Filter mobile />
       </section>
 
       <section className="flex flex-col w-full items-center gap-4 overflow-x-hidden">
@@ -444,13 +446,17 @@ const Products = () => {
           Our <span className="text-[#8E6447]">Product</span>
         </h1>
 
-        <div className="w-full px-2 sm:px-0 sm:w-5/6 flex gap-4">
+        <div className="w-full px-2 sm:px-0 sm:w-5/6 flex justify-center gap-4">
           <aside className="hidden sm:block w-1/4 bg-black rounded-xl h-fit p-4 text-white">
             <Filter handleFilter={filterProduct}/>
           </aside>
 
           <main className="flex flex-col items-end sm:flex-1">
             <div className="relative flex justify-center w-full">
+              <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error ? 'flex' : 'hidden'}`}>
+                <h1>{errorMessage}</h1>
+              </div>
+
               <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-48 sm:gap-y-44 mb-48 max-w-xl">
                 { dataProducts &&
                   dataProducts.map((product) => (
@@ -459,7 +465,7 @@ const Products = () => {
                         key={product.id}
                         productName={product.name}
                         description={product.description}
-                        rating='5'
+                        rating='4'
                         price={product.basePrice}
                         image={Product1}
                       /> ) :
@@ -467,30 +473,18 @@ const Products = () => {
                       key={product.id}
                       productName={product.name}
                       description={product.description}
-                      rating='5'
+                      rating='3'
                       basePrice={product.basePrice}
                       discountPrice={product.basePrice - product.discount}
                       image={Product1}
                       />)
                   ))
                 }
-                {/* {
-                  products.map((product, index) => (
-                    <CardProduct
-                      key={index}
-                      productName={product.productName}
-                      description={product.description}
-                      rating={product.rating}
-                      basePrice={product.basePrice}
-                      discountPrice={product.discountPrice}
-                      image={product.image}
-                    />
-                  ))
-                } */}
               </div>
             </div>
 
-            <PageNavigation totalPage={totalPage} pageHandle={pageNavigator}/>
+            <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} handleDisable={disable}/>
+            
           </main>
         </div>
       </section>

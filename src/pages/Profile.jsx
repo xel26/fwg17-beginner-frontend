@@ -6,51 +6,70 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const Profile = () => {
+  // get data user static start
+  const [dataProfile, setDataProfile] = useState()
+  console.log(dataProfile && dataProfile)
+  console.log(dataProfile && dataProfile.fullName)
+
+  const dataUser =  async () => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/users/237`)
+      setDataProfile(data.results)
+      // console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    dataUser()
+  }, [])
 
 
-  const [inputForm, setInputForm] = useState([
-    {
-      profile:true,
-      name:"full-name",
-      label:"Full Name",
-      type:"text",
-      placeholder:"Enter Your Full Name",
-      value: "Ghaluh Wizard"
-    },
-    {
-      profile:true,
-      name:"email",
-      label:"Email",
-      type:"email",
-      placeholder:"Enter Your Email",
-      value:"ghaluhwizz@gmail.com",
-    },
-    {
-      profile:true,
-      name:"phone",
-      label:"Phone",
-      type:"text",
-      placeholder:"Enter Your Phone Number",
-      value:"082116304338",
-    },
-    {
-      profile:true,
-      name:"password",
-      label:"Password",
-      type:"password",
-      placeholder:"Enter Your Password",
-      value:"1234567890",
-      passProfile:true,
-    },
-    {
-      profile:true,
-      name:"address",
-      label:"Address",
-      type:"text",
-      placeholder:"Enter Your Address",
-      value:"Griya Bandung Indah",
-    },
-  ])
+    const [inputForm, setInputForm] = useState([
+      {
+        profile:true,
+        name:"full-name",
+        label:"Full Name",
+        type:"text",
+        placeholder:"Enter Your Full Name",
+        value: "Ghaluh Wizard"
+      },
+      {
+        profile:true,
+        name:"email",
+        label:"Email",
+        type:"email",
+        placeholder:"Enter Your Email",
+        value:"ghaluhwizz@gmail.com",
+      },
+      {
+        profile:true,
+        name:"phone",
+        label:"Phone",
+        type:"text",
+        placeholder:"Enter Your Phone Number",
+        value:"082116304338",
+      },
+      {
+        profile:true,
+        name:"password",
+        label:"Password",
+        type:"password",
+        placeholder:"Enter Your Password",
+        value:"1234567890",
+        passProfile:true,
+      },
+      {
+        profile:true,
+        name:"address",
+        label:"Address",
+        type:"text",
+        placeholder:"Enter Your Address",
+        value:"Griya Bandung Indah",
+      },
+    ])
+  // get data user static end
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">

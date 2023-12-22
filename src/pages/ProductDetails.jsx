@@ -6,47 +6,38 @@ import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
 import Product1 from "../assets/media/home-product1.jpg";
-import Product2 from "../assets/media/home-product2.jpg";
-import Product3 from "../assets/media/home-product3.jpg";
+import { useParams } from "react-router-dom";
 
 const ProductDetails = () => {
-  const [products, setProducts] = useState([
-    {
-      productName:"Affogato",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"5",
-      basePrice:"20.000",
-      discountPrice:"10.000",
-      image: Product1
-    },
-    {
-      productName:"Latte",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"4",
-      basePrice:"25.000",
-      discountPrice:"15.000",
-      image: Product2
-    },
-    {
-      productName:"French Fries",
-      description:"You can explore the menu that we provide with fun and have their own taste and make your day better.",
-      rating:"4",
-      basePrice:"30.000",
-      discountPrice:"25.000",
-      image: Product3
-    }
-  ])
+  // details product start
+  const {id} = useParams()
+  const [data, setData] = useState()
 
+  const dataDetails = async () => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/products/${id}`)
+      setData(data.results)
+      console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // details product end
+
+
+  // recommendation products start
   const [dataProducts, setDataProducts] = useState()
   const [totalPage, setTotalPage] = useState()
-  const listAllProducts = async () => {
+  const [nextPage, setNextPage] = useState()
+  const [disable, setDisable] = useState(false)
+
+  const recommendProducts = async () => {
     try {
       const {data} = await axios.get("http://localhost:8888/products?limit=3")
       console.log(data)
-      console.log(data.results)
-      console.log(data.pageInfo.totalPage)
-      setTotalPage(data.pageInfo.totalPage)
       setDataProducts(data.results)
+      setTotalPage(data.pageInfo.totalPage)
+      setNextPage(data.pageInfo.nextPage)
     } catch (error) {
       console.log(error)
     }
@@ -55,17 +46,43 @@ const ProductDetails = () => {
   const pageNavigator = async (page) => {
     try {
       const {data} = await axios.get(`http://localhost:8888/products?limit=3&page=${page}`)
-      setDataProducts(data.results)
-      setTotalPage(data.pageInfo.totalPage)
+      console.log(data)
+        setDataProducts(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        if(data.pageInfo.nextPage === null){
+          setDisable(true)
+        }else{
+          setDisable(false)
+        }
     } catch (error) {
       console.log(error)
     }
   }
 
+  const nextPageNavigator = async () => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/products?limit=3&page=${nextPage}`)
+      console.log(data)
+      setDataProducts(data.results)
+      setNextPage(data.pageInfo.nextPage)
+      if(data.pageInfo.nextPage === null){
+        setDisable(true)
+      }else{
+        setDisable(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // recommendation products end
+
+
   useEffect(() => {
-      listAllProducts()
+    recommendProducts()
+    dataDetails()
       console.log(dataProducts)
   }, [])
+
   return (
     <body className="flex flex-col items-center gap-8">
       <Navbar />
@@ -81,15 +98,16 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        <Details
-          productName="Hazelnut Latte"
-          rating="5"
-          review="200"
-          description="
-        Cold brewing is a method of brewing that combines ground coffee and
-        cool water and uses time instead of heat to extract the flavor. It
-        is brewed in small batches and steeped for as long as 48 hours."
-        />
+        {data && (
+          <Details
+            productName={data.name}
+            rating="4"
+            review="200"
+            description={data.description}
+            basePrice={data.basePrice}
+            discountPrice={data.basePrice - data.discount}
+          />
+        )}
       </section>
 
       <div className="h-fit sm:h-screen flex flex-col justify-center items-center w-5/6 gap-4 mb-8 sm:mb-0">
@@ -98,35 +116,37 @@ const ProductDetails = () => {
         </h1>
 
         <div className="flex justify-center gap-4 sm:gap-12 mb-44 w-md sm:w-fit flex-wrap gap-y-48">
-        { dataProducts &&
-            dataProducts.map((product) => (
-              <CardProduct
-              key={product.id}
-              productName={product.name}
-              description={product.description}
-              rating='5'
-              basePrice={product.basePrice}
-              discountPrice={product.basePrice - product.discount}
-              image={Product1}
-          />
-          ))
-        }
-        {/* {
-          products.map((product, index) => (
-            <CardProduct
-              key={index}
-              productName={product.productName}
-              description={product.description}
-              rating={product.rating}
-              basePrice={product.basePrice}
-              discountPrice={product.discountPrice}
-              image={product.image}
-            />
-          ))
-        } */}
+          {dataProducts &&
+            dataProducts.map((product) =>
+              product.discount == 0 ? (
+                <CardProduct
+                  key={product.id}
+                  productName={product.name}
+                  description={product.description}
+                  rating="4"
+                  price={product.basePrice}
+                  image={Product1}
+                />
+              ) : (
+                <CardProduct
+                  key={product.id}
+                  productName={product.name}
+                  description={product.description}
+                  rating="3"
+                  basePrice={product.basePrice}
+                  discountPrice={product.basePrice - product.discount}
+                  image={Product1}
+                />
+              )
+            )}
         </div>
 
-        <PageNavigation totalPage={totalPage} pageHandle={pageNavigator}/>
+        <PageNavigation
+          totalPage={totalPage}
+          pageHandle={pageNavigator}
+          nextPageHandle={nextPageNavigator}
+          handleDisable={disable}
+        />
       </div>
 
       <Footer />

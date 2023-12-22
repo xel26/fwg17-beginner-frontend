@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+
 import { FiArrowRight } from "react-icons/fi";
 
-const PageNavigation = ({totalPage, pageHandle}) => {
+const PageNavigation = ({totalPage, pageHandle, nextPageHandle, handleDisable}) => {
   const pages = []
   for(let i = 1; i <= totalPage; i++){
     pages.push(i)
@@ -18,9 +18,7 @@ const PageNavigation = ({totalPage, pageHandle}) => {
     pageHandle(event.target.innerText)
   }
 
-  // useEffect(() => {
-  //   page.length > 0 && page[0].classList.add("bg-[#FF8906]", "text-black")
-  // })
+
 
   return (
     <div className="flex justify-center gap-2 w-full">
@@ -32,8 +30,8 @@ const PageNavigation = ({totalPage, pageHandle}) => {
         ))
       }
 
-      <button className="flex justify-center items-center bg-[#FF8906] rounded-full h-6 w-6 sm:h-8 sm:w-8 active:scale-90 transition-all">
-        <FiArrowRight size={20} className="text-white sm:h-auto"/>
+      <button disabled={handleDisable} onClick={nextPageHandle} className={`${handleDisable ? 'bg-[#E8E8E8] text-[#A0A3BD]' : 'bg-[#FF8906] text-white active:scale-90 '}  flex justify-center items-center  rounded-full h-6 w-6 sm:h-8 sm:w-8 transition-all`}>
+        <FiArrowRight size={20} className="sm:h-auto"/>
       </button>
     </div>
   );
