@@ -301,7 +301,7 @@ const Home = () => {
                 key={product.id}
                 productName={product.name}
                 description={product.description}
-                rating="4"
+                rating={product.rating}
                 price={product.basePrice}
                 image={product.image}
               />

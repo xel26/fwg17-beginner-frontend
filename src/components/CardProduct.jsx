@@ -24,10 +24,10 @@ const CardProduct = ({id, productName, description, rating, basePrice, discountP
         {rating && <Rating rating={rating}/>}
         <Price basePrice={basePrice} discountPrice={discountPrice} price={price}/>
         <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
-          <Link to={`/products/${id}`} onClick={handleDetails ? handleDetails() : undefined}  className=" w-full sm:w-9/12 bg-[#FF8906] rounded-md text-xs sm:text-sm py-1 active:scale-95 transition-all flex justify-center">
+          <Link to={`/products/${id}`} onClick={handleDetails ? () => handleDetails(id) : undefined}  className=" w-full sm:w-9/12 bg-[#FF8906] rounded-md text-xs sm:text-sm py-1 active:scale-95 transition-all flex justify-center">
             Buy
           </Link>
-          <Link to={`/products/${id}`} onClick={handleDetails ? handleDetails() : undefined} className="w-full sm:flex-1 border border-[#FF8906] text-[#FF8906] p-[0.21rem] rounded-md flex justify-center items-center active:scale-95 transition-all">
+          <Link to={`/products/${id}`} onClick={handleDetails ? () => handleDetails(id) : undefined} className="w-full sm:flex-1 border border-[#FF8906] text-[#FF8906] p-[0.21rem] rounded-md flex justify-center items-center active:scale-95 transition-all">
             <FiShoppingCart color="#FF8906" className="h-4 sm:h-5" />
           </Link>
         </div>

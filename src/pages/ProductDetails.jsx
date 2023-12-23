@@ -8,15 +8,24 @@ import Details from "../components/Details";
 import { useParams } from "react-router-dom";
 
 const ProductDetails = () => {                                                        // note : transisi dari recommendation product masih kasar
+
   // details product start
   const {id} = useParams()
-  const [data, setData] = useState()
+  const [infoProduct, setInfoProduct] = useState()
 
-  const dataDetails = async () => {
+  const dataDetails = async (productId) => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+
     try {
-      const {data} = await axios.get(`http://localhost:8888/products/${id}`)
-      setData(data.results)
-      console.log(data)
+      const {data} = await axios.get(`http://localhost:8888/products/${productId ? productId : id}`)
+      setInfoProduct(data.results)
+      console.log(data.results)
+      console.log(data.results.image)
+      console.log(data && `http://localhost:8888/uploads/products/${data.results.image}`)
     } catch (error) {
       console.log(error)
     }
@@ -93,7 +102,8 @@ const ProductDetails = () => {                                                  
 
       <section className="h-fit sm:h-screen w-5/6 flex flex-col sm:flex-row items-center mt-20 sm:mt-8 gap-4 ">
         <div className="w-full sm:flex-1 flex flex-col items-center gap-2 sm:gap-4 h-96 sm:h-5/6">
-          <div className="bg-[url('../assets/media/detail-product1.jpg')] w-full h-72 sm:h-80 bg-center bg-cover"></div>
+          {/* <div className={`${infoProduct && `bg-[url('http://localhost:8888/uploads/products/${infoProduct.image}')]`} w-full h-72 sm:h-80 bg-center bg-cover`}></div> */}
+          <div className={`bg-[url('../assets/media/detail-product1.jpg')] w-full h-72 sm:h-80 bg-center bg-cover`}></div>
 
           <div className="flex-1 flex justify-between gap-4 w-full">
             <div className="flex-1 bg-[url('../assets/media/detail-product1.jpg')] bg-center bg-cover"></div>
@@ -102,15 +112,25 @@ const ProductDetails = () => {                                                  
           </div>
         </div>
 
-        {data && (
+        {infoProduct && infoProduct.discount == 0 ? (
           <Details
-            productName={data.name}
+            productName={infoProduct.name}
             rating="4"
             review="200"
-            description={data.description}
-            basePrice={data.basePrice}
-            discountPrice={data.basePrice - data.discount}
+            description={infoProduct.description}
+            price={infoProduct.basePrice}
           />
+        ) : (
+          infoProduct && (
+            <Details
+              productName={infoProduct.name}
+              rating="4"
+              review="200"
+              description={infoProduct.description}
+              basePrice={infoProduct.basePrice}
+              discountPrice={infoProduct.basePrice - infoProduct.discount}
+            />
+          )
         )}
       </section>
 
@@ -128,7 +148,7 @@ const ProductDetails = () => {                                                  
                   key={product.id}
                   productName={product.name}
                   description={product.description}
-                  rating="4"
+                  rating={product.rating}
                   price={product.basePrice}
                   image={product.image}
                   handleDetails={dataDetails}
@@ -139,7 +159,7 @@ const ProductDetails = () => {                                                  
                   key={product.id}
                   productName={product.name}
                   description={product.description}
-                  rating="3"
+                  rating={product.rating}
                   basePrice={product.basePrice}
                   discountPrice={product.basePrice - product.discount}
                   image={product.image}

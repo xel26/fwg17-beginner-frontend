@@ -484,7 +484,7 @@ const Products = () => {
                         id={product.id}
                         productName={product.name}
                         description={product.description}
-                        rating='4'
+                        rating={product.rating}
                         price={product.basePrice}
                         image={product.image}
                       /> ) :
@@ -493,7 +493,7 @@ const Products = () => {
                       id={product.id}
                       productName={product.name}
                       description={product.description}
-                      rating='3'
+                      rating={product.rating}
                       basePrice={product.basePrice}
                       discountPrice={product.basePrice - product.discount}
                       image={product.image}
