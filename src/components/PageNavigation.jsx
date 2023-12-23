@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { FiArrowRight } from "react-icons/fi";
 
 const PageNavigation = ({totalPage, pageHandle, nextPageHandle, handleDisable}) => {
@@ -8,7 +9,7 @@ const PageNavigation = ({totalPage, pageHandle, nextPageHandle, handleDisable}) 
   }
 
 
-  const page = document.querySelectorAll('.page')
+  const page = document.querySelectorAll('.page')                           // note : belum menggunakan useRef
   const handleClick = (event) => {
     page.forEach(item => {
       item.classList.remove("bg-[#FF8906]", "text-black")
@@ -17,6 +18,12 @@ const PageNavigation = ({totalPage, pageHandle, nextPageHandle, handleDisable}) 
     event.target.classList.add("bg-[#FF8906]", "text-black")
     pageHandle(event.target.innerText)
   }
+
+  
+
+  // useEffect(() => {
+  //   page && page[0].classList.add("bg-[#FF8906]", "text-black")
+  // },[page[0]])
 
 
 

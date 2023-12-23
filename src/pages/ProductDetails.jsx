@@ -5,10 +5,9 @@ import Navbar from "../components/Navbar";
 import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
-import Product1 from "../assets/media/home-product1.jpg";
 import { useParams } from "react-router-dom";
 
-const ProductDetails = () => {
+const ProductDetails = () => {                                                        // note : transisi dari recommendation product masih kasar
   // details product start
   const {id} = useParams()
   const [data, setData] = useState()
@@ -78,9 +77,14 @@ const ProductDetails = () => {
 
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+
     recommendProducts()
     dataDetails()
-      console.log(dataProducts)
   }, [])
 
   return (
@@ -120,22 +124,26 @@ const ProductDetails = () => {
             dataProducts.map((product) =>
               product.discount == 0 ? (
                 <CardProduct
+                  id={product.id}
                   key={product.id}
                   productName={product.name}
                   description={product.description}
                   rating="4"
                   price={product.basePrice}
-                  image={Product1}
+                  image={product.image}
+                  handleDetails={dataDetails}
                 />
               ) : (
                 <CardProduct
+                  id={product.id}
                   key={product.id}
                   productName={product.name}
                   description={product.description}
                   rating="3"
                   basePrice={product.basePrice}
                   discountPrice={product.basePrice - product.discount}
-                  image={Product1}
+                  image={product.image}
+                  handleDetails={dataDetails}
                 />
               )
             )}

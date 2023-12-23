@@ -1,16 +1,14 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FiMessageCircle, FiSend, FiCheckCircle } from "react-icons/fi";
+
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Map from "../assets/media/home-map.png";
 import MapMobile from "../assets/media/map-mobile.png";
-import { FiMessageCircle, FiSend, FiCheckCircle } from "react-icons/fi";
 import Testimonial from "../components/Testimonial";
 import CardProduct from "../components/CardProduct";
-import { useState, useEffect } from "react";
-import Product1 from '../assets/media/detail-product1.jpg'
-import Product2 from '../assets/media/detail-product2.jpg'
-import Product3 from '../assets/media/detail-product3.jpg'
-import Product4 from '../assets/media/home-product1.jpg'
 
 const Data = ({ value, text }) => {
   return (
@@ -26,6 +24,8 @@ const Data = ({ value, text }) => {
   );
 };
 
+
+
 const ListProvide = ({ text }) => {
   return (
     <div className="flex gap-4">
@@ -37,35 +37,10 @@ const ListProvide = ({ text }) => {
   );
 };
 
+
+
 const Home = () => {
   const [chatBox, setChatBox] = useState(false);
-
-  const [products, setProducts] = useState([
-    {
-      productName:'Hazelnut Latte',
-      description:"You can explore the menu that we provide with fun and have theirown taste and make your day better.",
-      price:"20.000",
-      image:Product1
-    },
-    {
-      productName:'Cappucino',
-      description:"You can explore the menu that we provide with fun and have theirown taste and make your day better.",
-      price:"25.000",
-      image:Product2
-    },
-    {
-      productName:'Mochacino',
-      description:"You can explore the menu that we provide with fun and have theirown taste and make your day better.",
-      price:"15.000",
-      image:Product3
-    },
-    {
-      productName:'Affogato',
-      description:"You can explore the menu that we provide with fun and have theirown taste and make your day better.",
-      price:"30.000",
-      image:Product4
-    }
-  ])
 
   const [listProvide, setListProvide] = useState([
     {
@@ -93,31 +68,45 @@ const Home = () => {
 
   const [display, setDisplay] = useState(false)
   const [show, setShow] = useState(false)
-  const [staff, setStaff] = useState(0)
 
-  window.addEventListener('load', () => {
-    setDisplay(true)
-
-      // const dataStaff = setInterval(() => {
-      //   if(staff >= 90){
-      //     setStaff(90)
-      //     return clearInterval(dataStaff)
-      //   }else{
-      //     return setStaff(staff => staff + 1)
-      //   }
-      // }, 100);
-
-  })
-
-  window.addEventListener('scroll', () => {
+  window.addEventListener('scroll', () => {                               // note: belum revisi dan belum menggunakan useEffect dan useRef.
     let top = window.scrollY               
-    let offsetTop = section.offsetTop - 100
-    let offsetHeight = section.offsetHeight
+    let offsetTop = provideSection.offsetTop - 100
+    let offsetHeight = provideSection.offsetHeight
 
     if(top >= offsetTop && top < offsetTop + offsetHeight){
       setShow(true)
     }
   })
+
+
+  // recommendation products start
+  const [dataProducts, setDataProducts] = useState()
+
+  const favoriteProducts= async () => {
+    try {
+      const {data} = await axios.get("http://localhost:8888/products?limit=4")
+      console.log(data)
+      setDataProducts(data.results)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // recommendation products end
+
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+
+    setDisplay(true)
+
+    favoriteProducts();
+  }, []);
+
 
   return (
     <div className="font relative flex flex-col items-center">
@@ -194,31 +183,35 @@ const Home = () => {
       <section className="flex flex-col-reverse sm:flex-row h-[64rem] sm:h-screen w-full">
         <div className="flex h-fit py-16 sm:py-0 sm:h-screen sm:flex-1 justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909]">
           <div className="flex flex-col gap-6 max-w-md h-fit px-4 sm:px-0">
-            <h1
-              id="header"
-              className={`text-2xl sm:text-5xl text-white font-medium transition-all duration-1000 ${display ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}
-            >
+            <h1 className={`text-2xl sm:text-5xl text-white font-medium transition-all duration-1000 
+            ${display ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "}`}>
               Start Your Day with <br /> Coffee and Good <br /> Meals
             </h1>
             <p
               id="description"
-              className={`text-white text-xs sm:text-sm w-11/12 transition-all duration-1000 delay-500 ${display ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}
+              className={`text-white text-xs sm:text-sm w-11/12 transition-all duration-1000 delay-500 ${
+                display ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "
+              }`}
             >
               We provide high quality beans, good taste, and healthy meals made
               by love just for you. Start your day with us for a bigger smile!
             </p>
-            
+
             <Link
               to="/products"
               className="relative w-fit bg-[#ff8906] py-2 px-3 rounded-md text-xs sm:text-sm font-semibold active:scale-95 transition-all overflow-hidden"
             >
-             Get Started
-            <span className={`absolute top-0 right-0 h-full bg-[#ff8906] transition-all duration-1000 delay-1000 ${display ? 'w-0' : ' w-full'}`}></span>
+              Get Started
+              <span
+                className={`absolute top-0 right-0 h-full bg-[#ff8906] transition-all duration-1000 delay-1000 ${
+                  display ? "w-0" : " w-full"
+                }`}
+              ></span>
             </Link>
             <div className="flex divide-x-2">
               <div className="flex-1 flex">
                 <div className="flex flex-col sm:gap-2  w-5/6">
-                  <Data value='90' text="Staff" />
+                  <Data value="90" text="Staff" />
                 </div>
               </div>
 
@@ -241,12 +234,16 @@ const Home = () => {
       </section>
 
       <section
-        id="section"
+        id="provideSection"
         className="flex flex-col-reverse sm:flex-row w-full h-[64rem] sm:h-screen"
       >
         <div className="h-fit py-16 sm:py-0 sm:h-screen sm:flex-1  flex items-center">
           <div className="flex flex-col ml-8 sm:ml-28 gap-4 h-fit max-w-lg">
-            <div id="provide-header" className={`flex items-center gap-4 transition-all duration-1000 ${show ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}>
+            <div
+              className={`flex items-center gap-4 transition-all duration-1000 ${
+                show ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "
+              }`}
+            >
               <hr className="border-[#ff8906] border-2 sm:border-4 h-14" />
               <h1 className="text-2xl sm:text-5xl font-medium">
                 We Provide{" "}
@@ -257,20 +254,24 @@ const Home = () => {
                 <span className="text-[#8E6447]">Healthy Meals</span>
               </h1>
             </div>
-            <p id="provide-description" className={`text-sm text-[#4F5665] transition-all duration-1000 delay-500 ${show ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}>
+            <p
+              id="provide-description"
+              className={`text-sm text-[#4F5665] transition-all duration-1000 delay-500 ${
+                show ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "
+              }`}
+            >
               You can explore the menu that we provide with fun and have their
               own <br /> taste and make your day better.
             </p>
-            <div id="list-provide" className={`flex flex-col gap-4 transition-all duration-1000 delay-1000 ${show ? 'ml-0 opacity-100 ' : '-ml-12 opacity-0 '}`}>
-              {
-                listProvide.map((item, index) => (
-                  <ListProvide
-                  key={index}
-                  text={item.text}
-                  />
-
-                ))
-              }
+            <div
+              id="list-provide"
+              className={`flex flex-col gap-4 transition-all duration-1000 delay-1000 ${
+                show ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "
+              }`}
+            >
+              {listProvide.map((item, index) => (
+                <ListProvide key={index} text={item.text} />
+              ))}
             </div>
           </div>
         </div>
@@ -280,7 +281,9 @@ const Home = () => {
 
       <section className="h-fit sm:h-screen flex flex-col items-center sm:pt-10 w-full sm:w-5/6 gap-6 sm:gap-12">
         <div className="flex flex-col items-center gap-2 sm:gap-4">
-          <h1 className={`relative text-2xl text-center sm:text-5xl font-medium sm:mb-2 px-4`}>
+          <h1
+            className={`relative text-2xl text-center sm:text-5xl font-medium sm:mb-2 px-4`}
+          >
             Here is People's <span className="text-[#8E6447]">Favorite</span>
           </h1>
           <hr className="border-[#ff8906] border-2 sm:border-4 w-16" />
@@ -291,17 +294,18 @@ const Home = () => {
         </div>
 
         <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
-          {
-            products.map((product, index) => (
+          {dataProducts &&
+            dataProducts.map((product) => (
               <CardProduct
-              key={index}
-              productName={product.productName}
-              description={product.description}
-              price={product.price}
-              image={product.image}
-            />
-            ))
-          }
+                id={product.id}
+                key={product.id}
+                productName={product.name}
+                description={product.description}
+                rating="4"
+                price={product.basePrice}
+                image={product.image}
+              />
+            ))}
         </div>
       </section>
 
@@ -325,16 +329,14 @@ const Home = () => {
       </section>
 
       <section className="flex justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909] w-full h-fit py-6 sm:h-fit sm:py-12">
-        {
-          testimonial.map((data, index) => (
-            <Testimonial
+        {testimonial.map((data, index) => (
+          <Testimonial
             customerName={data.customerName}
             role={data.role}
             message={data.message}
             rating={data.rating}
           />
-          ))
-        }
+        ))}
       </section>
 
       <Footer />

@@ -7,14 +7,8 @@ import CardProduct from "../components/CardProduct";
 import { FiList, FiSearch } from "react-icons/fi";
 import GreenKuponStiker from "../assets/media/stiker-kupon-hijau.png";
 import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
-import Product1 from '../assets/media/detail-product1.jpg'
-import Product2 from '../assets/media/detail-product2.jpg'
-import Product3 from '../assets/media/detail-product3.jpg'
-import Product4 from '../assets/media/home-product1.jpg'
-import Product5 from '../assets/media/home-product2.jpg'
-import Product6 from '../assets/media/home-product3.jpg'
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useState, useEffect } from "react";
 
 
 // filter start
@@ -199,7 +193,8 @@ const Kupon = ({ title, description, klaim, bg }) => {
 
 
 const Products = () => {
-  
+  const [display, setDisplay] =useState(false)
+
   const [kupon, setKupon] = useState([
     {
       klaim:true,
@@ -245,7 +240,6 @@ const Products = () => {
   const [errorMessage, setErrorMessage] = useState()
   const [error, setError] = useState(false)
   const [disable, setDisable] = useState(false)
-  const [mobile, setMobile] = useState(true)
 
   const listAllProducts = async () => {
     try {
@@ -260,9 +254,14 @@ const Products = () => {
   }
 
 
-  const filterProduct = async (event, mobile) => {
+  const searchProduct = async (event, mobile) => {
     event.preventDefault()
 
+    window.scrollTo({
+      top: 500,
+      left: 0,
+      behavior: "smooth",
+    });
      
     const { value: searchKey } = !mobile ? event.target.searchKey : null
     const category = Array.from(event.target.category)
@@ -284,7 +283,6 @@ const Products = () => {
         form.append("sortBy", checkBox.value)
       }
     })
-    console.log(form.toString())
 
     const queryParams = form.toString()
 
@@ -304,6 +302,12 @@ const Products = () => {
   }
 
   const pageNavigator = async (page) => {
+    window.scrollTo({
+      top: 500,
+      left: 0,
+      behavior: "smooth",
+    });
+
     try {
       if(queryParameter){
         const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${page}`)
@@ -333,6 +337,12 @@ const Products = () => {
 
 
   const nextPageNavigator = async () => {
+    window.scrollTo({                           // note: bug saat ke halaman terakhir
+      top: 500,
+      left: 0,
+      behavior: "smooth",
+    });
+    
     try {
       if(queryParameter){
         const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${nextPage}`)
@@ -362,14 +372,22 @@ const Products = () => {
 
 
   useEffect(() => {
-      listAllProducts()
-  }, [])
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+
+    setDisplay(true)
+
+    listAllProducts();
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
       <Navbar bg="#0B090921" />
       <header className="hidden sm:flex items-center bg-[url('../assets/media/header-product-page.jpg')] bg-center w-full h-72 mt-12">
-        <h1 className="text-white text-5xl ml-28">
+        <h1 className={`text-white text-5xl ml-28 transition-all duration-1000 ${display ? "ml-0 opacity-100 " : "-ml-32 opacity-0 "}`}>
           We Provide Good Coffee and Healthy <br />
           Meals
         </h1>
@@ -381,7 +399,7 @@ const Products = () => {
             htmlFor="find-product"
             className="w-11/12 flex gap-2 border border-[#DEDEDE] rounded-md p-2"
           >
-            <form onSubmit={filterProduct}
+            <form onSubmit={searchProduct}
               className="flex gap-2 items-center  w-full"
               id="search-by-name"
             >
@@ -448,7 +466,7 @@ const Products = () => {
 
         <div className="w-full px-2 sm:px-0 sm:w-5/6 flex justify-center gap-4">
           <aside className="hidden sm:block w-1/4 bg-black rounded-xl h-fit p-4 text-white">
-            <Filter handleFilter={filterProduct}/>
+            <Filter handleFilter={searchProduct}/>
           </aside>
 
           <main className="flex flex-col items-end sm:flex-1">
@@ -463,20 +481,22 @@ const Products = () => {
                       product.discount == 0 ? 
                         (<CardProduct
                         key={product.id}
+                        id={product.id}
                         productName={product.name}
                         description={product.description}
                         rating='4'
                         price={product.basePrice}
-                        image={Product1}
+                        image={product.image}
                       /> ) :
                       (<CardProduct
                       key={product.id}
+                      id={product.id}
                       productName={product.name}
                       description={product.description}
                       rating='3'
                       basePrice={product.basePrice}
                       discountPrice={product.basePrice - product.discount}
-                      image={Product1}
+                      image={product.image}
                       />)
                   ))
                 }

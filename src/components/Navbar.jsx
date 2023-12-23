@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import CupCoffee from "../assets/media/cup-coffee-icon-white.png";
 import TextLogo from "../assets/media/text-logo-white.png";
 import { FiShoppingCart, FiMenu, FiSearch, FiUser } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const LinkNav = ({mobile, destination, value}) => {
+const LinkNav = ({mobile, destination, value, handlective}) => {
   return (
       <Link
       to={destination}
-      className={`focus:border-b-2 focus:border-[#ff8906] text-white ${!mobile ? 'hidden sm:block' : ''}`}
+      className={` text-white ${!mobile ? 'hidden sm:block' : ''} ${handlective ? 'border-b-2 border-[#ff8906]' : ''}`}
     >
       {value}
     </Link>
@@ -19,6 +19,20 @@ const Navbar = ({ unAuthenticated }) => {
 
   const [navMobile, setNavMobile] = useState(false)
   const [navSearch, setNavSearch] = useState(false)
+  const [homeActive, setHomeActive] = useState(false)
+  const [productActive, setProductActive] = useState(false)
+
+
+
+  useEffect(() => {
+    if(document.URL.endsWith('home')){
+      setHomeActive(true)
+      setProductActive(false)
+    }else if(document.URL.endsWith('products')){
+      setHomeActive(false)
+      setProductActive(true)                                      // note: product belum active saat di klik
+    }
+  })
 
   return (
     <nav
@@ -37,14 +51,13 @@ const Navbar = ({ unAuthenticated }) => {
             </div>
           </div>
           <div className="flex gap-12">
-            <LinkNav destination="/home" value="Home" />
-            <LinkNav destination="/products" value="Product" />
+            <LinkNav destination="/home" value="Home" handlective={homeActive}/>
+            <LinkNav destination="/products" value="Product" handleActive={productActive}/>
           </div>
         </div>
 
         <div className="relative flex items-center gap-5 sm:w-[32rem] justify-end">
           <form
-            id="nav-search"
             className={`${!navSearch ? 'hidden' : 'flex'} absolute items-center ${unAuthenticated ? 'left-12' : 'left-[11.5rem]'} border border-white rounded w-60 py-1 px-1.5 transition-all`}
           >
             <input
