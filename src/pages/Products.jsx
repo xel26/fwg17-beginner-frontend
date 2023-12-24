@@ -293,6 +293,11 @@ const Products = () => {
       setNextPage(data.pageInfo.nextPage)
       setDataProducts(data.results)
       setQueryParameter(queryParams)
+      if(data.pageInfo.nextPage === null){
+        setDisable(true)
+      }else{
+        setDisable(false)
+      }
     } catch (error) {
       console.log(error.response.data.message)
       setErrorMessage(error.response.data.message)
@@ -387,7 +392,7 @@ const Products = () => {
     <div className="flex flex-col items-center gap-6 sm:gap-12">
       <Navbar bg="#0B090921" />
       <header className="hidden sm:flex items-center bg-[url('../assets/media/header-product-page.jpg')] bg-center w-full h-72 mt-12">
-        <h1 className={`text-white text-5xl ml-28 transition-all duration-1000 ${display ? "ml-0 opacity-100 " : "-ml-32 opacity-0 "}`}>
+        <h1 className={`text-white text-5xl transition-all duration-1000 ${display ? "ml-28 opacity-100 " : "-ml-32 opacity-0 "}`}>
           We Provide Good Coffee and Healthy <br />
           Meals
         </h1>
@@ -487,6 +492,7 @@ const Products = () => {
                         rating={product.rating}
                         price={product.basePrice}
                         image={product.image}
+                        tag={product.tag}
                       /> ) :
                       (<CardProduct
                       key={product.id}
@@ -497,6 +503,7 @@ const Products = () => {
                       basePrice={product.basePrice}
                       discountPrice={product.basePrice - product.discount}
                       image={product.image}
+                      tag={product.tag}
                       />)
                   ))
                 }

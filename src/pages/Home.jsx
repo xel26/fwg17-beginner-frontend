@@ -119,12 +119,7 @@ const Home = () => {
         <FiMessageCircle size={25} />
       </button>
 
-      <div
-        id="chat-box"
-        className={`${
-          !chatBox ? "hidden" : "flex"
-        } fixed w-60 h-80 sm:w-72 sm:h-96 rounded-xl sm:rounded-2xl flex-col bg-white top-24 sm:right-24 z-50`}
-      >
+      <div className={`${!chatBox ? "hidden" : "flex"} fixed w-60 h-80 sm:w-72 sm:h-96 rounded-xl sm:rounded-2xl flex-col bg-white top-24 sm:right-24 z-50`}>
         <div className="flex border-t-[0.8rem] sm:border-t-[1rem] border-[#FF8906] rounded-tr-xl rounded-tl-xl sm:rounded-tr-2xl sm:rounded-tl-2xl pl-4 gap-4 py-2">
           <div>
             <img
@@ -183,8 +178,10 @@ const Home = () => {
       <section className="flex flex-col-reverse sm:flex-row h-[64rem] sm:h-screen w-full">
         <div className="flex h-fit py-16 sm:py-0 sm:h-screen sm:flex-1 justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909]">
           <div className="flex flex-col gap-6 max-w-md h-fit px-4 sm:px-0">
-            <h1 className={`text-2xl sm:text-5xl text-white font-medium transition-all duration-1000 
-            ${display ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "}`}>
+            <h1
+              className={`text-2xl sm:text-5xl text-white font-medium transition-all duration-1000 
+            ${display ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "}`}
+            >
               Start Your Day with <br /> Coffee and Good <br /> Meals
             </h1>
             <p
@@ -304,6 +301,7 @@ const Home = () => {
                 rating={product.rating}
                 price={product.basePrice}
                 image={product.image}
+                tag={product.tag}
               />
             ))}
         </div>

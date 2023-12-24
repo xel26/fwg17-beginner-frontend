@@ -152,6 +152,7 @@ const ProductDetails = () => {                                                  
                   price={product.basePrice}
                   image={product.image}
                   handleDetails={dataDetails}
+                  tag={product.tag}
                 />
               ) : (
                 <CardProduct
@@ -164,6 +165,7 @@ const ProductDetails = () => {                                                  
                   discountPrice={product.basePrice - product.discount}
                   image={product.image}
                   handleDetails={dataDetails}
+                  tag={product.tag}
                 />
               )
             )}

@@ -5,15 +5,18 @@ import { Link } from "react-router-dom";
 import Price from "./Price"
 import Product1 from '../assets/media/detail-product1.jpg'
 
-const CardProduct = ({id, productName, description, rating, basePrice, discountPrice, price, image, handleDetails }) => {
+const CardProduct = ({id, productName, description, rating, basePrice, discountPrice, price, image, handleDetails, tag }) => {
   return (
     <div className="relative flex justify-center w-fit h-fit">
       <div>
         <img className="w-44 h-44 sm:w-56 sm:h-56 object-cover" src={image ? `http://localhost:8888/uploads/products/${image}` : Product1}/>
       </div>
+      {
+        tag &&
       <div className="absolute left-2 top-2">
-        <Tag text="FLASHSALE!"/>
+        <Tag text={tag}/>
       </div>
+      }
       <div className="absolute w-11/12 bg-white top-[85%] p-1.5 sm:p-2 flex flex-col gap-2">
         <h1 className="font-semibold text-sm sm:text-base" id="product-name">
           {productName}
