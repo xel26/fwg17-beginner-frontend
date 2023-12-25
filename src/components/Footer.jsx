@@ -60,9 +60,9 @@ const Footer = () => {
             <div className="flex flex-col gap-4 text-sm sm:text-base">
               <p className="font-semibold">Social Media</p>
               <div className="flex gap-4">
-                <Link to="#"><img src={Facebook} /></Link>
-                <Link to="#"><img src={Twitter} /></Link>
-                <Link to="#"><img src={Instagram} /></Link>
+                <Link to="#" className="active:scale-90 transition-all duration-300"><img src={Facebook} /></Link>
+                <Link to="#" className="active:scale-90 transition-all duration-300"><img src={Twitter} /></Link>
+                <Link to="#" className="active:scale-90 transition-all duration-300"><img src={Instagram} /></Link>
               </div>
             </div>
           </div>

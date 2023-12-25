@@ -28,7 +28,7 @@ const Navbar = ({ unAuthenticated }) => {
     if(document.URL.endsWith('home')){
       setHomeActive(true)
       setProductActive(false)
-    }else if(document.URL.endsWith('products')){
+    }else{
       setHomeActive(false)
       setProductActive(true)                                      // note: product belum active saat di klik
     }

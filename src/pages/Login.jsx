@@ -45,10 +45,10 @@ const Login = () => {
         ></div>
     
         <div className="relative flex flex-1 items-center justify-center">
-          <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-green-400 rounded text-sm flex justify-center items-center font-bold ${success? 'block' : 'hidden'}`}>
+          <div className={`fixed top-10 py-2 px-4 bg-white shadow-md text-green-400 rounded text-sm flex justify-center items-center font-bold ${success? 'block' : 'hidden'}`}>
             <h1>{successMessage}</h1>
           </div>
-          <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error? 'block' : 'hidden'}`}>
+          <div className={`fixed top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error? 'block' : 'hidden'}`}>
             <h1>{errorMessage}</h1>
           </div>
           <FormAuth handleAuth={authLogin} type="Login"/>

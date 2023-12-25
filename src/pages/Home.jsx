@@ -68,11 +68,11 @@ const Home = () => {
 
   const [display, setDisplay] = useState(false)
   const [show, setShow] = useState(false)
-
   window.addEventListener('scroll', () => {                               // note: belum revisi dan belum menggunakan useEffect dan useRef.
-    let top = window.scrollY               
-    let offsetTop = provideSection.offsetTop - 100
-    let offsetHeight = provideSection.offsetHeight
+    const provideSection = document.querySelector('#provideSection')
+    const top = window.scrollY               
+    const offsetTop = provideSection.offsetTop - 500
+    const offsetHeight = provideSection.offsetHeight
 
     if(top >= offsetTop && top < offsetTop + offsetHeight){
       setShow(true)
@@ -95,6 +95,78 @@ const Home = () => {
   // recommendation products end
 
 
+
+  // testimonial start
+  const [dataTesti, setDataTesti] = useState()
+  const [prevPage, setPrevPage] = useState()
+  const [nextPage, setNextPage] = useState()
+  const [prevDisable, setPrevDisable] = useState(false)
+  const [nextDisable, setNextDisable] = useState(false)
+
+  
+  const testi = async () => {
+    try {
+      const {data} = await axios.get("http://localhost:8888/testimonial")
+      console.log(data)
+      setDataTesti(data.results)
+      setPrevPage(data.pageInfo.prevPage)
+      setNextPage(data.pageInfo.nextPage)
+      if(data.pageInfo.prevPage == null){
+        setPrevDisable(true)
+      }else if(data.pageInfo.nextPage == null){
+        setNextDisable(true)
+      }else{
+        setPrevDisable(false)
+        setNextDisable(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const next = async () => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/testimonial?page=${nextPage}`)
+      console.log(data)
+      setDataTesti(data.results)
+      setPrevPage(data.pageInfo.prevPage)
+      setNextPage(data.pageInfo.nextPage)
+      if(data.pageInfo.prevPage == null){
+        setPrevDisable(true)
+      }else if(data.pageInfo.nextPage == null){
+        setNextDisable(true)
+      }else{
+        setPrevDisable(false)
+        setNextDisable(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const prev = async () => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/testimonial?page=${prevPage}`)
+      console.log(data)
+      setDataTesti(data.results)
+      setPrevPage(data.pageInfo.prevPage)
+      setNextPage(data.pageInfo.nextPage)
+      if(data.pageInfo.prevPage == null){
+        setPrevDisable(true)
+      }else if(data.pageInfo.nextPage == null){
+        setNextDisable(true)
+      }else{
+        setPrevDisable(false)
+        setNextDisable(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  // testimonial end
+
+
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -102,9 +174,13 @@ const Home = () => {
       behavior: "smooth",
     });
 
-    setDisplay(true)
+    setDisplay(true);
 
     favoriteProducts();
+
+    testi();
+    {dataTesti && console.log(dataTesti)}
+    
   }, []);
 
 
@@ -119,7 +195,11 @@ const Home = () => {
         <FiMessageCircle size={25} />
       </button>
 
-      <div className={`${!chatBox ? "hidden" : "flex"} fixed w-60 h-80 sm:w-72 sm:h-96 rounded-xl sm:rounded-2xl flex-col bg-white top-24 sm:right-24 z-50`}>
+      <div
+        className={`${
+          !chatBox ? "hidden" : "flex"
+        } fixed w-60 h-80 sm:w-72 sm:h-96 rounded-xl sm:rounded-2xl flex-col bg-white top-24 sm:right-24 z-50`}
+      >
         <div className="flex border-t-[0.8rem] sm:border-t-[1rem] border-[#FF8906] rounded-tr-xl rounded-tl-xl sm:rounded-tr-2xl sm:rounded-tl-2xl pl-4 gap-4 py-2">
           <div>
             <img
@@ -327,14 +407,26 @@ const Home = () => {
       </section>
 
       <section className="flex justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909] w-full h-fit py-6 sm:h-fit sm:py-12">
-        {testimonial.map((data, index) => (
+        {dataTesti && (
+          <Testimonial
+            fullName={dataTesti.fullName}
+            role={dataTesti.role}
+            feedback={dataTesti.feedback}
+            rate={dataTesti.rate}
+            handleNextPage={next}
+            handlePrevPage={prev}
+            nextDisable={nextDisable}
+            prevDisable={prevDisable}
+          />
+        )}
+        {/* {testimonial.map((data, index) => (
           <Testimonial
             customerName={data.customerName}
             role={data.role}
             message={data.message}
             rating={data.rating}
           />
-        ))}
+        ))} */}
       </section>
 
       <Footer />
