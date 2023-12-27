@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import { FiUser, FiMail, FiMapPin, FiLock, FiPhoneCall, FiEye, FiEyeOff } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-const InputForm = ({ name, label, type, placeholder, value, passProfile, profile }) => {
+const InputForm = forwardRef(({ name, label, type, placeholder, value, passProfile, profile }, ref) => {
   const [show, setShow] = useState(false)
   const [inputValue, setInputValue] = useState(value)
+
+  const reset = () => {
+    setInputValue('')
+  }
+
+  useImperativeHandle(ref, () => ({reset}))
 
   const passReveal = () => {
     setShow(!show)
@@ -70,6 +76,6 @@ const InputForm = ({ name, label, type, placeholder, value, passProfile, profile
       </div>
     </label>
   );
-};
+})
 
 export default InputForm;

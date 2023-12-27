@@ -179,7 +179,6 @@ const Home = () => {
     favoriteProducts();
 
     testi();
-    {dataTesti && console.log(dataTesti)}
     
   }, []);
 
@@ -409,10 +408,10 @@ const Home = () => {
       <section className="flex justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909] w-full h-fit py-6 sm:h-fit sm:py-12">
         {dataTesti && (
           <Testimonial
-            fullName={dataTesti.fullName}
-            role={dataTesti.role}
-            feedback={dataTesti.feedback}
-            rate={dataTesti.rate}
+            fullName={dataTesti[0].fullName}
+            role={dataTesti[0].role}
+            feedback={dataTesti[0].feedback}
+            rate={dataTesti[0].rate}
             handleNextPage={next}
             handlePrevPage={prev}
             nextDisable={nextDisable}

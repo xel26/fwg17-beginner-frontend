@@ -2,7 +2,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import InputForm from "../components/InputForm";
 import Button from "../components/Button"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 const Profile = () => {
@@ -72,9 +72,14 @@ const Profile = () => {
 
 
   // update profile static start
+    const inputPassword = useRef()
+  
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState()
+   useEffect(() => {
+    console.log(dataProfile)
+   }, [dataProfile])
 
     const updateProfile = async (event) => {
       event.preventDefault();
@@ -103,17 +108,27 @@ const Profile = () => {
         form.append("address", address);
       }
 
-      if(dataProfile && dataProfile.password !== event.target.password.value){
+      if(dataProfile && event.target.password.value && dataProfile.password !== event.target.password.value){
         form.append("password", password);
       }
 
       try {
         const {data} = await axios.patch('http://localhost:8888/users/237', form.toString())
-        setDataProfile(data.results)
-        setSuccess(true)
-        setTimeout(() => {
-          setSuccess(false)
-        }, 2000);
+        console.log(data)
+        if(data.results){
+          setDataProfile(data.results)
+          setSuccess(true)
+          setTimeout(() => {
+            setSuccess(false)
+          }, 2000);
+          inputPassword.current.reset()
+        }else{
+          setErrorMessage(data.message)
+          setError(true)
+          setTimeout(() => {
+            setError(false)
+          }, 2000);
+        }
       } catch (error) {
         console.log(error)
         setErrorMessage(error.response.data.message)
@@ -197,7 +212,8 @@ const Profile = () => {
                   label="Password"
                   type="password"
                   placeholder="Enter Your Password"
-                  value={dataProfile.password}
+                  ref={inputPassword}
+                  // value={dataProfile.password}
                   passProfile={true}
                 />
                 <InputForm

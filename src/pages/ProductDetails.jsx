@@ -24,8 +24,6 @@ const ProductDetails = () => {                                                  
       const {data} = await axios.get(`http://localhost:8888/products/${productId ? productId : id}`)
       setInfoProduct(data.results)
       console.log(data.results)
-      console.log(data.results.image)
-      console.log(data && `http://localhost:8888/uploads/products/${data.results.image}`)
     } catch (error) {
       console.log(error)
     }
@@ -102,8 +100,15 @@ const ProductDetails = () => {                                                  
 
       <section className="h-fit sm:h-screen w-5/6 flex flex-col sm:flex-row items-center mt-20 sm:mt-8 gap-4 ">
         <div className="w-full sm:flex-1 flex flex-col items-center gap-2 sm:gap-4 h-96 sm:h-5/6">
-          {/* <div className={`${infoProduct && `bg-[url('http://localhost:8888/uploads/products/${infoProduct.image}')]`} w-full h-72 sm:h-80 bg-center bg-cover`}></div> */}
-          <div className={`bg-[url('../assets/media/detail-product1.jpg')] w-full h-72 sm:h-80 bg-center bg-cover`}></div>
+          {infoProduct && (
+            <div
+              style={{
+                backgroundImage: `url('http://localhost:8888/uploads/products/${infoProduct.image}')`,
+                backgroundPosition: "center"
+              }}
+              className={`w-full h-72 sm:h-80 bg-center bg-cover`}
+            ></div>
+          )}
 
           <div className="flex-1 flex justify-between gap-4 w-full">
             <div className="flex-1 bg-[url('../assets/media/detail-product1.jpg')] bg-center bg-cover"></div>
@@ -115,20 +120,24 @@ const ProductDetails = () => {                                                  
         {infoProduct && infoProduct.discount == 0 ? (
           <Details
             productName={infoProduct.name}
-            rating="4"
-            review="200"
+            rating={infoProduct.rating}
+            review={infoProduct.review}
             description={infoProduct.description}
             price={infoProduct.basePrice}
+            tag={infoProduct.tag}
+            isRecommended={infoProduct.isRecommended}
           />
         ) : (
           infoProduct && (
             <Details
               productName={infoProduct.name}
-              rating="4"
-              review="200"
+              rating={infoProduct.rating}
+              review={infoProduct.review}
               description={infoProduct.description}
               basePrice={infoProduct.basePrice}
               discountPrice={infoProduct.basePrice - infoProduct.discount}
+              tag={infoProduct.tag}
+              isRecommended={infoProduct.isRecommended}
             />
           )
         )}
@@ -139,7 +148,7 @@ const ProductDetails = () => {                                                  
           Recommendation <span className="text-[#8E6447]">For You</span>
         </h1>
 
-        <div className="flex justify-center gap-4 sm:gap-12 mb-44 w-md sm:w-fit flex-wrap gap-y-48">
+        <div className="flex justify-center gap-4 sm:gap-12 mb-36 w-md sm:w-fit flex-wrap gap-y-36">
           {dataProducts &&
             dataProducts.map((product) =>
               product.discount == 0 ? (

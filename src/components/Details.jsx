@@ -43,7 +43,7 @@ const OptionVariety = ({option}) => {
 }
 
 
-const Details = ({ productName, rating, review, description, basePrice, discountPrice, price }) => {
+const Details = ({ productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended }) => {
 
   const [quantity, setQuantity] = useState(1);
   const mininum = quantity <= 1
@@ -62,48 +62,73 @@ const Details = ({ productName, rating, review, description, basePrice, discount
 
   return (
     <div className="w-full sm:flex-1 flex flex-col gap-3 sm:gap-[0.45rem] h-5/6 ">
-      <Tag text="FLASHSALE!" />
-      <h1 className="text-xl sm:text-3xl font-bold">{productName}</h1>
-      <Price basePrice={basePrice} discountPrice={discountPrice} price={price}/>
-      <Rating rating={rating}/>
-      <div className="flex items-center divide-[#4F5665] divide-x-2 w-[15rem] sm:w-3/5 text-sm text-[#4F5665]">
-        <p className="w-[35%] text-xs sm:text-sm">{review}+ Review</p>
-        {parseInt(rating) >= 4 ? (
-          <div className="flex-1 flex gap-2 sm:gap-4 justify-center items-center ">
-            <p className="text-xs sm:text-sm">Recommendation</p>
-            <FiThumbsUp color="#FF8906" className="translate-y-[-3px] text-lg sm:text-xl"/>
-          </div>
+      {tag &&  <Tag text={tag} />}
+      <h1 className="flex items-center text-xl sm:text-3xl font-bold">{productName}</h1>
+      <Price
+        basePrice={basePrice}
+        discountPrice={discountPrice}
+        price={price}
+      />
+      {
+        rating ?(
+          <Rating rating={rating} />
         ) : (
-          ''
+          <h1 className="text-[#FF8906] text-xs sm:text-sm">be the first to rate</h1>
+        )
+      }
+      <div className="flex gap-2 items-center divide-[#4F5665] divide-x-2 w-fit text-sm text-[#4F5665]">
+        {review != "0"? (
+          <p className="flex-1 text-xs sm:text-sm">{review} Review</p>
+        ) : (
+          <h1 className="text-[#4F5665] text-xs sm:text-sm">be the first to review</h1>
+        )
+        }
+        {isRecommended && (
+          <div className="pl-2 flex gap-2 sm:gap-4 justify-center items-center ">
+            <p className="text-xs sm:text-sm ">Recommendation</p>
+            <FiThumbsUp
+              color="#FF8906"
+              className="translate-y-[-3px] text-lg sm:text-xl"
+            />
+          </div>
         )}
       </div>
-      <p className="text-xs sm:text-sm">{description}</p>
+      <p className="flex-1 flex items-center text-xs sm:text-sm">{description}</p>
 
-      <div className="flex items-center">
+      <div className="flex-1 flex items-center">
         <button
           onClick={decrement}
           disabled={mininum}
-          className={`${mininum ? 'border-gray-300' : 'border-[rgb(255,137,6)] active:scale-95'} border bg-white rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-1 transition-all`}
+          className={`${
+            mininum
+              ? "border-gray-300"
+              : "border-[rgb(255,137,6)] active:scale-95"
+          } border bg-white rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-1 transition-all`}
         >
-          <FiMinus className="text-xs sm:text-base"/>
+          <FiMinus className="text-xs sm:text-base" />
         </button>
         <div className="border border-[#E8E8E8] w-9 sm:w-12 flex justify-center items-center rounded-sm">
-          <h1 id="quantity" className="text-[0.65rem] sm:text-sm sm:py-[0.1rem]">
+          <h1
+            id="quantity"
+            className="text-[0.65rem] sm:text-sm sm:py-[0.1rem]"
+          >
             {quantity}
           </h1>
         </div>
         <button
           onClick={increment}
           disabled={maximum}
-          className={`${maximum? 'bg-gray-300' : 'bg-[#FF8906] active:scale-95'}  rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-[-0.25rem] transition-all`}
+          className={`${
+            maximum ? "bg-gray-300" : "bg-[#FF8906] active:scale-95"
+          }  rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-[-0.25rem] transition-all`}
         >
-          <FiPlus className="text-xs sm:text-base"/>
+          <FiPlus className="text-xs sm:text-base" />
         </button>
       </div>
 
       <OptionVariety option="Choose Size" />
       <OptionVariety option="Hot/Ice?" />
-      <OptionVariety option="Delivery"/>
+      <OptionVariety option="Delivery" />
 
       <div
         to="checkout"

@@ -4,7 +4,6 @@ import ButtonSwipe from "../components/ButtonSwipe";
 import Rating from "./Rating";
 
 const Testimonial = ({ fullName, role, feedback, rate, handleNextPage, handlePrevPage, nextDisable, prevDisable}) => {
-  console.log(fullName, role, feedback, rate, handleNextPage, handlePrevPage, nextDisable, prevDisable)
   return (
     <div className="flex flex-col sm:flex-row w-5/6 gap-4">
       <div className="flex flex-col items-center gap-4">
@@ -18,10 +17,10 @@ const Testimonial = ({ fullName, role, feedback, rate, handleNextPage, handlePre
           {fullName}
         </h1>
         <p className="text-[#FF8906]">{role} Coffee Shop</p>
-        <p className="text-white text-sm sm:text-base">{feedback}</p>
+        <p className="flex-1 flex items-center text-white text-sm sm:text-base">{feedback}</p>
         <Rating rating={rate} color/>
 
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <ButtonSwipe handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} nextDisable={nextDisable} prevDisable={prevDisable}/>
         </div>
         <PageIndicator />
