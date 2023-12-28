@@ -57,15 +57,6 @@ const Home = () => {
     }
   ])
 
-  const [testimonial, setTestimoial] = useState([
-    {
-      customerName:"Viezh Robert",
-      role:"Manager Coffe Shop",
-      message:"Wow... I am very happy to spend my whole day here. the Wi-fi is good, and the coffee and meals tho. I like it here!! Very recommended!",
-      rating:"5"
-    }
-  ])
-
   const [display, setDisplay] = useState(false)
   const [show, setShow] = useState(false)
   window.addEventListener('scroll', () => {                               // note: belum revisi dan belum menggunakan useEffect dan useRef.
@@ -412,20 +403,13 @@ const Home = () => {
             role={dataTesti[0].role}
             feedback={dataTesti[0].feedback}
             rate={dataTesti[0].rate}
+            image={dataTesti[0].image}
             handleNextPage={next}
             handlePrevPage={prev}
             nextDisable={nextDisable}
             prevDisable={prevDisable}
           />
         )}
-        {/* {testimonial.map((data, index) => (
-          <Testimonial
-            customerName={data.customerName}
-            role={data.role}
-            message={data.message}
-            rating={data.rating}
-          />
-        ))} */}
       </section>
 
       <Footer />

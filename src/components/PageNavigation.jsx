@@ -38,7 +38,7 @@ const PageNavigation = ({totalPage, pageHandle, nextPageHandle, handleDisable}) 
       }
 
       <button disabled={handleDisable} onClick={nextPageHandle} className={`${handleDisable ? 'bg-[#E8E8E8] text-[#A0A3BD]' : 'bg-[#FF8906] text-white active:scale-90 '}  flex justify-center items-center  rounded-full h-6 w-6 sm:h-8 sm:w-8 transition-all`}>
-        <FiArrowRight size={20} className="sm:h-auto"/>
+        <FiArrowRight className="sm:h-auto text-md sm:text-xl"/>
       </button>
     </div>
   );

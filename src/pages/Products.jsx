@@ -254,8 +254,10 @@ const Products = () => {
   }
 
 
-  const searchProduct = async (event, mobile) => {
+  const searchProduct = async (event) => {
     event.preventDefault()
+    mobileFilter && setMobileFilter(false);
+
 
     window.scrollTo({
       top: 500,
@@ -263,29 +265,31 @@ const Products = () => {
       behavior: "smooth",
     });
      
-    const { value: searchKey } = !mobile ? event.target.searchKey : null
-    const category = Array.from(event.target.category)
-    const sortBy = Array.from(event.target.sortBy)
+    const searchKey = event.target.searchKey
+    const category = event.target.category && Array.from(event.target.category)
+    const sortBy = event.target.sortBy && Array.from(event.target.sortBy)
     
     const form = new URLSearchParams()
     if(searchKey){
-      form.append("searchKey", searchKey)
+      form.append("searchKey", searchKey.value)
     }
-
-    category.map(checkBox => {
-      if(checkBox.checked) {
-        form.append("category", checkBox.value)
+    
+    category &&
+    category.map((checkBox) => {
+      if (checkBox.checked) {
+        form.append("category", checkBox.value);
       }
-    })
-
-    sortBy.map(checkBox => {
-      if(checkBox.checked) {
-        form.append("sortBy", checkBox.value)
+    });
+    
+    sortBy &&
+    sortBy.map((checkBox) => {
+      if (checkBox.checked) {
+        form.append("sortBy", checkBox.value);
       }
-    })
-
+    });
+    
     const queryParams = form.toString()
-
+    
     try {
       const {data} = await axios.get(`http://localhost:8888/products?${queryParams}`)
       console.log(data)
@@ -298,6 +302,7 @@ const Products = () => {
       }else{
         setDisable(false)
       }
+      event.target.searchKey.value = ''
     } catch (error) {
       console.log(error.response.data.message)
       setErrorMessage(error.response.data.message)
@@ -433,7 +438,7 @@ const Products = () => {
       </section>
 
       <section className={`${mobileFilter ? 'flex' : 'hidden'} sm:hidden absolute h-fit w-5/6 z-40 top-32 justify-end`}>
-        <Filter mobile />
+        <Filter mobile={true} handleFilter={searchProduct}/>
       </section>
 
       <section className="flex flex-col w-full items-center gap-4 overflow-x-hidden">

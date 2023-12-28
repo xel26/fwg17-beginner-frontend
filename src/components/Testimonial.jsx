@@ -3,12 +3,12 @@ import CustomerImage from "../assets/media/home-customer-image1.jpg";
 import ButtonSwipe from "../components/ButtonSwipe";
 import Rating from "./Rating";
 
-const Testimonial = ({ fullName, role, feedback, rate, handleNextPage, handlePrevPage, nextDisable, prevDisable}) => {
+const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, handlePrevPage, nextDisable, prevDisable}) => {
   return (
     <div className="flex flex-col sm:flex-row w-5/6 gap-4">
       <div className="flex flex-col items-center gap-4">
         <p className="text-white sm:hidden">TESTIMONIAL</p>
-        <img className="w-full sm:w-[30rem]" src={CustomerImage} />
+        <img className="w-full sm:w-[30rem] h-72 sm:h-80 object-cover" src={image ? `http://localhost:8888/uploads/testimonial/${image}` : CustomerImage} />
       </div>
 
       <div className="flex flex-col gap-4 w-full sm:w-[30rem]">
