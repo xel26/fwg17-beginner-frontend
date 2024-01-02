@@ -68,7 +68,7 @@ const Profile = () => {
         form.append("address", address);
       }
 
-      if(dataProfile && event.target.password.value && dataProfile.password !== event.target.password.value){
+      if(event.target.password.value){
         form.append("password", password);
       }
 
@@ -107,7 +107,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
-      <Navbar />
+      <Navbar token={token} setToken={setToken}/>
 
       <h1 className="w-5/6 mt-20 sm:mt-24 text-3xl font-bold">Profile</h1>
 
@@ -153,7 +153,7 @@ const Profile = () => {
                   label="Full Name"
                   type="text"
                   placeholder="Enter Your Full Name"
-                  value={dataProfile.fullName}
+                  defaultValue={dataProfile.fullName}
                 />
                 <InputForm
                   profile={true}
@@ -161,7 +161,7 @@ const Profile = () => {
                   label="Email"
                   type="email"
                   placeholder="Enter Your Email"
-                  value={dataProfile.email}
+                  defaultValue={dataProfile.email}
                 />
                 <InputForm
                   profile={true}
@@ -169,7 +169,7 @@ const Profile = () => {
                   label="Phone"
                   type="text"
                   placeholder="Enter Your Phone Number"
-                  value={dataProfile.phoneNumber}
+                  defaultValue={dataProfile.phoneNumber}
                 />
                 <InputForm
                   profile={true}
@@ -186,13 +186,12 @@ const Profile = () => {
                   label="Address"
                   type="text"
                   placeholder="Enter Your Address"
-                  value={dataProfile.address}
+                  defaultValue={dataProfile.address}
                 />
               </>
             )
           }
           <Button
-            destination="#"
             value="Submit"
             py="2"
           />

@@ -16,13 +16,12 @@ const LinkNav = ({mobile, destination, value, handlective}) => {
   )
 }
 
-const Navbar = ({home}) => {
+const Navbar = ({home, token, setToken}) => {
 
   const [navMobile, setNavMobile] = useState(false)
   const [navSearch, setNavSearch] = useState(false)
   const [homeActive, setHomeActive] = useState(false)
   const [productActive, setProductActive] = useState(false)
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
   const navigate = useNavigate()
 
   const onLogout = () => {
@@ -111,7 +110,7 @@ const Navbar = ({home}) => {
 
               <button onClick={onLogout}
                 type="button"
-                className="text-white border border-white py-2 px-3 text-sm rounded hidden sm:block active:scale-95 transition-all"
+                className="bg-[#ff8906] py-2 px-3 text-sm rounded hidden sm:block active:scale-95 transition-all"
               >
                 Logout
               </button>
@@ -179,7 +178,7 @@ const Navbar = ({home}) => {
         </div>
 
         <form className="flex-1 flex items-center gap-2 w-full border border-white rounded py-1 px-2">
-          <FiSearch color="white" size={25} />
+          <FiSearch color="white" size={23} />
           <input
             className="bg-transparent text-white text-sm outline-none placeholder-white w-full"
             type="text"

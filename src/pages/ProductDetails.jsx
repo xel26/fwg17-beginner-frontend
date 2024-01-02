@@ -8,7 +8,8 @@ import Details from "../components/Details";
 import { useParams } from "react-router-dom";
 import { recommendProducts } from './Home'
 
-const ProductDetails = () => {                                                        // note : transisi dari recommendation product masih kasar
+const ProductDetails = () => {
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
 
   // details product start
   const {id} = useParams()
@@ -103,7 +104,7 @@ const ProductDetails = () => {                                                  
 
   return (
     <body className="flex flex-col items-center gap-8">
-      <Navbar />
+      <Navbar token={token} setToken={setToken}/>
 
       <section className="h-fit sm:h-screen w-5/6 flex flex-col sm:flex-row items-center mt-20 sm:mt-8 gap-4 ">
         <div className="w-full sm:flex-1 flex flex-col items-center gap-2 sm:gap-4 h-96 sm:h-5/6">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FiMessageCircle, FiSend, FiCheckCircle } from "react-icons/fi";
 
@@ -60,8 +60,17 @@ export const recommendProducts= async (setData) => {
 
 
 const Home = () => {
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
+
   const [chatBox, setChatBox] = useState(false);
 
+  // animasi landing page start
+  const [display, setDisplay] = useState(false)
+  // animasi landing page end
+
+
+
+  // animasi provide page start
   const [listProvide, setListProvide] = useState([
     {
       text:"High quality beans"
@@ -77,18 +86,18 @@ const Home = () => {
     }
   ])
 
-  const [display, setDisplay] = useState(false)
   const [show, setShow] = useState(false)
-  window.addEventListener('scroll', () => {                               // note: belum revisi dan belum menggunakan useEffect dan useRef.
-    const provideSection = document.querySelector('#provideSection')
+  const provideSection = useRef()
+  window.addEventListener('scroll', () => {                               // note: belum menggunakan useEffect dan belum paham useRef()
     const top = window.scrollY               
-    const offsetTop = provideSection.offsetTop - 500
-    const offsetHeight = provideSection.offsetHeight
+    const offsetTop = provideSection.current.offsetTop - 500
+    const offsetHeight = provideSection.current.offsetHeight
 
     if(top >= offsetTop && top < offsetTop + offsetHeight){
       setShow(true)
     }
   })
+    // animasi provide page end
 
 
   const [dataProducts, setDataProducts] = useState()
@@ -100,7 +109,6 @@ const Home = () => {
   const [nextPage, setNextPage] = useState()
   const [prevDisable, setPrevDisable] = useState(false)
   const [nextDisable, setNextDisable] = useState(false)
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
 
   
   const testi = async () => {
@@ -182,12 +190,12 @@ const Home = () => {
 
     testi();
     
-  }, []);
+  },[]);
 
 
   return (
     <div className="font relative flex flex-col items-center">
-      <Navbar home={true} />
+      <Navbar home={true} token={token} setToken={setToken}/>
 
       <button
         onClick={() => setChatBox(!chatBox)}
@@ -312,7 +320,7 @@ const Home = () => {
       </section>
 
       <section
-        id="provideSection"
+        ref={provideSection}
         className="flex flex-col-reverse sm:flex-row w-full h-[64rem] sm:h-screen"
       >
         <div className="h-fit py-16 sm:py-0 sm:h-screen sm:flex-1  flex items-center">

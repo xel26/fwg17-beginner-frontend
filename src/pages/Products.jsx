@@ -193,6 +193,8 @@ const Kupon = ({ title, description, klaim, bg }) => {
 
 
 const Products = () => {
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
+  
   const [display, setDisplay] =useState(false)
 
   const [kupon, setKupon] = useState([
@@ -395,7 +397,7 @@ const Products = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
-      <Navbar bg="#0B090921" />
+      <Navbar token={token} setToken={setToken}/>
       <header className="hidden sm:flex items-center bg-[url('../assets/media/header-product-page.jpg')] bg-center w-full h-72 mt-12">
         <h1 className={`text-white text-5xl transition-all duration-1000 ${display ? "ml-28 opacity-100 " : "-ml-32 opacity-0 "}`}>
           We Provide Good Coffee and Healthy <br />

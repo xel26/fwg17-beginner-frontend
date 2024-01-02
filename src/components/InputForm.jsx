@@ -1,8 +1,8 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, useImperativeHandle } from "react";
 import { FiUser, FiMail, FiMapPin, FiLock, FiPhoneCall, FiEye, FiEyeOff } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-const InputForm = forwardRef(({ name, label, type, placeholder, value, passProfile, profile }, ref) => {
+const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, profile, ref }) => {
   const [show, setShow] = useState(false)
 
   const reset = () => {
@@ -49,7 +49,8 @@ const InputForm = forwardRef(({ name, label, type, placeholder, value, passProfi
             name={name}
             type={type === 'password' && show ? 'text' : type}
             placeholder={placeholder}
-            defaultValue={value}
+            defaultValue={defaultValue}
+            ref={ref}
           />
           ): (
             <input
@@ -70,6 +71,6 @@ const InputForm = forwardRef(({ name, label, type, placeholder, value, passProfi
       </div>
     </label>
   );
-})
+}
 
 export default InputForm;

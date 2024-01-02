@@ -37,6 +37,8 @@ const ListOrderInformation = ({field, value, color}) => {
 }
 
 const OrderDetails = () => {
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
+  
   const [orderInformation, setOrderInformation] = useState([
     {
       field:"Full Name",
@@ -117,7 +119,7 @@ const OrderDetails = () => {
     return (
         <body className="flex flex-col items-center">
             
-      <Navbar/>
+      <Navbar token={token} setToken={setToken}/>
 
 
         <div className="flex flex-col gap-2 w-5/6 mt-20 sm:mt-24 mb-6">

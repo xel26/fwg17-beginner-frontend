@@ -78,6 +78,8 @@ const CardHistoryOrder = ({numberOrder, date, total, statusDelivery, image}) => 
 }
 
 const HistoryOrder = () => {
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
+
   const [card, setCard] = useState([
     {
       numberOrder:"#12354-09893",
@@ -111,7 +113,7 @@ const HistoryOrder = () => {
 
   return (
     <body className="flex flex-col items-center gap-6 sm:gap-10">
-      <Navbar />
+      <Navbar token={token} setToken={setToken}/>
 
       <div className="header flex justify-between sm:justify-start w-5/6 mt-20 sm:mt-24 gap-8 items-end">
         <h1 className="text-2xl sm:text-4xl font-semibold">History Order</h1>
