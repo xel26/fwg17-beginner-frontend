@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import FormAuth from '../components/FormAuth'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [success, setSuccess] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
+  const navigate = useNavigate()
 
   const authLogin = async (event) => {
     event.preventDefault()
@@ -16,17 +19,17 @@ const Login = () => {
     const form = new URLSearchParams()
     form.append('email', email)
     form.append('password', password)
-    console.log(form)
 
     try{
       const {data} = await axios.post('http://localhost:8888/auth/login', form.toString())
-      console.log(data)
-      console.log(data.results.token)
+      const {token: resultToken} = data.results
+      setToken(resultToken)
+      window.localStorage.setItem('token', resultToken)
 
       setSuccessMessage(data.message)
       setSuccess(true)
       setTimeout(() => {
-        window.location = '/products'
+        navigate('/products')
       }, 2000);
     }catch(err){
       setError(true)
@@ -36,6 +39,12 @@ const Login = () => {
       setErrorMessage(err.response.data.message)
     }
   }
+
+  useEffect(() => {
+    if(token){
+      navigate('/')
+    }
+  },[token, navigate])
 
     return (
         <div className="flex m-0 p-0 h-[38rem] xl:h-screen">

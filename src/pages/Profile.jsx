@@ -6,13 +6,16 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 const Profile = () => {
-  // get data user static start
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
   const [dataProfile, setDataProfile] = useState()
-  // console.log(dataProfile && dataProfile)
 
-  const dataUser =  async () => {
+  const getProfile =  async () => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/users/237`)
+      const {data} = await axios.get(`http://localhost:8888/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       setDataProfile(data.results)
     } catch (error) {
       console.log(error)
@@ -20,66 +23,16 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    dataUser()
+    getProfile()
   }, [])
 
 
-    // bug : belum bisa dinamic rendering
-    const [inputForm, setInputForm] = useState([
-      {
-        profile:true,
-        name:"full-name",
-        label:"Full Name",
-        type:"text",
-        placeholder:"Enter Your Full Name",
-        value: "Ghaluh Wizard"
-      },
-      {
-        profile:true,
-        name:"email",
-        label:"Email",
-        type:"email",
-        placeholder:"Enter Your Email",
-        value:"ghaluhwizz@gmail.com",
-      },
-      {
-        profile:true,
-        name:"phone",
-        label:"Phone",
-        type:"text",
-        placeholder:"Enter Your Phone Number",
-        value:"082116304338",
-      },
-      {
-        profile:true,
-        name:"password",
-        label:"Password",
-        type:"password",
-        placeholder:"Enter Your Password",
-        value:"1234567890",
-        passProfile:true,
-      },
-      {
-        profile:true,
-        name:"address",
-        label:"Address",
-        type:"text",
-        placeholder:"Enter Your Address",
-        value:"Griya Bandung Indah",
-      },
-    ])
-  // get data user static end
-
-
-  // update profile static start
+  // update profile
     const inputPassword = useRef()
   
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState()
-   useEffect(() => {
-    console.log(dataProfile)
-   }, [dataProfile])
 
     const updateProfile = async (event) => {
       event.preventDefault();
@@ -90,7 +43,14 @@ const Profile = () => {
       const { value: password } = event.target.password;
       const { value: address } = event.target.address;
 
-      const form = new URLSearchParams();
+      const form = new FormData();
+      
+      // const fields = ['fullName', 'email', 'phoneNumber', 'address', 'password']
+      // fields.forEach((field) => {
+      //   if(dataProfile && dataProfile[field] !== event.target[field].value){
+      //     form.append(field, event.target[field].value)
+      //   }
+      // })
 
       if(dataProfile && dataProfile.fullName !== event.target.fullName.value){
         form.append("fullName", fullName);
@@ -113,7 +73,12 @@ const Profile = () => {
       }
 
       try {
-        const {data} = await axios.patch('http://localhost:8888/users/237', form.toString())
+        const {data} = await axios.patch('http://localhost:8888/profile', form, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`
+          }
+        })
         console.log(data)
         if(data.results){
           setDataProfile(data.results)
@@ -138,7 +103,7 @@ const Profile = () => {
         }, 2000);
       }
     }
-  // update profile static end
+  // update profile
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
@@ -213,7 +178,6 @@ const Profile = () => {
                   type="password"
                   placeholder="Enter Your Password"
                   ref={inputPassword}
-                  // value={dataProfile.password}
                   passProfile={true}
                 />
                 <InputForm
@@ -226,18 +190,6 @@ const Profile = () => {
                 />
               </>
             )
-            // inputForm.map((item, index) => (
-            //   <InputForm
-            //   key={index}
-            //   profile={true}
-            //   name={item.name}
-            //   label={item.label}
-            //   type={item.type}
-            //   placeholder={item.placeholder}
-            //   value={item.value}
-            //   passProfile={item.passProfile}
-            //   />
-            // ))
           }
           <Button
             destination="#"

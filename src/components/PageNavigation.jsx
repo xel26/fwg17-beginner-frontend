@@ -10,6 +10,7 @@ const PageNavigation = ({totalPage, pageHandle, nextPageHandle, handleDisable}) 
 
 
   const page = document.querySelectorAll('.page')                           // note : belum menggunakan useRef
+  
   const handleClick = (event) => {
     page.forEach(item => {
       item.classList.remove("bg-[#FF8906]", "text-black")

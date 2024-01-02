@@ -491,6 +491,7 @@ const Products = () => {
                       product.discount == 0 ? 
                         (<CardProduct
                         key={product.id}
+                        id={product.id}
                         productName={product.name}
                         description={product.description}
                         rating={product.rating}
@@ -500,6 +501,7 @@ const Products = () => {
                       /> ) :
                       (<CardProduct
                       key={product.id}
+                      id={product.id}
                       productName={product.name}
                       description={product.description}
                       rating={product.rating}

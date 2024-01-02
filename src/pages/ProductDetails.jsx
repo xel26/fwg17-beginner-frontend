@@ -6,6 +6,7 @@ import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
 import { useParams } from "react-router-dom";
+import { recommendProducts } from './Home'
 
 const ProductDetails = () => {                                                        // note : transisi dari recommendation product masih kasar
 
@@ -37,21 +38,15 @@ const ProductDetails = () => {                                                  
   const [nextPage, setNextPage] = useState()
   const [disable, setDisable] = useState(false)
 
-  const recommendProducts = async () => {
-    try {
-      const {data} = await axios.get("http://localhost:8888/products?limit=3")
-      console.log(data)
-      setDataProducts(data.results)
-      setTotalPage(data.pageInfo.totalPage)
-      setNextPage(data.pageInfo.nextPage)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const pageNavigator = async (page) => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/products?limit=3&page=${page}`)
+      const {data} = await axios.get(`http://localhost:8888/products`, {
+        params: {
+          limit: 3,
+          page,
+          isRecommended: true
+        }
+      })
       console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -67,7 +62,13 @@ const ProductDetails = () => {                                                  
 
   const nextPageNavigator = async () => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/products?limit=3&page=${nextPage}`)
+      const {data} = await axios.get(`http://localhost:8888/products`, {
+        params: {
+          limit: 3,
+          page: nextPage,
+          isRecommended: true
+        }
+      })
       console.log(data)
       setDataProducts(data.results)
       setNextPage(data.pageInfo.nextPage)
@@ -90,7 +91,13 @@ const ProductDetails = () => {                                                  
       behavior: 'smooth'
     });
 
-    recommendProducts()
+    recommendProducts({
+      setDataProducts,
+      setTotalPage,
+      setNextPage,
+      limit: 3,
+    });
+
     dataDetails()
   }, [])
 
@@ -148,7 +155,7 @@ const ProductDetails = () => {                                                  
           Recommendation <span className="text-[#8E6447]">For You</span>
         </h1>
 
-        <div className="flex justify-center gap-4 sm:gap-12 mb-36 w-md sm:w-fit flex-wrap gap-y-36">
+        <div className="flex justify-center gap-4 sm:gap-12 mb-48 w-md sm:w-fit flex-wrap gap-y-48">
           {dataProducts &&
             dataProducts.map((product) =>
               product.discount == 0 ? (

@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const InputForm = forwardRef(({ name, label, type, placeholder, value, passProfile, profile }, ref) => {
   const [show, setShow] = useState(false)
-  const [inputValue, setInputValue] = useState(value)
 
   const reset = () => {
     setInputValue('')
@@ -14,10 +13,6 @@ const InputForm = forwardRef(({ name, label, type, placeholder, value, passProfi
 
   const passReveal = () => {
     setShow(!show)
-  }
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value)
   }
 
   return (
@@ -54,8 +49,7 @@ const InputForm = forwardRef(({ name, label, type, placeholder, value, passProfi
             name={name}
             type={type === 'password' && show ? 'text' : type}
             placeholder={placeholder}
-            value={inputValue}
-            onChange={handleInputChange}
+            defaultValue={value}
           />
           ): (
             <input

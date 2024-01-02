@@ -10,6 +10,7 @@ import Checkout from './pages/Checkout'
 import HistoryOrder from './pages/HistoryOrder'
 import OrderDetails from './pages/OrderDetails'
 import Profile from './pages/Profile'
+import PrivateRoute from './components/privateRoute'
 
 const router = createBrowserRouter([
   {
@@ -25,32 +26,32 @@ const router = createBrowserRouter([
     element: <ForgotPassword />
   },
   {
-    path: '/home',
+    path: '/',
     element: <Home />
   },
   {
     path: '/products',
-    element: <Products />
+    element: <PrivateRoute> <Products /> </PrivateRoute>
   },
   {
     path: '/products/:id',
-    element: <ProductDetails />
+    element: <PrivateRoute> <ProductDetails /> </PrivateRoute>
   },
   {
     path: '/checkout',
-    element: <Checkout />
+    element: <PrivateRoute> <Checkout /> </PrivateRoute>
   },
   {
     path: '/history-order',
-    element: <HistoryOrder />
+    element: <PrivateRoute> <HistoryOrder /> </PrivateRoute>
   },
   {
     path: '/order-details',
-    element: <OrderDetails />
+    element: <PrivateRoute> <OrderDetails /> </PrivateRoute>
   },
   {
     path: '/profile',
-    element: <Profile/>
+    element: <PrivateRoute> <Profile/> </PrivateRoute>
   }
 ])
 

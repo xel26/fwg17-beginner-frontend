@@ -38,6 +38,26 @@ const ListProvide = ({ text }) => {
 };
 
 
+// recommendation products start
+export const recommendProducts= async (setData) => {
+  try {
+    const {data} = await axios.get("http://localhost:8888/products", {
+      params: {
+        limit: setData.limit,
+        isRecommended: true
+      }
+    })
+    console.log(data)
+    setData.setDataProducts(data.results)
+    setData.setTotalPage && setData.setTotalPage(data.pageInfo.totalPage)
+    setData.setNextPage && setData.setNextPage(data.pageInfo.nextPage)
+  } catch (error) {
+    console.log(error)
+  }
+}
+// recommendation products end
+
+
 
 const Home = () => {
   const [chatBox, setChatBox] = useState(false);
@@ -71,20 +91,7 @@ const Home = () => {
   })
 
 
-  // recommendation products start
   const [dataProducts, setDataProducts] = useState()
-
-  const favoriteProducts= async () => {
-    try {
-      const {data} = await axios.get("http://localhost:8888/products?limit=4")
-      console.log(data)
-      setDataProducts(data.results)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  // recommendation products end
-
 
 
   // testimonial start
@@ -93,6 +100,7 @@ const Home = () => {
   const [nextPage, setNextPage] = useState()
   const [prevDisable, setPrevDisable] = useState(false)
   const [nextDisable, setNextDisable] = useState(false)
+  const [token, setToken] = useState(window.localStorage.getItem('token'))
 
   
   const testi = async () => {
@@ -167,7 +175,10 @@ const Home = () => {
 
     setDisplay(true);
 
-    favoriteProducts();
+    recommendProducts({
+      setDataProducts,
+      limit: 4,
+    });
 
     testi();
     
@@ -176,7 +187,7 @@ const Home = () => {
 
   return (
     <div className="font relative flex flex-col items-center">
-      <Navbar unAuthenticated={true} />
+      <Navbar home={true} />
 
       <button
         onClick={() => setChatBox(!chatBox)}
@@ -265,7 +276,7 @@ const Home = () => {
             </p>
 
             <Link
-              to="/products"
+              to={token ? '/products' : '/login'}
               className="relative w-fit bg-[#ff8906] py-2 px-3 rounded-md text-xs sm:text-sm font-semibold active:scale-95 transition-all overflow-hidden"
             >
               Get Started
@@ -360,7 +371,7 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
+        <div className="gap-y-48 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
           {dataProducts &&
             dataProducts.map((product) => (
               <CardProduct
@@ -377,7 +388,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="h-fit py-6 sm:h-screen flex flex-col items-center justify-center w-full bg-[#E8E8E84D] gap-12">
+      <section className="h-fit py-6 mt-10 sm:h-screen flex flex-col items-center justify-center w-full bg-[#E8E8E84D] gap-12">
         <div className="flex flex-col items-center gap-2 sm:gap-4">
           <h1 className="text-2xl sm:text-5xl font-medium text-center px-4 sm:px-0">
             <span className="text-[#8E6447]">Visit Our Store</span> in the Spot
