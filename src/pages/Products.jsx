@@ -517,7 +517,9 @@ const Products = () => {
               </div>
             </div>
 
+            {!error &&
             <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} handleDisable={disable}/>
+            }
             
           </main>
         </div>

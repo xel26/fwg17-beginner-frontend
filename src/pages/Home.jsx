@@ -109,6 +109,7 @@ const Home = () => {
   const [nextPage, setNextPage] = useState()
   const [prevDisable, setPrevDisable] = useState(false)
   const [nextDisable, setNextDisable] = useState(false)
+  const [totalPage, setTotalPage] = useState()
 
   
   const testi = async () => {
@@ -118,6 +119,7 @@ const Home = () => {
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)
       setNextPage(data.pageInfo.nextPage)
+      setTotalPage(data.pageInfo.totalPage)
       if(data.pageInfo.prevPage == null){
         setPrevDisable(true)
       }else if(data.pageInfo.nextPage == null){
@@ -427,6 +429,7 @@ const Home = () => {
             handlePrevPage={prev}
             nextDisable={nextDisable}
             prevDisable={prevDisable}
+            totalPage={totalPage}
           />
         )}
       </section>

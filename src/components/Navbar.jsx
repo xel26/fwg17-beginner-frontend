@@ -5,6 +5,7 @@ import { FiShoppingCart, FiMenu, FiSearch, FiUser } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from "axios";
+import defaultPhoto from '../assets/media/default-photo-profil.jpeg'
 
 const LinkNav = ({mobile, destination, value, handlective}) => {
   return (
@@ -104,7 +105,7 @@ const Navbar = ({home, token, setToken, picture}) => {
             color="white"
             className="text-2xl text-white hidden sm:block z-50 active:scale-90 transition-all cursor-pointer"
           />
-          <Link to="/checkout">
+          <Link to="/history-order">
             <FiShoppingCart
               color="white"
               className="text-2xl hidden sm:block text-white active:scale-90 transition-all"
@@ -116,7 +117,7 @@ const Navbar = ({home, token, setToken, picture}) => {
               <Link to="/profile">
                 <img
                   className="rounded-full w-8 h-8 object-cover"
-                  src={dataProfile && `http://localhost:8888/uploads/users/${dataProfile.picture}`}
+                  src={dataProfile && dataProfile.picture ? `http://localhost:8888/uploads/users/${dataProfile.picture}` : defaultPhoto}
                 ></img>
               </Link>
             </div>
@@ -131,7 +132,7 @@ const Navbar = ({home, token, setToken, picture}) => {
               <Link to="/profile" className="hidden sm:block">
                 <img
                   className="rounded-full w-8 h-8 object-cover"
-                  src={dataProfile && `http://localhost:8888/uploads/users/${dataProfile.picture}`}
+                  src={dataProfile && dataProfile.picture ? `http://localhost:8888/uploads/users/${dataProfile.picture}` : defaultPhoto}
                 ></img>
               </Link>
 
@@ -173,7 +174,7 @@ const Navbar = ({home, token, setToken, picture}) => {
             <LinkNav mobile={true} destination="/" value="Home" />
             <LinkNav mobile={true} destination="/products" value="Product" />
           </div>
-          <Link to="/checkout">
+          <Link to="/history-order">
             <FiShoppingCart
               color="white"
               className="text-2xl text-white active:scale-90 transition-all"

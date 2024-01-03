@@ -20,12 +20,6 @@ const PageNavigation = ({totalPage, pageHandle, nextPageHandle, handleDisable}) 
     pageHandle(event.target.innerText)
   }
 
-  
-
-  // useEffect(() => {
-  //   page && page[0].classList.add("bg-[#FF8906]", "text-black")
-  // },[page[0]])
-
 
 
   return (

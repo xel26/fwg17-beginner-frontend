@@ -5,6 +5,7 @@ import Button from "../components/Button"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
+import defaultPhoto from '../assets/media/default-photo-profil.jpeg'
 
 const Profile = () => {
   const [token, setToken] = useState(window.localStorage.getItem('token'))
@@ -116,7 +117,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
-      <Navbar token={token} setToken={setToken}/>
+      <Navbar token={token} setToken={setToken} />
 
       <h1 className="w-5/6 mt-20 sm:mt-24 text-3xl font-bold">Profile</h1>
 
@@ -147,19 +148,30 @@ const Profile = () => {
             </p>
           </div>
           <label className="relative rounded-full">
-            {!preview && dataProfile && (
+            {(!preview && dataProfile) && !dataProfile.picture && (
               <img
                 className="rounded-full w-28 h-28 object-cover"
-                src={dataProfile && `http://localhost:8888/uploads/users/${dataProfile.picture}`}
+                src={defaultPhoto}
+              ></img>
+            )}
+            {(!preview && dataProfile) && dataProfile.picture && (
+              <img
+                className="rounded-full w-28 h-28 object-cover"
+                src={
+                  dataProfile &&
+                  `http://localhost:8888/uploads/users/${dataProfile.picture}`
+                }
               ></img>
             )}
             {preview && (
-                <img
-                  className="rounded-full w-28 h-28 object-cover"
-                  src={preview}
-                ></img>
+              <img
+                className="rounded-full w-28 h-28 object-cover"
+                src={preview}
+              ></img>
             )}
-            {preview && <div className="absolute top-0 left-0 w-full h-full bg-black rounded-full bg-opacity-50" />}
+            {preview && (
+              <div className="absolute top-0 left-0 w-full h-full bg-black rounded-full bg-opacity-50" />
+            )}
             <input
               onChange={previewPicture}
               multiple={false}
@@ -176,7 +188,10 @@ const Profile = () => {
             Upload New Photo
           </button>
           <p className="text-xs text-[#4F5665]">
-            Since <span className="font-bold">{date.date()} {date.format('MMMM')} {date.year()}</span>
+            Since{" "}
+            <span className="font-bold">
+              {date.format('D').padStart(2, '0')} {date.format("MMMM")} {date.format('YYYY')}
+            </span>
           </p>
         </form>
 
