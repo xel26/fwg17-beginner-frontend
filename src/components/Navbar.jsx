@@ -4,6 +4,7 @@ import TextLogo from "../assets/media/text-logo-white.png";
 import { FiShoppingCart, FiMenu, FiSearch, FiUser } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
+import axios from "axios";
 
 const LinkNav = ({mobile, destination, value, handlective}) => {
   return (
@@ -16,12 +17,13 @@ const LinkNav = ({mobile, destination, value, handlective}) => {
   )
 }
 
-const Navbar = ({home, token, setToken}) => {
+const Navbar = ({home, token, setToken, picture}) => {
 
   const [navMobile, setNavMobile] = useState(false)
   const [navSearch, setNavSearch] = useState(false)
   const [homeActive, setHomeActive] = useState(false)
   const [productActive, setProductActive] = useState(false)
+  const [dataProfile, setDataProfile] = useState({})
   const navigate = useNavigate()
 
   const onLogout = () => {
@@ -30,9 +32,23 @@ const Navbar = ({home, token, setToken}) => {
     navigate('/')
   }
 
+  const getProfile =  async () => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      setDataProfile(data.results)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
 
   useEffect(() => {
+    getProfile()
     if(document.URL.endsWith('/')){
       setHomeActive(true)
       setProductActive(false)
@@ -91,24 +107,36 @@ const Navbar = ({home, token, setToken}) => {
           <Link to="/checkout">
             <FiShoppingCart
               color="white"
-              className="text-2xl text-white active:scale-90 transition-all"
+              className="text-2xl hidden sm:block text-white active:scale-90 transition-all"
             />
           </Link>
+
+          {token && dataProfile && (
+            <div className="flex-1 flex justify-end items-center sm:hidden">
+              <Link to="/profile">
+                <img
+                  className="rounded-full w-8 h-8 object-cover"
+                  src={dataProfile && `http://localhost:8888/uploads/users/${dataProfile.picture}`}
+                ></img>
+              </Link>
+            </div>
+          )}
 
           <FiMenu
             onClick={() => setNavMobile(!navMobile)}
             className="text-2xl sm:hidden text-white active:scale-90 transition-all"
           />
-          {token ? (
+          {token && dataProfile ? (
             <>
               <Link to="/profile" className="hidden sm:block">
-                <FiUser
-                  color="white"
-                  className="text-3xl rounded  active:scale-95 transition-all"
-                />
+                <img
+                  className="rounded-full w-8 h-8 object-cover"
+                  src={dataProfile && `http://localhost:8888/uploads/users/${dataProfile.picture}`}
+                ></img>
               </Link>
 
-              <button onClick={onLogout}
+              <button
+                onClick={onLogout}
                 type="button"
                 className="bg-[#ff8906] py-2 px-3 text-sm rounded hidden sm:block active:scale-95 transition-all"
               >
@@ -141,40 +169,16 @@ const Navbar = ({home, token, setToken}) => {
         } sm:hidden flex-col gap-3 w-5/6 h-fit`}
       >
         <div className="w-full flex justify-between items-center text-white h-6">
-          {token ? (
-            <>
-              <div className="flex-1 flex items-center gap-4">
-                <LinkNav mobile={true} destination="/" value="Home" />
-                <LinkNav
-                  mobile={true}
-                  destination="/products"
-                  value="Product"
-                />
-              </div>
-              <div className="flex-1 flex justify-end items-center">
-                <Link to="/profile">
-                  <FiUser
-                    size={30}
-                    color="white"
-                    className="text-sm rounded  active:scale-95 transition-all"
-                  />
-                </Link>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="flex-1">
-                <LinkNav mobile={true} destination="/" value="Home" />
-              </div>
-              <div className="flex-1 flex justify-end">
-                <LinkNav
-                  mobile={true}
-                  destination="/products"
-                  value="Product"
-                />
-              </div>
-            </>
-          )}
+          <div className="flex-1 flex items-center gap-4">
+            <LinkNav mobile={true} destination="/" value="Home" />
+            <LinkNav mobile={true} destination="/products" value="Product" />
+          </div>
+          <Link to="/checkout">
+            <FiShoppingCart
+              color="white"
+              className="text-2xl text-white active:scale-90 transition-all"
+            />
+          </Link>
         </div>
 
         <form className="flex-1 flex items-center gap-2 w-full border border-white rounded py-1 px-2">
