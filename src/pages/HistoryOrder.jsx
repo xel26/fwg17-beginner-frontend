@@ -83,6 +83,7 @@ const HistoryOrder = () => {
   const [token, setToken] = useState(window.localStorage.getItem('token'))
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
+  const[currentPage, setCurrentPage] = useState()
   const [filter, setFilter] = useState(null)
   const [disable, setDisable] = useState(false)
   const [orders, setOrders] = useState()
@@ -102,6 +103,7 @@ const HistoryOrder = () => {
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
       setTotalData(data.pageInfo.totalData)
+      setCurrentPage(data.pageInfo.currentPage)
     } catch (error) {
       console.log(error.response.data.message)
       setErrorMessage(error.response.data.message)
@@ -123,6 +125,7 @@ const HistoryOrder = () => {
       setOrders(data.results)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
+      setCurrentPage(data.pageInfo.currentPage)
       setTotalData(data.pageInfo.totalData)
       setFilter(filterStatus)
       if (data.pageInfo.nextPage === null) {
@@ -158,6 +161,8 @@ const HistoryOrder = () => {
         console.log(data);
         setOrders(data.results);
         setNextPage(data.pageInfo.nextPage);
+        setCurrentPage(data.pageInfo.currentPage)
+
         if (data.pageInfo.nextPage === null) {
           setDisable(true);
         } else {
@@ -175,6 +180,8 @@ const HistoryOrder = () => {
         console.log(data);
         setOrders(data.results);
         setNextPage(data.pageInfo.nextPage);
+        setCurrentPage(data.pageInfo.currentPage)
+
         if (data.pageInfo.nextPage === null) {
           setDisable(true);
         } else {
@@ -208,6 +215,8 @@ const HistoryOrder = () => {
         console.log(data);
         setOrders(data.results);
         setNextPage(data.pageInfo.nextPage);
+        setCurrentPage(data.pageInfo.currentPage)
+
         if (data.pageInfo.nextPage === null) {
           setDisable(true);
         } else {
@@ -225,6 +234,8 @@ const HistoryOrder = () => {
         console.log(data);
         setOrders(data.results);
         setNextPage(data.pageInfo.nextPage);
+        setCurrentPage(data.pageInfo.currentPage)
+
         if (data.pageInfo.nextPage === null) {
           setDisable(true);
         } else {
@@ -240,37 +251,6 @@ const HistoryOrder = () => {
   useEffect(() => {
     dataOrders()
   }, [])
-
-  const [card, setCard] = useState([
-    {
-      numberOrder:"#12354-09893",
-      date:"23 January 2023",
-      total:"40.000",
-      statusDelivery:"On Progress",
-      image:Product1
-    },
-    {
-      numberOrder:"#54321-0989",
-      date:"24 January 2023",
-      total:"60.000",
-      statusDelivery:"Sending Goods",
-      image:Product2
-    },
-    {
-      numberOrder:"#54321-9890",
-      date:"25 January 2023",
-      total:"65.000",
-      statusDelivery:"Finish Order",
-      image:Product3
-    },
-    {
-      numberOrder:"#12345-9890",
-      date:"26 January 2023",
-      total:"35.000",
-      statusDelivery:"On Progress",
-      image:Product4
-    },
-  ])
 
   return (
     <body className="flex flex-col items-center gap-6 sm:gap-10">
@@ -326,7 +306,7 @@ const HistoryOrder = () => {
           </div>
           
           {!error &&
-          <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} handleDisable={disable}/>
+          <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} handleDisable={disable} currentPage={currentPage}/>
           }
         </div>
 

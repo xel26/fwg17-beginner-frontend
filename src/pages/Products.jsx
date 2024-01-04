@@ -238,6 +238,7 @@ const Products = () => {
   const [dataProducts, setDataProducts] = useState()
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
+  const [currentPage, setCurrentPage] = useState(1)
   const [queryParameter, setQueryParameter] = useState(null)
   const [errorMessage, setErrorMessage] = useState()
   const [error, setError] = useState(false)
@@ -249,6 +250,7 @@ const Products = () => {
       console.log(data)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
+      setCurrentPage(data.pageInfo.currentPage)
       setDataProducts(data.results)
     } catch (error) {
       console.log(error)
@@ -297,6 +299,7 @@ const Products = () => {
       console.log(data)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
+      setCurrentPage(data.pageInfo.currentPage)
       setDataProducts(data.results)
       setQueryParameter(queryParams)
       if(data.pageInfo.nextPage === null){
@@ -313,6 +316,8 @@ const Products = () => {
     }
   }
 
+
+
   const pageNavigator = async (page) => {
     window.scrollTo({
       top: 500,
@@ -326,6 +331,8 @@ const Products = () => {
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setCurrentPage(data.pageInfo.currentPage)
+
         if(data.pageInfo.nextPage === null){
           setDisable(true)
         }else{
@@ -336,6 +343,8 @@ const Products = () => {
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setCurrentPage(data.pageInfo.currentPage)
+        
         if(data.pageInfo.nextPage === null){
           setDisable(true)
         }else{
@@ -361,6 +370,8 @@ const Products = () => {
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setCurrentPage(data.pageInfo.currentPage)
+        
         if(data.pageInfo.nextPage === null){
           setDisable(true)
         }else{
@@ -370,6 +381,8 @@ const Products = () => {
         const {data} = await axios.get(`http://localhost:8888/products?page=${nextPage}`)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setCurrentPage(data.pageInfo.currentPage)
+
         if(data.pageInfo.nextPage === null){
           setDisable(true)
         }else{
@@ -380,7 +393,6 @@ const Products = () => {
       console.log(error)
     }
   }
-
 
 
   useEffect(() => {
@@ -518,7 +530,7 @@ const Products = () => {
             </div>
 
             {!error &&
-            <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} handleDisable={disable}/>
+            <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} handleDisable={disable} currentPage={currentPage}/>
             }
             
           </main>

@@ -49,6 +49,7 @@ export const recommendProducts= async (setData) => {
     })
     console.log(data)
     setData.setDataProducts(data.results)
+    setData.setCurrentPage && setData.setCurrentPage(data.pageInfo.currentPage)
     setData.setTotalPage && setData.setTotalPage(data.pageInfo.totalPage)
     setData.setNextPage && setData.setNextPage(data.pageInfo.nextPage)
   } catch (error) {

@@ -38,6 +38,7 @@ const ProductDetails = () => {
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
   const [disable, setDisable] = useState(false)
+  const[currentPage, setCurrentPage] = useState()
 
   const pageNavigator = async (page) => {
     try {
@@ -51,6 +52,8 @@ const ProductDetails = () => {
       console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setCurrentPage(data.pageInfo.currentPage)
+
         if(data.pageInfo.nextPage === null){
           setDisable(true)
         }else{
@@ -73,6 +76,8 @@ const ProductDetails = () => {
       console.log(data)
       setDataProducts(data.results)
       setNextPage(data.pageInfo.nextPage)
+      setCurrentPage(data.pageInfo.currentPage)
+
       if(data.pageInfo.nextPage === null){
         setDisable(true)
       }else{
@@ -96,6 +101,7 @@ const ProductDetails = () => {
       setDataProducts,
       setTotalPage,
       setNextPage,
+      setCurrentPage,
       limit: 3,
     });
 
@@ -193,6 +199,7 @@ const ProductDetails = () => {
           pageHandle={pageNavigator}
           nextPageHandle={nextPageNavigator}
           handleDisable={disable}
+          currentPage={currentPage}
         />
       </div>
 
