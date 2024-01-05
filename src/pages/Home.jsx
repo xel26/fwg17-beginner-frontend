@@ -9,6 +9,7 @@ import Map from "../assets/media/home-map.png";
 import MapMobile from "../assets/media/map-mobile.png";
 import Testimonial from "../components/Testimonial";
 import CardProduct from "../components/CardProduct";
+import { useSelector } from "react-redux";
 
 const Data = ({ value, text }) => {
   return (
@@ -61,7 +62,7 @@ export const recommendProducts= async (setData) => {
 
 
 const Home = () => {
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
+  const token = useSelector(state => state.auth.token)
 
   const [chatBox, setChatBox] = useState(false);
 
@@ -89,16 +90,16 @@ const Home = () => {
 
   const [show, setShow] = useState(false)
   const provideSection = useRef()
-  window.addEventListener('scroll', () => {                               // note: belum menggunakan useEffect dan belum paham useRef()
-    const top = window.scrollY               
-    const offsetTop = provideSection.current.offsetTop - 500
-    const offsetHeight = provideSection.current.offsetHeight
+  // window.addEventListener('scroll', () => {                               // note: belum menggunakan useEffect dan belum paham useRef()
+  //   const top = window.scrollY               
+  //   const offsetTop = provideSection.current.offsetTop - 500
+  //   const offsetHeight = provideSection.current.offsetHeight
 
-    if(top >= offsetTop && top < offsetTop + offsetHeight){
-      setShow(true)
-    }
-  })
-    // animasi provide page end
+  //   if(top >= offsetTop && top < offsetTop + offsetHeight){
+  //     setShow(true)
+  //   }
+  // })
+  // animasi provide page end
 
 
   const [dataProducts, setDataProducts] = useState()
@@ -111,6 +112,7 @@ const Home = () => {
   const [prevDisable, setPrevDisable] = useState(false)
   const [nextDisable, setNextDisable] = useState(false)
   const [totalPage, setTotalPage] = useState()
+  const [currentPage, setCurrentPage] = useState(1)
 
   
   const testi = async () => {
@@ -121,6 +123,7 @@ const Home = () => {
       setPrevPage(data.pageInfo.prevPage)
       setNextPage(data.pageInfo.nextPage)
       setTotalPage(data.pageInfo.totalPage)
+      setCurrentPage(data.pageInfo.currentPage)
       if(data.pageInfo.prevPage == null){
         setPrevDisable(true)
       }else if(data.pageInfo.nextPage == null){
@@ -141,6 +144,7 @@ const Home = () => {
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)
       setNextPage(data.pageInfo.nextPage)
+      setCurrentPage(data.pageInfo.currentPage)
       if(data.pageInfo.prevPage == null){
         setPrevDisable(true)
       }else if(data.pageInfo.nextPage == null){
@@ -161,6 +165,7 @@ const Home = () => {
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)
       setNextPage(data.pageInfo.nextPage)
+      setCurrentPage(data.pageInfo.currentPage)
       if(data.pageInfo.prevPage == null){
         setPrevDisable(true)
       }else if(data.pageInfo.nextPage == null){
@@ -198,7 +203,7 @@ const Home = () => {
 
   return (
     <div className="font relative flex flex-col items-center">
-      <Navbar home={true} token={token} setToken={setToken}/>
+      <Navbar home={true}/>
 
       <button
         onClick={() => setChatBox(!chatBox)}
@@ -329,34 +334,28 @@ const Home = () => {
         <div className="h-fit py-16 sm:py-0 sm:h-screen sm:flex-1  flex items-center">
           <div className="flex flex-col ml-8 sm:ml-28 gap-4 h-fit max-w-lg">
             <div
-              className={`flex items-center gap-4 transition-all duration-1000 ${
-                show ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "
-              }`}
+              className={`flex items-center gap-4`}
             >
               <hr className="border-[#ff8906] border-2 sm:border-4 h-14" />
               <h1 className="text-2xl sm:text-5xl font-medium">
                 We Provide{" "}
                 <span className="text-[#8E6447]">
                   Good <br /> Coffee
-                </span>{" "}
+                </span>
                 and
                 <span className="text-[#8E6447]">Healthy Meals</span>
               </h1>
             </div>
             <p
               id="provide-description"
-              className={`text-sm text-[#4F5665] transition-all duration-1000 delay-500 ${
-                show ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "
-              }`}
+              className={`text-sm text-[#4F5665]`}
             >
               You can explore the menu that we provide with fun and have their
               own <br /> taste and make your day better.
             </p>
             <div
               id="list-provide"
-              className={`flex flex-col gap-4 transition-all duration-1000 delay-1000 ${
-                show ? "ml-0 opacity-100 " : "-ml-12 opacity-0 "
-              }`}
+              className={`flex flex-col gap-4`}
             >
               {listProvide.map((item, index) => (
                 <ListProvide key={index} text={item.text} />
@@ -431,6 +430,7 @@ const Home = () => {
             nextDisable={nextDisable}
             prevDisable={prevDisable}
             totalPage={totalPage}
+            currentPage={currentPage}
           />
         )}
       </section>

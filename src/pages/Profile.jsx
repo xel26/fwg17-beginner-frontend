@@ -1,37 +1,25 @@
+import { useDispatch, useSelector } from "react-redux";
+import { setProfile as setProfileAction } from "../redux/reducers/profile";
+
+import { useState } from "react";
+
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import InputForm from "../components/InputForm";
 import Button from "../components/Button"
-import { useEffect, useState } from "react";
 import axios from "axios";
 import moment from "moment";
 import defaultPhoto from '../assets/media/default-photo-profil.jpeg'
 
+
 const Profile = () => {
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
-  const [dataProfile, setDataProfile] = useState({})
-  const date = dataProfile && moment(dataProfile.createdAt)
-
-  const getProfile =  async () => {
-    try {
-      const {data} = await axios.get(`http://localhost:8888/profile`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      setDataProfile(data.results)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getProfile()
-  }, [])
-
+  const token = useSelector(state => state.auth.token)
+  const dataProfile = useSelector(state => state.profile.data)
+  const dispatch = useDispatch()
+  
+  const registrationDate = dataProfile && moment(dataProfile.createdAt)
 
   // update profile start
-  
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
     const [errorMessage, setErrorMessage] = useState()
@@ -57,7 +45,8 @@ const Profile = () => {
           }
         })
         if(data.results){
-          setDataProfile(data.results)
+          dispatch(setProfileAction(data.results))
+
           setSuccess(true)
           setTimeout(() => {
             setSuccess(false)
@@ -80,14 +69,23 @@ const Profile = () => {
       }
     }
 
+
     const previewPicture = (event) => {
       const pictureUrl = URL.createObjectURL(event.target.files[0])
       setPreview(pictureUrl)
     }
 
+
     const updatePicture = async (event) => {
       event.preventDefault();
       const [file] = event.target.picture.files
+
+      console.log(event.target.picture.files)
+      console.log(file)
+      console.log(file.name)
+      console.log(file.size)
+      console.log(file.type)
+
       const form  = new FormData()
       form.append('picture', file)
 
@@ -98,7 +96,8 @@ const Profile = () => {
             'Content-Type': 'multipart/form-data'
           }
         })
-        setDataProfile(data.results)
+        dispatch(setProfileAction(data.results))
+        
         setPreview(null)
         setSuccess(true)
         setTimeout(() => {
@@ -117,7 +116,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
-      <Navbar token={token} setToken={setToken} />
+      <Navbar />
 
       <h1 className="w-5/6 mt-20 sm:mt-24 text-3xl font-bold">Profile</h1>
 
@@ -190,7 +189,7 @@ const Profile = () => {
           <p className="text-xs text-[#4F5665]">
             Since{" "}
             <span className="font-bold">
-              {date.format('D').padStart(2, '0')} {date.format("MMMM")} {date.format('YYYY')}
+              {registrationDate.format('D').padStart(2, '0')} {registrationDate.format("MMMM")} {registrationDate.format('YYYY')}
             </span>
           </p>
         </form>

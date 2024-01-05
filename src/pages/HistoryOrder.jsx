@@ -1,21 +1,26 @@
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import PageNavigation from "../components/PageNavigation";
+import { Link } from "react-router-dom"
+import { useState, useEffect } from "react";
+import axios from "axios";
+import moment from 'moment';
 import {
   FiMessageSquare,
   FiAlignRight,
   FiCalendar,
   FiChevronDown,
 } from "react-icons/fi";
+
+import { useSelector } from "react-redux";
+
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import PageNavigation from "../components/PageNavigation";
 import Button from "../components/Button";
 import Product1 from "../assets/media/detail-product1.jpg";
 import Product2 from "../assets/media/detail-product2.jpg";
 import Product3 from "../assets/media/detail-product3.jpg";
 import Product4 from "../assets/media/home-product1.jpg";
-import { Link } from "react-router-dom"
-import { useState, useEffect } from "react";
-import axios from "axios";
-import moment from 'moment';
+
+const optionFilter = ["On Progress", "Sending Goods", "Finish Order"]
 
 const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image}) => {
     return (
@@ -80,8 +85,7 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
 }
 
 const HistoryOrder = () => {
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
-  const [totalPage, setTotalPage] = useState()
+const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
   const[currentPage, setCurrentPage] = useState()
   const [filter, setFilter] = useState(null)
@@ -90,6 +94,8 @@ const HistoryOrder = () => {
   const [totalData, setTotalData] = useState(0)
   const [errorMessage, setErrorMessage] = useState()
   const [error, setError] = useState(false)
+
+  const token = useSelector(state => state.auth.token)
 
   const dataOrders = async () => {
     try {
@@ -128,6 +134,7 @@ const HistoryOrder = () => {
       setCurrentPage(data.pageInfo.currentPage)
       setTotalData(data.pageInfo.totalData)
       setFilter(filterStatus)
+
       if (data.pageInfo.nextPage === null) {
         setDisable(true);
       } else {
@@ -247,14 +254,14 @@ const HistoryOrder = () => {
     }
   };
 
-
   useEffect(() => {
     dataOrders()
   }, [])
 
+
   return (
     <body className="flex flex-col items-center gap-6 sm:gap-10">
-      <Navbar token={token} setToken={setToken} />
+      <Navbar/>
 
       <div className="header flex justify-between sm:justify-start w-5/6 mt-20 sm:mt-24 gap-8 items-end">
         <h1 className="text-2xl sm:text-4xl font-semibold">History Order</h1>
@@ -267,22 +274,18 @@ const HistoryOrder = () => {
         <div className="sm:w-2/3 flex flex-col gap-8 sm:gap-10">
           <div className="flex flex-col-reverse sm:flex-row gap-y-4 sm:gap-12 justify-between">
             <div className="flex flex-col items-start gap-2 w-fit sm:w-auto sm:flex-row sm:justify-between sm:gap-4 bg-[#E8E8E899] p-1.5 sm:p-3">
-              <button onClick={filterStatus} className="focus:bg-white bg-transparen p-1 text-xs sm:text-base font-semibold transition-all">
-                On Progress
+            {optionFilter.map((item, index) => (
+              <button key={index} onClick={filterStatus} className={`${filter == item ? 'bg-white' : 'bg-transparen'}  p-1 text-xs sm:text-base font-semibold transition-all`}>
+                {item}
               </button>
-              <button onClick={filterStatus} className="focus:bg-white bg-transparen p-1 text-xs sm:text-base font-semibold transition-all">
-                Sending Goods
-              </button>
-              <button onClick={filterStatus} className="focus:bg-white bg-transparen p-1 text-xs sm:text-base font-semibold transition-all">
-                Finish Order
-              </button>
+            ))}
             </div>
 
             <label className="relative w-fit sm:w-auto flex items-center justify-center bg-[#E8E8E899] p-1.5 sm:p-3 gap-2 font-semibold">
               {/* <FiCalendar />
               <h4 className="text-xs sm:text-base">January 2023</h4>
               <FiChevronDown /> */}
-              <input className="outline-none bg-[#E8E8E899]" type="month" name="date"/>
+              <input className="outline-none bg-transparent" type="month" name="date"/>
             </label>
           </div>
 

@@ -3,7 +3,7 @@ import CustomerImage from "../assets/media/home-customer-image1.jpg";
 import ButtonSwipe from "../components/ButtonSwipe";
 import Rating from "./Rating";
 
-const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, handlePrevPage, nextDisable, prevDisable, totalPage}) => {
+const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, handlePrevPage, nextDisable, prevDisable, totalPage, currentPage}) => {
   return (
     <div className="flex flex-col sm:flex-row w-5/6 gap-4">
       <div className="flex flex-col items-center gap-4">
@@ -23,7 +23,7 @@ const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, ha
         <div className="flex items-center gap-2">
           <ButtonSwipe handleNextPage={handleNextPage} handlePrevPage={handlePrevPage} nextDisable={nextDisable} prevDisable={prevDisable}/>
         </div>
-        <PageIndicator totalPage={totalPage}/>
+        <PageIndicator totalPage={totalPage} currentPage={currentPage}/>
       </div>
     </div>
   );

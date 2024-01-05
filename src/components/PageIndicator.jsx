@@ -1,4 +1,5 @@
-const PageIndicator = (totalPage) => {
+const PageIndicator = ({totalPage, currentPage}) => {
+  console.log(totalPage)
   const pageIndicator = []
   for(let i = 1; i <= parseInt(totalPage); i++){
     pageIndicator.push(i)
@@ -6,15 +7,9 @@ const PageIndicator = (totalPage) => {
 
     return (
         <div className="flex gap-1">
-          {/* {pageIndicator.map((index) => (
-            <button key={index} className="page-indicator focus:bg-[#FF8906] focus:w-8 bg-[#E8E8E8] w-2 h-2 rounded-md transition-all"></button>
-          ))} */}
-
-          <button className="page-indicator focus:bg-[#FF8906] focus:w-8 bg-[#E8E8E8] w-2 h-2 rounded-md transition-all"></button>
-          <button className="page-indicator focus:bg-[#FF8906] focus:w-8 bg-[#E8E8E8] w-2 h-2 rounded-md transition-all"></button>
-          <button className="page-indicator focus:bg-[#FF8906] focus:w-8 bg-[#E8E8E8] w-2 h-2 rounded-md transition-all"></button>
-          <button className="page-indicator focus:bg-[#FF8906] focus:w-8 bg-[#E8E8E8] w-2 h-2 rounded-md transition-all"></button>
-        
+          {pageIndicator.map((item) => (
+            <button key={item} className={`${item === currentPage && 'bg-[#FF8906] w-8'} bg-[#E8E8E8] w-2 h-2 rounded-md transition-all`}></button>
+          ))}
       </div>
     )
 }

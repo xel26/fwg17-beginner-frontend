@@ -12,9 +12,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Checkout = () => {
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
-  
-  const [products, setProducts] = useState([
+ const [products, setProducts] = useState([
     {
       productName:"Hazelnut Latte",
       quantity:"2",
@@ -59,7 +57,7 @@ const Checkout = () => {
   
   return (
     <body className="flex flex-col items-center">
-      <Navbar token={token} setToken={setToken}/>
+      <Navbar/>
 
       <div className="flex flex-col px-4 w-full sm:w-5/6 mt-20 sm:mt-24 mb-10 sm:mb-16 gap-4">
         <h1 className="text-2xl sm:text-3xl font-semibold">Payment Details</h1>

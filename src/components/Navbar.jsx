@@ -1,11 +1,17 @@
+import axios from "axios";
 import { Link } from "react-router-dom";
-import CupCoffee from "../assets/media/cup-coffee-icon-white.png";
-import TextLogo from "../assets/media/text-logo-white.png";
 import { FiShoppingCart, FiMenu, FiSearch, FiUser } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
-import axios from "axios";
+
+import { useDispatch, useSelector } from "react-redux";
+import { logout as logoutAction } from "../redux/reducers/auth";
+import { setProfile as setProfileAction} from '../redux/reducers/profile'
+
+import CupCoffee from "../assets/media/cup-coffee-icon-white.png";
+import TextLogo from "../assets/media/text-logo-white.png";
 import defaultPhoto from '../assets/media/default-photo-profil.jpeg'
+
 
 const LinkNav = ({mobile, destination, value, handlective}) => {
   return (
@@ -18,38 +24,44 @@ const LinkNav = ({mobile, destination, value, handlective}) => {
   )
 }
 
-const Navbar = ({home, token, setToken, picture}) => {
+const Navbar = ({home}) => {
 
   const [navMobile, setNavMobile] = useState(false)
   const [navSearch, setNavSearch] = useState(false)
   const [homeActive, setHomeActive] = useState(false)
   const [productActive, setProductActive] = useState(false)
-  const [dataProfile, setDataProfile] = useState({})
   const navigate = useNavigate()
 
-  const onLogout = () => {
-    window.localStorage.removeItem('token')
-    setToken(null)
-    navigate('/')
+  const token = useSelector(state => state.auth.token)
+  const dataProfile = useSelector(state => state.profile.data)
+  const dispatch = useDispatch()
+  
+  const getProfile =  async () => {
+    if(token){
+      try {
+        const {data} = await axios.get(`http://localhost:8888/profile`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+  
+        dispatch(setProfileAction(data.results))
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
-  const getProfile =  async () => {
-    try {
-      const {data} = await axios.get(`http://localhost:8888/profile`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      setDataProfile(data.results)
-    } catch (error) {
-      console.log(error)
-    }
+  const onLogout = () => {
+    dispatch(logoutAction())
+    navigate('/')
   }
 
 
 
   useEffect(() => {
     getProfile()
+
     if(document.URL.endsWith('/')){
       setHomeActive(true)
       setProductActive(false)
@@ -66,7 +78,7 @@ const Navbar = ({home, token, setToken, picture}) => {
       } z-50`}
     >
       <div className="flex justify-between items-center sm:h-full w-5/6">
-        <div className="flex gap-12">
+        <div className="flex sm:gap-12 ">
           <div className="flex gap-4">
             <div>
               <img src={CupCoffee} />
@@ -85,7 +97,7 @@ const Navbar = ({home, token, setToken, picture}) => {
           </div>
         </div>
 
-        <div className="relative flex items-center gap-5 sm:w-[32rem] justify-end">
+        <div className="relative flex items-center gap-2 sm:gap-5 sm:w-[32rem] justify-end">
           <form
             className={`${
               !navSearch ? "hidden" : "flex"
@@ -113,7 +125,7 @@ const Navbar = ({home, token, setToken, picture}) => {
           </Link>
 
           {token && dataProfile && (
-            <div className="flex-1 flex justify-end items-center sm:hidden">
+            <div className="flex-1 flex justify-end items-center sm:hidden ">
               <Link to="/profile">
                 <img
                   className="rounded-full w-8 h-8 object-cover"
@@ -164,7 +176,6 @@ const Navbar = ({home, token, setToken, picture}) => {
       </div>
 
       <div
-        id="nav-mobile"
         className={`${
           !navMobile ? "hidden" : "flex"
         } sm:hidden flex-col gap-3 w-5/6 h-fit`}

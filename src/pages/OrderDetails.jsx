@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 const ListOrderInformation = ({field, value, color}) => {
     return (
@@ -40,25 +41,12 @@ const ListOrderInformation = ({field, value, color}) => {
 }
 
 const OrderDetails = () => {
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
   const {id} = useParams()
-  const [dataCustomer, setDataCustomer] = useState()
   const [dataDetails, setDataDetails] = useState()
   const date = dataDetails && moment(dataDetails.createdAt)
 
-  const getCustomer =  async () => {
-    try {
-      const {data} = await axios.get(`http://localhost:8888/profile`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      console.log(data)
-      setDataCustomer(data.results)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const token = useSelector(state => state.auth.token)
+  const dataCustomer = useSelector(state => state.profile.data)
 
   const getDetailsOrder = async () => {
     try {
@@ -81,7 +69,6 @@ const OrderDetails = () => {
       behavior: "smooth",
     });
 
-    getCustomer()
     getDetailsOrder()
   }, [])
 
@@ -130,7 +117,7 @@ const OrderDetails = () => {
 
     return (
       <body className="flex flex-col items-center">
-        <Navbar token={token} setToken={setToken} />
+        <Navbar />
 
         <div className="flex flex-col gap-2 w-5/6 mt-20 sm:mt-24 mb-6">
           <h1 className="text-xl sm:text-3xl">

@@ -1,5 +1,11 @@
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+// redux integrations
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
+
+// pages & components
 import Register from './pages/Register'
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPassword'
@@ -58,9 +64,9 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
   )
 }
 

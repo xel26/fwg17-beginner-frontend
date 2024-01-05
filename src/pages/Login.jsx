@@ -1,15 +1,22 @@
-import { useEffect, useState } from 'react'
-import FormAuth from '../components/FormAuth'
 import axios from 'axios'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { login as loginAction } from '../redux/reducers/auth'
+
+import FormAuth from '../components/FormAuth'
+
 
 const Login = () => {
   const [success, setSuccess] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
   const navigate = useNavigate()
+  
+  const token = useSelector(state => state.auth.token)
+  const dispatch = useDispatch()
 
   const authLogin = async (event) => {
     event.preventDefault()
@@ -23,8 +30,8 @@ const Login = () => {
     try{
       const {data} = await axios.post('http://localhost:8888/auth/login', form.toString())
       const {token: resultToken} = data.results
-      setToken(resultToken)
-      window.localStorage.setItem('token', resultToken)
+
+      dispatch(loginAction(resultToken))
 
       setSuccessMessage(data.message)
       setSuccess(true)
