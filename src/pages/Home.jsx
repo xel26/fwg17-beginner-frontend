@@ -33,7 +33,7 @@ const ListProvide = ({ text }) => {
       <div className="bg-[#2FAB73] rounded-full text-white w-fit h-fit">
         <FiCheckCircle className="h-5 w-fit" />
       </div>
-      <p className="text-sm text-[#4F5665]">{text}</p>
+      <p className="text-xs sm:text-sm text-[#4F5665]">{text}</p>
     </div>
   );
 };
@@ -88,8 +88,8 @@ const Home = () => {
     }
   ])
 
-  const [show, setShow] = useState(false)
-  const provideSection = useRef()
+  // const [show, setShow] = useState(false)
+  // const provideSection = useRef()
   // window.addEventListener('scroll', () => {                               // note: belum menggunakan useEffect dan belum paham useRef()
   //   const top = window.scrollY               
   //   const offsetTop = provideSection.current.offsetTop - 500
@@ -327,12 +327,9 @@ const Home = () => {
         <div className="flex-1 bg-[url('../assets/media/bg-home.jpg')] bg-center"></div>
       </section>
 
-      <section
-        ref={provideSection}
-        className="flex flex-col-reverse sm:flex-row w-full h-[64rem] sm:h-screen"
-      >
-        <div className="h-fit py-16 sm:py-0 sm:h-screen sm:flex-1  flex items-center">
-          <div className="flex flex-col ml-8 sm:ml-28 gap-4 h-fit max-w-lg">
+      <section className="flex flex-col-reverse sm:flex-row w-full h-[64rem] sm:h-screen ">
+        <div className="h-fit py-16 sm:py-0 px-4 sm:px-0 sm:h-screen sm:flex-1 flex items-center justify-center sm:justify-normal">
+          <div className="flex flex-col sm:ml-28 gap-4 h-fit max-w-lg ">
             <div
               className={`flex items-center gap-4`}
             >
@@ -341,15 +338,12 @@ const Home = () => {
                 We Provide{" "}
                 <span className="text-[#8E6447]">
                   Good <br /> Coffee
-                </span>
-                and
-                <span className="text-[#8E6447]">Healthy Meals</span>
+                </span>{" "}
+                and{" "}
+                <span className="text-[#8E6447]">Healthy <br /> Meals</span>
               </h1>
             </div>
-            <p
-              id="provide-description"
-              className={`text-sm text-[#4F5665]`}
-            >
+            <p className={`text-xs sm:text-sm text-[#4F5665]`}>
               You can explore the menu that we provide with fun and have their
               own <br /> taste and make your day better.
             </p>

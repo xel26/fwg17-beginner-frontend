@@ -38,6 +38,7 @@ const ProductDetails = () => {
   const [dataProducts, setDataProducts] = useState()
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
+  const [prevPage, setprevPage] = useState()
   const [disable, setDisable] = useState(false)
   const[currentPage, setCurrentPage] = useState()
 
@@ -53,6 +54,7 @@ const ProductDetails = () => {
       console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setprevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
 
         if(data.pageInfo.nextPage === null){
@@ -77,6 +79,33 @@ const ProductDetails = () => {
       console.log(data)
       setDataProducts(data.results)
       setNextPage(data.pageInfo.nextPage)
+      setprevPage(data.pageInfo.prevPage)
+      setCurrentPage(data.pageInfo.currentPage)
+
+      if(data.pageInfo.nextPage === null){
+        setDisable(true)
+      }else{
+        setDisable(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  const prevPageNavigator = async () => {
+    try {
+      const {data} = await axios.get(`http://localhost:8888/products`, {
+        params: {
+          limit: 3,
+          page: prevPage,
+          isRecommended: true
+        }
+      })
+      console.log(data)
+      setDataProducts(data.results)
+      setNextPage(data.pageInfo.nextPage)
+      setprevPage(data.pageInfo.prevPage)
       setCurrentPage(data.pageInfo.currentPage)
 
       if(data.pageInfo.nextPage === null){
@@ -199,6 +228,7 @@ const ProductDetails = () => {
           totalPage={totalPage}
           pageHandle={pageNavigator}
           nextPageHandle={nextPageNavigator}
+          prevPageHandle={prevPageNavigator}
           handleDisable={disable}
           currentPage={currentPage}
         />

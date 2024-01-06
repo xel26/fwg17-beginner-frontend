@@ -237,6 +237,7 @@ const Products = () => {
   const [dataProducts, setDataProducts] = useState()
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
+  const [prevPage, setPrevPage] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [queryParameter, setQueryParameter] = useState(null)
   const [errorMessage, setErrorMessage] = useState()
@@ -249,6 +250,7 @@ const Products = () => {
       console.log(data)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
+      setPrevPage(data.pageInfo.prevPage)
       setCurrentPage(data.pageInfo.currentPage)
       setDataProducts(data.results)
     } catch (error) {
@@ -298,9 +300,11 @@ const Products = () => {
       console.log(data)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
+      setPrevPage(data.pageInfo.prevPage)
       setCurrentPage(data.pageInfo.currentPage)
       setDataProducts(data.results)
       setQueryParameter(queryParams)
+
       if(data.pageInfo.nextPage === null){
         setDisable(true)
       }else{
@@ -330,6 +334,7 @@ const Products = () => {
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
 
         if(data.pageInfo.nextPage === null){
@@ -342,6 +347,7 @@ const Products = () => {
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
         
         if(data.pageInfo.nextPage === null){
@@ -369,6 +375,7 @@ const Products = () => {
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
         
         if(data.pageInfo.nextPage === null){
@@ -380,6 +387,7 @@ const Products = () => {
         const {data} = await axios.get(`http://localhost:8888/products?page=${nextPage}`)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
 
         if(data.pageInfo.nextPage === null){
@@ -391,6 +399,54 @@ const Products = () => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  
+  const prevPageNavigator = async () => {
+    window.scrollTo({                           // note: bug saat ke halaman terakhir
+      top: 500,
+      left: 0,
+      behavior: "smooth",
+    });
+    
+    try {
+      if(queryParameter){
+        const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${prevPage}`)
+        console.log(data)
+        setDataProducts(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
+        setCurrentPage(data.pageInfo.currentPage)
+        
+        if(data.pageInfo.nextPage === null){
+          setDisable(true)
+        }else{
+          setDisable(false)
+        }
+      }else{
+        const {data} = await axios.get(`http://localhost:8888/products?page=${prevPage}`)
+        setDataProducts(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
+        setCurrentPage(data.pageInfo.currentPage)
+
+        if(data.pageInfo.nextPage === null){
+          setDisable(true)
+        }else{
+          setDisable(false)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const [scrollPosition, setScrollPosition] = useState(0)
+  const scrollKupon  = (e) => {
+    // setScrollPosition(scrollPosition + 100)
+    // console.log(scrollPosition)
+
+    e.target.scrollLeft += 100
   }
 
 
@@ -454,18 +510,19 @@ const Products = () => {
         <Filter mobile={true} handleFilter={searchProduct}/>
       </section>
 
-      <section className="flex flex-col w-full items-center gap-4 overflow-x-hidden">
-        <div className="w-5/6 flex justify-between">
+      <section onClick={scrollKupon} className="flex flex-col w-full items-center gap-4 verflow-x-hidden bg-blue-300">
+        <div className="w-5/6 flex justify-between bg-green-200">
           <h1 className="text-2xl sm:text-3xl">
             Today <span className="text-[#8E6447]">Promo</span>
           </h1>
 
-          <div className="hidden sm:flex gap-2">
+          <div className="hidden sm:flex gap-2 ">
             <ButtonSwipe />
           </div>
         </div>
 
-        <div className="w-fit flex gap-10">
+        
+        <div className={`w-fit flex gap-10 bg-violet-400 `}>
           {kupon.map((item, index) => (
             <Kupon
               key={index}
@@ -477,8 +534,9 @@ const Products = () => {
           ))}
         </div>
 
-        <div className="w-5/6">
-          <PageIndicator/>
+          {/* note: belum muncul */}
+        <div className="w-5/6 bg-red-400">
+          <PageIndicator totalPage="4"/> 
         </div>
       </section>
 
@@ -529,7 +587,7 @@ const Products = () => {
             </div>
 
             {!error &&
-            <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} handleDisable={disable} currentPage={currentPage}/>
+            <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} prevPageHandle={prevPageNavigator} handleDisable={disable} currentPage={currentPage}/>
             }
             
           </main>

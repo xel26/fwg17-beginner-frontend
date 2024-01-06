@@ -87,6 +87,7 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
 const HistoryOrder = () => {
 const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
+  const [prevPage, setPrevPage] = useState()
   const[currentPage, setCurrentPage] = useState()
   const [filter, setFilter] = useState(null)
   const [disable, setDisable] = useState(false)
@@ -108,6 +109,7 @@ const [totalPage, setTotalPage] = useState()
       setOrders(data.results)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
+      setPrevPage(data.pageInfo.prevPage);
       setTotalData(data.pageInfo.totalData)
       setCurrentPage(data.pageInfo.currentPage)
     } catch (error) {
@@ -131,6 +133,7 @@ const [totalPage, setTotalPage] = useState()
       setOrders(data.results)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
+      setPrevPage(data.pageInfo.prevPage);
       setCurrentPage(data.pageInfo.currentPage)
       setTotalData(data.pageInfo.totalData)
       setFilter(filterStatus)
@@ -168,6 +171,7 @@ const [totalPage, setTotalPage] = useState()
         console.log(data);
         setOrders(data.results);
         setNextPage(data.pageInfo.nextPage);
+        setPrevPage(data.pageInfo.prevPage);
         setCurrentPage(data.pageInfo.currentPage)
 
         if (data.pageInfo.nextPage === null) {
@@ -187,6 +191,7 @@ const [totalPage, setTotalPage] = useState()
         console.log(data);
         setOrders(data.results);
         setNextPage(data.pageInfo.nextPage);
+        setPrevPage(data.pageInfo.prevPage);
         setCurrentPage(data.pageInfo.currentPage)
 
         if (data.pageInfo.nextPage === null) {
@@ -222,6 +227,7 @@ const [totalPage, setTotalPage] = useState()
         console.log(data);
         setOrders(data.results);
         setNextPage(data.pageInfo.nextPage);
+        setPrevPage(data.pageInfo.prevPage);
         setCurrentPage(data.pageInfo.currentPage)
 
         if (data.pageInfo.nextPage === null) {
@@ -241,6 +247,7 @@ const [totalPage, setTotalPage] = useState()
         console.log(data);
         setOrders(data.results);
         setNextPage(data.pageInfo.nextPage);
+        setPrevPage(data.pageInfo.prevPage);
         setCurrentPage(data.pageInfo.currentPage)
 
         if (data.pageInfo.nextPage === null) {
@@ -253,6 +260,63 @@ const [totalPage, setTotalPage] = useState()
       console.log(error);
     }
   };
+
+
+  const prevPageNavigator = async () => {
+    window.scrollTo({
+      // note: bug saat ke halaman terakhir
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+
+    try {
+      if (filter) {
+        const { data } = await axios.get(
+          `http://localhost:8888/orders?page=${prevPage}&status=${filter}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(data);
+        setOrders(data.results);
+        setNextPage(data.pageInfo.nextPage);
+        setPrevPage(data.pageInfo.prevPage);
+        setCurrentPage(data.pageInfo.currentPage)
+
+        if (data.pageInfo.nextPage === null) {
+          setDisable(true);
+        } else {
+          setDisable(false);
+        }
+      } else {
+        const { data } = await axios.get(
+          `http://localhost:8888/orders?page=${prevPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(data);
+        setOrders(data.results);
+        setNextPage(data.pageInfo.nextPage);
+        setPrevPage(data.pageInfo.prevPage);
+        setCurrentPage(data.pageInfo.currentPage)
+
+        if (data.pageInfo.nextPage === null) {
+          setDisable(true);
+        } else {
+          setDisable(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 
   useEffect(() => {
     dataOrders()
@@ -290,7 +354,7 @@ const [totalPage, setTotalPage] = useState()
           </div>
 
           <div className="relative flex flex-col gap-4 h-fit">
-          <div className={`absolute text-center top-10 py-2 px-4 bg-white shadow-md  rounded text-sm text-red-500 flex justify-center items-center font-bold ${error ? 'flex' : 'hidden'}`}>
+          <div className={`absolute text-center top-10 py-2 px-4 bg-white shadow-md rounded text-sm text-red-500 flex justify-center items-center font-bold ${error ? 'flex' : 'hidden'}`}>
                 <h1>{errorMessage}</h1>
           </div>
 
@@ -309,7 +373,7 @@ const [totalPage, setTotalPage] = useState()
           </div>
           
           {!error &&
-          <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} handleDisable={disable} currentPage={currentPage}/>
+          <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} prevPageHandle={prevPageNavigator} handleDisable={disable} currentPage={currentPage}/>
           }
         </div>
 
