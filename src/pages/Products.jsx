@@ -441,13 +441,16 @@ const Products = () => {
     }
   }
 
-  const [scrollPosition, setScrollPosition] = useState(0)
-  const scrollKupon  = (e) => {
-    // setScrollPosition(scrollPosition + 100)
-    // console.log(scrollPosition)
 
-    e.target.scrollLeft += 100
-  }
+
+
+  const [position, setPosition] = useState(0);
+
+  const handleSlideLeft = () => {
+    setPosition(position + 1);
+    console.log("test")
+    console.log(position)
+  };
 
 
   useEffect(() => {
@@ -510,19 +513,19 @@ const Products = () => {
         <Filter mobile={true} handleFilter={searchProduct}/>
       </section>
 
-      <section onClick={scrollKupon} className="flex flex-col w-full items-center gap-4 verflow-x-hidden bg-blue-300">
-        <div className="w-5/6 flex justify-between bg-green-200">
+      <section className="flex flex-col w-full items-center gap-4 overflow-hidden bg-blue-300">
+        <div className="w-5/6 flex justify-between ">
           <h1 className="text-2xl sm:text-3xl">
             Today <span className="text-[#8E6447]">Promo</span>
           </h1>
 
           <div className="hidden sm:flex gap-2 ">
-            <ButtonSwipe />
+            <ButtonSwipe handleNextPage={handleSlideLeft}/>
           </div>
         </div>
 
         
-        <div className={`w-fit flex gap-10 bg-violet-400 `}>
+        <div className={`w-fit flex gap-10 bg-violet-400 translate-x-[${position}rem]`}>
           {kupon.map((item, index) => (
             <Kupon
               key={index}

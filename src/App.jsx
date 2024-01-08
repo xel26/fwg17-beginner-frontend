@@ -3,7 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 // redux integrations
 import { Provider } from 'react-redux'
-import { store } from './redux/store'
+import { persistor, store } from './redux/store'
+import { PersistGate } from 'redux-persist/integration/react'
 
 // pages & components
 import Register from './pages/Register'
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/products/:id',
-    element: <PrivateRoute> <ProductDetails /> </PrivateRoute>
+    element: <ProductDetails /> 
   },
   {
     path: '/checkout',
@@ -64,10 +65,12 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-      <Provider store={store}>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
         <RouterProvider router={router} />
-      </Provider>
-  )
+      </PersistGate>
+    </Provider>
+  );
 }
 
 export default App

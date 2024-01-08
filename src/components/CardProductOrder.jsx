@@ -1,27 +1,19 @@
-import Tag from '../components/Tag'
 import { FiXCircle } from "react-icons/fi"
-import Price from "./Price"
 
-const CardProductOrder = ({productName, quantity, size, variant, delivery, image, basePrice, discountPrice}) => {
-  const deleteItem = (event) => {  // bug
-    console.log(event)
-    if(event.target.farthestViewportElement.className.animVal.includes('delete')){
-      event.target.parentElement.parentElement.parentElement.parentElement.remove()
-      console.log(event.target.parentElement.parentElement.parentElement.parentElement)
-    }else if(event.target.className.animVal.includes('delete')){
-      event.target.parentElement.parentElement.remove()
-      console.log(event.target.parentElement.parentElement.parentElement)
-    }
-  }
+import Tag from '../components/Tag'
+import Price from "./Price"
+import Product1 from "../assets/media/detail-product1.jpg";
+
+const CardProductOrder = ({productName, quantity, size, variant, delivery, image, basePrice, discountPrice, tag}) => {
   
     return (
         <div className="relative flex items-center gap-2 sm:gap-4 bg-[#E8E8E84D] p-2">
         <div className="">
-          <img className="w-24 sm:w-36" src={image} />
+          <img className="w-24 h-24 sm:h-36 sm:w-36 object-cover" src={image ? `http://localhost:8888/uploads/products/${image}`: Product1} />
         </div>
         <div className="flex-1 flex flex-col gap-2 sm:gap-3 justify-center">
           <div>
-            <Tag text="FLASHSALE!"/>
+            <Tag text={tag? tag: 'FLASHSALE'}/>
           </div>
           <h4 className="font-bold text-xs sm:text-base">{productName}</h4>
           <div className="flex divide-x text-xs sm:text-sm text-[#4F5665] divide-[#4F5665] w-48 sm:w-60 whitespace-nowrap ">

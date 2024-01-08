@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setProduct } from "../redux/reducers/product";
+
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
-import { useParams } from "react-router-dom";
 import { recommendProducts } from './Home'
-import { useSelector } from "react-redux";
 
 const ProductDetails = () => {
   const token = useSelector(state => state.auth.token)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // details product start
   const {id} = useParams()
@@ -32,6 +36,23 @@ const ProductDetails = () => {
     }
   }
   // details product end
+
+
+
+  // add to redux start
+  const addToCart = (quantity, size, variant, delivery) => {
+    dispatch(setProduct({
+      ...infoProduct,
+      quantity,
+      size,
+      variant,
+      delivery
+    })
+    )
+    navigate('/checkout')
+  }
+   // add to redux end
+
 
 
   // recommendation products start
@@ -170,6 +191,7 @@ const ProductDetails = () => {
             price={infoProduct.basePrice}
             tag={infoProduct.tag}
             isRecommended={infoProduct.isRecommended}
+            handleAddToCart={addToCart}
           />
         ) : (
           infoProduct && (
@@ -182,6 +204,7 @@ const ProductDetails = () => {
               discountPrice={infoProduct.basePrice - infoProduct.discount}
               tag={infoProduct.tag}
               isRecommended={infoProduct.isRecommended}
+              handleAddToCart={addToCart}
             />
           )
         )}

@@ -4,7 +4,7 @@ import BCA from "../assets/media/BCA.png"
 import gopay from "../assets/media/gopay.png"
 import ovo from "../assets/media/ovo.png"
 import PayPal from "../assets/media/paypal.png"
-import Button from '../components/Button'
+
 import { Link } from "react-router-dom"
 
 const PaymentList = ({list, idr}) => {
@@ -13,25 +13,25 @@ const PaymentList = ({list, idr}) => {
       <h5 className="text-[#4F5665] font-semibold text-xs sm:text-base">
         {list}
       </h5>
-      <h5 className="font-semibold text-xs sm:text-base">Idr.{idr}</h5>
+      <h5 className="font-semibold text-xs sm:text-base">Idr.{idr.toLocaleString('id')}</h5>
     </div>
   );
 };
 
-const Payment = () => {
+const Payment = ({order, delivery, tax}) => {
     return (
         <div className="flex-1 h-fit flex flex-col">
         <div className="flex pt-1 h-12 font-semibold">
           <h4>Total</h4>
         </div>
         <div className="payment-summary bg-[#E8E8E84D] p-3 text-sm flex flex-col gap-4">
-            <PaymentList list="order" idr="40.000"/>
-            <PaymentList list="Delivery" idr="0"/>
-            <PaymentList list="Tax" idr="4000"/>
+            <PaymentList list="order" idr={order}/>
+            <PaymentList list="Delivery" idr={delivery}/>
+            <PaymentList list="Tax" idr={tax}/>
 
           <hr/>
 
-          <PaymentList list="Sub Total" idr="44.000"/>
+          <PaymentList list="Sub Total" idr={parseInt(order) + parseInt(delivery) + parseInt(tax)}/>
 
         <Link to="/history-order" className="bg-[#FF8906] w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 transition-all flex justify-center">Checkout</Link>
           <p className="text-xs text-[#4F5665]">We Accept</p>

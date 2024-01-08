@@ -192,7 +192,6 @@ const OrderDetails = () => {
                   delivery={product.delivery}
                   basePrice={product.basePrice}
                   discountPrice={product.discountPrice}
-                  image={product.image}
                 />
               ))}
             </div>
