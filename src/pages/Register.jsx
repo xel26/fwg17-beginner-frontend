@@ -1,6 +1,7 @@
 import FormAuth from "../components/FormAuth";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [success, setSuccess] = useState(false);
@@ -14,6 +15,7 @@ const Register = () => {
     const { value: email } = event.target.email;
     const { value: password } = event.target.password;
     const { value: confirmPassword } = event.target.confirmPassword;
+    const navigate = useNavigate()
     
     
       const form = new URLSearchParams();
@@ -31,7 +33,7 @@ const Register = () => {
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
-          window.location = "/login";
+          navigate("/login")
         }, 2000);
       } catch (err) {
         setErrorMessage(err.response.data.message);

@@ -41,6 +41,7 @@ const ListOrderInformation = ({field, value, color}) => {
 }
 
 const OrderDetails = () => {
+  const products = useSelector(state => state.product.data)
   const {id} = useParams()
   const [dataDetails, setDataDetails] = useState()
   const date = dataDetails && moment(dataDetails.createdAt)
@@ -72,48 +73,48 @@ const OrderDetails = () => {
     getDetailsOrder()
   }, [])
 
-  const [products, setProducts] = useState([
-    {
-      productName:"Hazelnut Latte",
-      quantity:"2",
-      size:"Regular",
-      variant:"Ice",
-      delivery:"Dine in",
-      basePrice:"20.000",
-      discountPrice:"10.000",
-      image:Product1
-    },
-    {
-      productName:"Latte",
-      quantity:"1",
-      size:"Small",
-      variant:"Ice",
-      delivery:"Door Delivery",
-      basePrice:"25.000",
-      discountPrice:"20.000",
-      image:Product2
-    },
-    {
-      productName:"Cappucino",
-      quantity:"2",
-      size:"Regular",
-      variant:"Hot",
-      delivery:"Dine in",
-      basePrice:"30.000",
-      discountPrice:"25.000",
-      image:Product3
-    },
-    {
-      productName:"Affogato",
-      quantity:"3",
-      size:"Medium",
-      variant:"Ice",
-      delivery:"Pick Up",
-      basePrice:"20.000",
-      discountPrice:"15.000",
-      image:Product4
-    }
-  ])
+  // const [products, setProducts] = useState([
+  //   {
+  //     productName:"Hazelnut Latte",
+  //     quantity:"2",
+  //     size:"Regular",
+  //     variant:"Ice",
+  //     delivery:"Dine in",
+  //     basePrice:"20000",
+  //     discountPrice:"10000",
+  //     image:Product1
+  //   },
+  //   {
+  //     productName:"Latte",
+  //     quantity:"1",
+  //     size:"Small",
+  //     variant:"Ice",
+  //     delivery:"Door Delivery",
+  //     basePrice:"25000",
+  //     discountPrice:"20000",
+  //     image:Product2
+  //   },
+  //   {
+  //     productName:"Cappucino",
+  //     quantity:"2",
+  //     size:"Regular",
+  //     variant:"Hot",
+  //     delivery:"Dine in",
+  //     basePrice:"30000",
+  //     discountPrice:"25000",
+  //     image:Product3
+  //   },
+  //   {
+  //     productName:"Affogato",
+  //     quantity:"3",
+  //     size:"Medium",
+  //     variant:"Ice",
+  //     delivery:"Pick Up",
+  //     basePrice:"20000",
+  //     discountPrice:"15000",
+  //     image:Product4
+  //   }
+  // ])
 
     return (
       <body className="flex flex-col items-center">
@@ -121,10 +122,15 @@ const OrderDetails = () => {
 
         <div className="flex flex-col gap-2 w-5/6 mt-20 sm:mt-24 mb-6">
           <h1 className="text-xl sm:text-3xl">
-            Order <span className="font-bold">#{dataDetails && dataDetails.orderNumber}</span>
+            Order{" "}
+            <span className="font-bold">
+              #{dataDetails && dataDetails.orderNumber}
+            </span>
           </h1>
           <p className="text-[#4F5665] text-xs sm:text-sm">
-            {date && date.format('D').padStart(2, '0')} {date && date.format('MMMM')} {date && date.format('YYYY')} at {date && date.format('LT')}
+            {date && date.format("D").padStart(2, "0")}{" "}
+            {date && date.format("MMMM")} {date && date.format("YYYY")} at{" "}
+            {date && date.format("LT")}
           </p>
         </div>
 
@@ -152,15 +158,9 @@ const OrderDetails = () => {
                     value={dataCustomer.phoneNumber}
                   />
 
-                  <ListOrderInformation
-                    field="Payment Method"
-                    value="cash"
-                  />
+                  <ListOrderInformation field="Payment Method" value="cash" />
 
-                  <ListOrderInformation
-                    field="Shipping"
-                    value="Dine In"
-                  />
+                  <ListOrderInformation field="Shipping" value="Dine In" />
 
                   <ListOrderInformation
                     field="Status"
@@ -182,7 +182,7 @@ const OrderDetails = () => {
             <h4 className="font-semibold">Your Order</h4>
 
             <div className="flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[22rem] sm:max-h-[21rem]">
-              {products.map((product, index) => (
+              {/* {products.map((product, index) => (
                 <CardProductOrder
                   key={index}
                   productName={product.productName}
@@ -193,7 +193,21 @@ const OrderDetails = () => {
                   basePrice={product.basePrice}
                   discountPrice={product.discountPrice}
                 />
-              ))}
+              ))} */}
+
+              {products && (
+                <CardProductOrder
+                  productName={products.name}
+                  quantity={products.quantity}
+                  size={products.size}
+                  variant={products.variant}
+                  delivery={products.delivery}
+                  basePrice={products.basePrice}
+                  discountPrice={products.basePrice - products.discount}
+                  image={products.image}
+                  tag={products.tag}
+                />
+              )}
             </div>
           </div>
         </div>

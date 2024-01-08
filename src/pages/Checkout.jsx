@@ -168,7 +168,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <Payment order={products && (products.basePrice - products.discount + priceSize + priceVariant) * products.quantity} delivery='0' tax='4000'/>
+          <Payment order={products && (products.basePrice - products.discount + priceSize + priceVariant) * products.quantity} deliveryFee='0' tax={4000}/>
         </form>
       </div>
 
