@@ -184,7 +184,7 @@ const OrderDetails = () => {
 
                   <ListOrderInformation
                     field="Total Transaksi"
-                    value={dataDetails && parseInt(dataDetails.subTotal)}
+                    value={dataDetails && parseInt(dataDetails.subtotal)}
                     color="#FF8906"
                   />
                 </>

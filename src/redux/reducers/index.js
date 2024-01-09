@@ -6,6 +6,7 @@ import auth from "./auth";
 import profile from "./profile";
 import product from "./product"
 import totalOrder from "./totalOrder";
+import deliveryShipping from "./deliveryShipping";
 
 const authConfig = {
     key: 'auth',
@@ -16,7 +17,8 @@ const reducer = combineReducers({
     auth: persistReducer(authConfig, auth),
     profile,
     product,
-    totalOrder
+    totalOrder,
+    deliveryShipping
 })
 
 export default reducer

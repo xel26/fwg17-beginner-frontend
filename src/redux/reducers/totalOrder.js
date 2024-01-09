@@ -10,9 +10,12 @@ const totalOrder = createSlice({
     reducers: {
         setTotal: (state, action) => {
             state.total += action.payload
+        },
+        resetTotal: () => {
+            return initialState
         }
     }
 })
 
-export const {setTotal} = totalOrder.actions
+export const {setTotal, resetTotal} = totalOrder.actions
 export default totalOrder.reducer

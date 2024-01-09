@@ -3,6 +3,9 @@ import { FiThumbsUp, FiShoppingCart, FiPlus, FiMinus } from "react-icons/fi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { setShipping } from "../redux/reducers/deliveryShipping";
+import { useDispatch } from "react-redux";
+
 import Price from "./Price";
 import Rating from "./Rating";
 import Tag from "../components/Tag";
@@ -18,7 +21,7 @@ const OptionList = ({variety, name, onChange, checked}) => {
 }
 
 
-const OptionVariety = ({option, onChange, checked}) => {
+export const OptionVariety = ({option, onChange, checked}) => {
   return (
       <div className="flex flex-col gap-1">
       <h4 className="font-semibold text-[0.7rem] sm:text-xs">{option}</h4>
@@ -62,23 +65,24 @@ const Details = ({ productName, rating, review, description, basePrice, discount
   };
   // quantity end
 
+
   // variant start
+  const dispatch = useDispatch()
+  
   const [checked, setChecked] = useState(false);
 
   const [size, setSize] = useState("Regular");
-  const [priceSize, setPriceSize] = useState();
+  const [dataSize, setDataSize] = useState();
 
   const [variant, setVariant] = useState("Hot");
-  const [priceVariant, setPriceVariant] = useState();
-
-  const [delivery, setDelivery] = useState("Dine In");
+  const [dataVariant, setDataVariant] = useState();
 
   const getPriceSize = async (size) => {
     try {
       const { data } = await axios.get(
         `http://localhost:8888/additional-price-size?name=${size}`
       );
-      setPriceSize(data.results.additionalPrice);
+      setDataSize(data.results);
     } catch (error) {
       console.log(error);
     }
@@ -88,27 +92,27 @@ const Details = ({ productName, rating, review, description, basePrice, discount
     const getPriceVariant = async (variant) => {
       try {
         const {data} = await axios.get(`http://localhost:8888/additional-price-variant?name=${variant}`)
-        setPriceVariant(data.results.additionalPrice)
+        setDataVariant(data.results)
       } catch (error) {
         console.log(error)
       }
     }
 
-  const handleCheckbox = (event) => {
-    setChecked(!checked);
-
-    if (event.target.checked) {
-      if (event.target.name == "size") {
-        setSize(event.target.value);
-        getPriceSize(event.target.value);
-      } else if (event.target.name == "variant") {
-        setVariant(event.target.value);
-        getPriceVariant(event.target.value)
-      } else {
-        setDelivery(event.target.value);
+     const handleCheckbox = (event) => {
+      setChecked(!checked);
+    
+      if (event.target.checked) {
+        if (event.target.name == "size") {
+          setSize(event.target.value);
+          getPriceSize(event.target.value);
+        } else if (event.target.name == "variant") {
+          setVariant(event.target.value);
+          getPriceVariant(event.target.value)
+        } else {
+          dispatch(setShipping(event.target.value));
+        }
       }
-    }
-  };
+    };
   // variant end
 
   return (
@@ -192,11 +196,6 @@ const Details = ({ productName, rating, review, description, basePrice, discount
         onChange={handleCheckbox}
         checked={checked}
       />
-      <OptionVariety
-        option="Delivery"
-        onChange={handleCheckbox}
-        checked={checked}
-      />
 
       <div
         to="checkout"
@@ -209,7 +208,7 @@ const Details = ({ productName, rating, review, description, basePrice, discount
           Buy
         </Link>
         <button
-          onClick={() => handleAddToCart(quantity, size, variant, delivery, priceSize && priceSize, priceVariant && priceVariant)}
+          onClick={() => handleAddToCart(quantity, size, variant, dataSize && dataSize, dataVariant && dataVariant)}
           className="flex-1 flex justify-center gap-2 sm:gap-4 text-[#FF8906] border border-[#FF8906] rounded py-1.5 active:scale-95 transition-all"
         >
           <FiShoppingCart size={20} />

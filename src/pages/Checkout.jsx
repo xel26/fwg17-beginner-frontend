@@ -5,6 +5,8 @@ import { FiPlus } from "react-icons/fi";
 
 import { useSelector } from "react-redux";
 
+import { OptionVariety } from "../components/Details";
+// import { handleCheckbox } from "../components/Details";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardProductOrder from "../components/CardProductOrder";
@@ -87,7 +89,7 @@ const Checkout = () => {
               <div className="order flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[22rem] sm:max-h-[21rem]">
                 {products &&
                   products.map((product, index) => (
-                      <CardProductOrder
+                    <CardProductOrder
                       key={index}
                       id={product.id}
                       productName={product.name}
@@ -100,7 +102,7 @@ const Checkout = () => {
                       image={product.image}
                       tag={product.tag}
                     />
-                    ))}
+                  ))}
 
                 {/* {products && (
                   <CardProductOrder
@@ -139,6 +141,11 @@ const Checkout = () => {
                 label="Address"
                 type="text"
                 placeholder="Enter Your Address"
+              />
+              <OptionVariety
+                option="Delivery"
+                // onChange={handleCheckbox}
+                // checked={checked}
               />
             </div>
           </div>

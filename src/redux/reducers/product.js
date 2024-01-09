@@ -11,11 +11,11 @@ const product = createSlice({
         setProduct: (state, action) => {
             state.data.push(action.payload)
         },
-        checkout: () => {
+        resetProducts: () => {
             return initialState
         }
     }
 })
 
-export const {setProduct, checkout} = product.actions
+export const {setProduct, resetProducts} = product.actions
 export default product.reducer

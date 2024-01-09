@@ -40,17 +40,18 @@ const ProductDetails = () => {
 
 
   // add to redux start
-  const addToCart = (quantity, size, variant, delivery, priceSize, priceVariant) => {
+  const addToCart = (quantity, size, variant, dataSize, dataVariant) => {
     dispatch(setProduct({
       ...infoProduct,
       quantity,
       size,
       variant,
-      delivery
+      sizeId: dataSize.id,
+      variantId: dataVariant.id
     })
     )
 
-    dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + priceSize + priceVariant) * quantity))
+    dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + dataSize.additionalPrice + dataVariant.additionalPrice) * quantity))
 
     // navigate('/checkout')
   }
