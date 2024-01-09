@@ -365,7 +365,7 @@ const [totalPage, setTotalPage] = useState()
                   id={order.id}
                   orderNumber={order.orderNumber}
                   date={`${moment(order.createdAt).format('D').padStart(2, '0')} ${moment(order.createdAt).format('MMMM')} ${moment(order.createdAt).format('YYYY')}`}
-                  total={order.total}
+                  total={parseInt(order.subTotal)}
                   statusDelivery={order.status}
                   image={Product1}
                 />

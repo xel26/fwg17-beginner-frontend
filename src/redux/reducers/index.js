@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage";
 import auth from "./auth";
 import profile from "./profile";
 import product from "./product"
+import totalOrder from "./totalOrder";
 
 const authConfig = {
     key: 'auth',
@@ -14,7 +15,8 @@ const authConfig = {
 const reducer = combineReducers({
     auth: persistReducer(authConfig, auth),
     profile,
-    product
+    product,
+    totalOrder
 })
 
 export default reducer

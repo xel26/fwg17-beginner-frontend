@@ -22,7 +22,7 @@ const CardProductOrder = ({productName, quantity, size, variant, delivery, image
             <p className="flex-1 flex justify-center">{variant}</p>
             <p className="flex-1 flex justify-center pl-2">{delivery}</p>
           </div>
-          <Price basePrice={parseInt(basePrice)} discountPrice={discountPrice}/>
+          <Price basePrice={parseInt(basePrice)} discountPrice={parseInt(discountPrice)}/>
           <button  type='button'className="delete absolute text-[#D00000] top-2 right-2 sm:top-auto sm:right-4 active:scale-90 transition-all">
             <FiXCircle className="delete h-4" />
           </button>

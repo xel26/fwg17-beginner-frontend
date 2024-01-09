@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProduct } from "../redux/reducers/product";
+import { setTotal } from "../redux/reducers/totalOrder";
 
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -12,7 +13,6 @@ import Details from "../components/Details";
 import { recommendProducts } from './Home'
 
 const ProductDetails = () => {
-  const token = useSelector(state => state.auth.token)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -40,7 +40,7 @@ const ProductDetails = () => {
 
 
   // add to redux start
-  const addToCart = (quantity, size, variant, delivery) => {
+  const addToCart = (quantity, size, variant, delivery, priceSize, priceVariant) => {
     dispatch(setProduct({
       ...infoProduct,
       quantity,
@@ -49,7 +49,10 @@ const ProductDetails = () => {
       delivery
     })
     )
-    navigate('/checkout')
+
+    dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + priceSize + priceVariant) * quantity))
+
+    // navigate('/checkout')
   }
    // add to redux end
 

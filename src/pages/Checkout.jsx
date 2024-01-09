@@ -61,33 +61,7 @@ const Checkout = () => {
 //   ])
 
   const products = useSelector(state => state.product.data)
-  const [priceSize, setPriceSize] = useState()
-  const [priceVariant, setPriceVariant] = useState()
-  console.log(priceSize && priceSize)
-  console.log(priceVariant && priceVariant)
 
-  const getPriceSize = async () => {
-    try {
-      const {data} = await axios.get(`http://localhost:8888/additional-price-size?name=${products.size}`)
-      setPriceSize(data.results.additionalPrice)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const getPriceVariant = async () => {
-    try {
-      const {data} = await axios.get(`http://localhost:8888/additional-price-variant?name=${products.variant}`)
-      setPriceVariant(data.results.additionalPrice)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getPriceSize()
-    getPriceVariant()
-  }, [])
   
   return (
     <body className="flex flex-col items-center">
@@ -111,23 +85,24 @@ const Checkout = () => {
               </div>
 
               <div className="order flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[22rem] sm:max-h-[21rem]">
-                {/* {
+                {products &&
                   products.map((product, index) => (
-                    <CardProductOrder
-                    key={index}
-                    productName={product.productName}
-                    quantity={product.quantity}
-                    size={product.size}
-                    variant={product.variant}
-                    delivery={product.delivery}
-                    basePrice={product.basePrice}
-                    discountPrice={product.discountPrice}
-                    image={product.image}
-                  />
-                  ))
-                } */}
+                      <CardProductOrder
+                      key={index}
+                      id={product.id}
+                      productName={product.name}
+                      quantity={product.quantity}
+                      size={product.size}
+                      variant={product.variant}
+                      delivery={product.delivery}
+                      basePrice={product.basePrice}
+                      discountPrice={product.basePrice - product.discount}
+                      image={product.image}
+                      tag={product.tag}
+                    />
+                    ))}
 
-                {products && (
+                {/* {products && (
                   <CardProductOrder
                     productName={products.name}
                     quantity={products.quantity}
@@ -139,7 +114,7 @@ const Checkout = () => {
                     image={products.image}
                     tag={products.tag}
                   />
-                )}
+                )} */}
               </div>
             </div>
 
@@ -168,7 +143,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <Payment order={products && (products.basePrice - products.discount + priceSize + priceVariant) * products.quantity} deliveryFee='0' tax={4000}/>
+          <Payment />
         </form>
       </div>
 

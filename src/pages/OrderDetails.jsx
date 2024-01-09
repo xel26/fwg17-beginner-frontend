@@ -41,9 +41,10 @@ const ListOrderInformation = ({field, value, color}) => {
 }
 
 const OrderDetails = () => {
-  const products = useSelector(state => state.product.data)
+  // const products = useSelector(state => state.product.data)
   const {id} = useParams()
   const [dataDetails, setDataDetails] = useState()
+  const [dataProducts, setDataProducts] = useState()
   const date = dataDetails && moment(dataDetails.createdAt)
 
   const token = useSelector(state => state.auth.token)
@@ -58,6 +59,16 @@ const OrderDetails = () => {
       })
       console.log(data.results)
       setDataDetails(data.results)
+
+      const {data: dataProducts} = await axios.get(`http://localhost:8888/order-details?orderId=${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      setDataProducts(dataProducts.results)
+      console.log(dataProducts)
+
+
     } catch (error) {
       console.log(error)
     }
@@ -73,48 +84,48 @@ const OrderDetails = () => {
     getDetailsOrder()
   }, [])
 
-  // const [products, setProducts] = useState([
-  //   {
-  //     productName:"Hazelnut Latte",
-  //     quantity:"2",
-  //     size:"Regular",
-  //     variant:"Ice",
-  //     delivery:"Dine in",
-  //     basePrice:"20000",
-  //     discountPrice:"10000",
-  //     image:Product1
-  //   },
-  //   {
-  //     productName:"Latte",
-  //     quantity:"1",
-  //     size:"Small",
-  //     variant:"Ice",
-  //     delivery:"Door Delivery",
-  //     basePrice:"25000",
-  //     discountPrice:"20000",
-  //     image:Product2
-  //   },
-  //   {
-  //     productName:"Cappucino",
-  //     quantity:"2",
-  //     size:"Regular",
-  //     variant:"Hot",
-  //     delivery:"Dine in",
-  //     basePrice:"30000",
-  //     discountPrice:"25000",
-  //     image:Product3
-  //   },
-  //   {
-  //     productName:"Affogato",
-  //     quantity:"3",
-  //     size:"Medium",
-  //     variant:"Ice",
-  //     delivery:"Pick Up",
-  //     basePrice:"20000",
-  //     discountPrice:"15000",
-  //     image:Product4
-  //   }
-  // ])
+  const [products, setProducts] = useState([
+    {
+      name:"Hazelnut Latte",
+      quantity:"2",
+      size:"Regular",
+      variant:"Ice",
+      delivery:"Dine in",
+      basePrice:"20000",
+      discountPrice:"10000",
+      image:Product1
+    },
+    {
+      name:"Latte",
+      quantity:"1",
+      size:"Small",
+      variant:"Ice",
+      delivery:"Door Delivery",
+      basePrice:"25000",
+      discountPrice:"20000",
+      image:Product2
+    },
+    {
+      name:"Cappucino",
+      quantity:"2",
+      size:"Regular",
+      variant:"Hot",
+      delivery:"Dine in",
+      basePrice:"30000",
+      discountPrice:"25000",
+      image:Product3
+    },
+    {
+      name:"Affogato",
+      quantity:"3",
+      size:"Medium",
+      variant:"Ice",
+      delivery:"Pick Up",
+      basePrice:"20000",
+      discountPrice:"15000",
+      image:Product4
+    }
+  ])
 
     return (
       <body className="flex flex-col items-center">
@@ -145,32 +156,35 @@ const OrderDetails = () => {
                 <>
                   <ListOrderInformation
                     field="Full Name"
-                    value={dataCustomer.fullName}
+                    value={dataDetails && dataDetails.fullName}
                   />
 
                   <ListOrderInformation
                     field="Address"
-                    value={dataCustomer.address}
+                    value={dataCustomer && dataDetails.deliveryAddress}
                   />
 
                   <ListOrderInformation
                     field="Phone"
-                    value={dataCustomer.phoneNumber}
+                    value={dataCustomer && dataCustomer.phoneNumber}
                   />
 
                   <ListOrderInformation field="Payment Method" value="cash" />
 
-                  <ListOrderInformation field="Shipping" value="Dine In" />
+                  <ListOrderInformation
+                    field="Shipping"
+                    value={dataDetails && dataDetails.deliveryShipping}
+                  />
 
                   <ListOrderInformation
                     field="Status"
-                    value={dataDetails.status}
+                    value={dataDetails && dataDetails.status}
                     color="green"
                   />
 
                   <ListOrderInformation
                     field="Total Transaksi"
-                    value={dataDetails.total}
+                    value={dataDetails && parseInt(dataDetails.subTotal)}
                     color="#FF8906"
                   />
                 </>
@@ -182,20 +196,38 @@ const OrderDetails = () => {
             <h4 className="font-semibold">Your Order</h4>
 
             <div className="flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[22rem] sm:max-h-[21rem]">
-              {/* {products.map((product, index) => (
-                <CardProductOrder
-                  key={index}
-                  productName={product.productName}
-                  quantity={product.quantity}
-                  size={product.size}
-                  variant={product.variant}
-                  delivery={product.delivery}
-                  basePrice={product.basePrice}
-                  discountPrice={product.discountPrice}
-                />
-              ))} */}
+              {dataProducts &&
+                dataProducts.map((product, index) => (
+                  <CardProductOrder
+                    key={index}
+                    productName={product.productName}
+                    quantity={product.quantity}
+                    size={product.size}
+                    variant={product.variant}
+                    delivery={product.deliveryShipping}
+                    basePrice={product.basePrice}
+                    discountPrice={product.basePrice - product.discount}
+                    tag={product.tag}
+                    image={product.image}
+                  />
+                ))}
 
-              {products && (
+              {/* {products &&
+                products.map((product, index) => (
+                  <CardProductOrder
+                    key={index}
+                    productName={product.name}
+                    quantity={product.quantity}
+                    size={product.size}
+                    variant={product.variant}
+                    delivery={product.delivery}
+                    basePrice={product.basePrice}
+                    discountPrice={product.discountPrice}
+                    tag={product.tag}
+                  />
+                ))} */}
+
+              {/* {products && (
                 <CardProductOrder
                   productName={products.name}
                   quantity={products.quantity}
@@ -207,7 +239,7 @@ const OrderDetails = () => {
                   image={products.image}
                   tag={products.tag}
                 />
-              )}
+              )} */}
             </div>
           </div>
         </div>
