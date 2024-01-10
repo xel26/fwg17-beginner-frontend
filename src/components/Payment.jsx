@@ -50,9 +50,9 @@ const Payment = () => {
       console.log(data)
       console.log(data.results.id)
   
-      dispatch(resetProducts())
-      dispatch(resetTotal())
-      navigate('/history-order')
+      // dispatch(resetProducts())
+      // dispatch(resetTotal())
+      // navigate('/history-order')
 
     } catch (error) {
       console.log(error)

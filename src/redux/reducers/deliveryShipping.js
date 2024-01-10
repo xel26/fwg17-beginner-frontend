@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    shipping: "Dine In"
+    shipping: ""
 }
 
 const deliveryShipping = createSlice({

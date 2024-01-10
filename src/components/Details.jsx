@@ -4,45 +4,45 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { setShipping } from "../redux/reducers/deliveryShipping";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Price from "./Price";
 import Rating from "./Rating";
 import Tag from "../components/Tag";
 
-const OptionList = ({variety, name, onChange, checked}) => {
 
-  return (
-      <label type="button" className={`flex-1 flex justify-center border border-[#E8E8E8]  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
-      {variety}
-      <input onChange={onChange}  type="radio" name={name} value={variety}/>
-    </label>
-    )
-}
+export const OptionVariety = ({option, onChange, size, variant}) => {
+  const sizes = ["Regular", "Medium", "Large"]
+  const variants = ["Cold", "Hot"]
+  const shippingMethod = ["Dine In", "Door Delivery", "Pick Up"]
 
+  const deliveryShipping = useSelector(state => state.deliveryShipping.shipping)
 
-export const OptionVariety = ({option, onChange, checked}) => {
   return (
       <div className="flex flex-col gap-1">
-      <h4 className="font-semibold text-[0.7rem] sm:text-xs">{option}</h4>
+      <h4 className={`font-semibold ${option == "Delivery" ? 'text-xs sm:text-sm' : 'text-[0.7rem] sm:text-xs'}`}>{option}</h4>
       <div className="flex justify-between gap-2 sm:gap-4">
       {option == "Choose Size" ?(
-          <>
-          <OptionList variety="Regular" name="size" onChange={onChange} checked={checked}/>
-          <OptionList variety="Medium" name="size" onChange={onChange} checked={checked}/>
-          <OptionList variety="Large" name="size" onChange={onChange} checked={checked}/>
-          </>
+        sizes.map((value, index) => (
+          <label key={index} type="button" className={`${value == size ? 'border-[#FF8906]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
+          {value}
+          <input onChange={onChange}  type="radio" name={"size"} value={value} className="hidden"/>
+        </label>
+        ))
       ) : option == "Hot/Ice?" ? (
-          <>
-          <OptionList variety="Cold" name="variant" onChange={onChange} checked={checked}/>
-          <OptionList variety="Hot" name="variant" onChange={onChange} checked={checked}/>
-          </>
+        variants.map((value, index) => (
+          <label key={index} type="button" className={`${value == variant ? 'border-[#FF8906]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
+          {value}
+          <input onChange={onChange}  type="radio" name={"variant"} value={value} className="hidden"/>
+        </label>
+      ))
       ) :
-      <>
-      <OptionList variety="Dine In" name="delivery" onChange={onChange} checked={checked}/>
-      <OptionList variety="Door Delivery" name="delivery" onChange={onChange} checked={checked}/>
-      <OptionList variety="Pick Up" name="delivery" onChange={onChange} checked={checked}/>
-      </>
+      shippingMethod.map((value, index) => (
+        <label key={index} type="button" className={`${value == deliveryShipping ? 'border-[#FF8906]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border border-[#E8E8E8]  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
+        {value}
+        <input onChange={onChange}  type="radio" name={"delivery"} value={value} className="hidden"/>
+      </label>
+      ))
       }
       </div>
     </div>
@@ -71,10 +71,10 @@ const Details = ({ productName, rating, review, description, basePrice, discount
   
   const [checked, setChecked] = useState(false);
 
-  const [size, setSize] = useState("Regular");
+  const [size, setSize] = useState();
   const [dataSize, setDataSize] = useState();
 
-  const [variant, setVariant] = useState("Hot");
+  const [variant, setVariant] = useState();
   const [dataVariant, setDataVariant] = useState();
 
   const getPriceSize = async (size) => {
@@ -99,17 +99,13 @@ const Details = ({ productName, rating, review, description, basePrice, discount
     }
 
      const handleCheckbox = (event) => {
-      setChecked(!checked);
-    
       if (event.target.checked) {
         if (event.target.name == "size") {
           setSize(event.target.value);
           getPriceSize(event.target.value);
-        } else if (event.target.name == "variant") {
+        } else {
           setVariant(event.target.value);
           getPriceVariant(event.target.value)
-        } else {
-          dispatch(setShipping(event.target.value));
         }
       }
     };
@@ -189,12 +185,12 @@ const Details = ({ productName, rating, review, description, basePrice, discount
       <OptionVariety
         option="Choose Size"
         onChange={handleCheckbox}
-        checked={checked}
+        size={size}
       />
       <OptionVariety
         option="Hot/Ice?"
         onChange={handleCheckbox}
-        checked={checked}
+        variant={variant}
       />
 
       <div

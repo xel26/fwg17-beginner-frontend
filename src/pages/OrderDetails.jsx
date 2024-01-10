@@ -204,42 +204,12 @@ const OrderDetails = () => {
                     quantity={product.quantity}
                     size={product.size}
                     variant={product.variant}
-                    delivery={product.deliveryShipping}
                     basePrice={product.basePrice}
                     discountPrice={product.basePrice - product.discount}
                     tag={product.tag}
                     image={product.image}
                   />
                 ))}
-
-              {/* {products &&
-                products.map((product, index) => (
-                  <CardProductOrder
-                    key={index}
-                    productName={product.name}
-                    quantity={product.quantity}
-                    size={product.size}
-                    variant={product.variant}
-                    delivery={product.delivery}
-                    basePrice={product.basePrice}
-                    discountPrice={product.discountPrice}
-                    tag={product.tag}
-                  />
-                ))} */}
-
-              {/* {products && (
-                <CardProductOrder
-                  productName={products.name}
-                  quantity={products.quantity}
-                  size={products.size}
-                  variant={products.variant}
-                  delivery={products.delivery}
-                  basePrice={products.basePrice}
-                  discountPrice={products.basePrice - products.discount}
-                  image={products.image}
-                  tag={products.tag}
-                />
-              )} */}
             </div>
           </div>
         </div>

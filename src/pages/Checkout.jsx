@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setShipping } from "../redux/reducers/deliveryShipping";
 
 import { OptionVariety } from "../components/Details";
-// import { handleCheckbox } from "../components/Details";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardProductOrder from "../components/CardProductOrder";
@@ -19,52 +19,16 @@ import Product4 from "../assets/media/home-product1.jpg";
 
 
 const Checkout = () => {
-//  const [products, setProducts] = useState([
-//     {
-//       productName:"Hazelnut Latte",
-//       quantity:"2",
-//       size:"Regular",
-//       variant:"Ice",
-//       delivery:"Dine in",
-//       basePrice:"20.000",
-//       discountPrice:"10.000",
-//       image:Product1
-//     },
-//     {
-//       productName:"Latte",
-//       quantity:"1",
-//       size:"Small",
-//       variant:"Ice",
-//       delivery:"Door Delivery",
-//       basePrice:"25.000",
-//       discountPrice:"20.000",
-//       image:Product2
-//     },
-//     {
-//       productName:"Cappucino",
-//       quantity:"2",
-//       size:"Regular",
-//       variant:"Hot",
-//       delivery:"Dine in",
-//       basePrice:"30.000",
-//       discountPrice:"25.000",
-//       image:Product3
-//     },
-//     {
-//       productName:"Affogato",
-//       quantity:"3",
-//       size:"Medium",
-//       variant:"Ice",
-//       delivery:"Pick Up",
-//       basePrice:"20.000",
-//       discountPrice:"15.000",
-//       image:Product4
-//     }
-//   ])
-
   const products = useSelector(state => state.product.data)
+  const dispatch = useDispatch()
 
-  
+
+  const handleCheckbox = (event) => {
+    if (event.target.checked) {
+      dispatch(setShipping(event.target.value))
+    }
+  };
+
   return (
     <body className="flex flex-col items-center">
       <Navbar />
@@ -103,20 +67,6 @@ const Checkout = () => {
                       tag={product.tag}
                     />
                   ))}
-
-                {/* {products && (
-                  <CardProductOrder
-                    productName={products.name}
-                    quantity={products.quantity}
-                    size={products.size}
-                    variant={products.variant}
-                    delivery={products.delivery}
-                    basePrice={products.basePrice}
-                    discountPrice={products.basePrice - products.discount}
-                    image={products.image}
-                    tag={products.tag}
-                  />
-                )} */}
               </div>
             </div>
 
@@ -144,8 +94,7 @@ const Checkout = () => {
               />
               <OptionVariety
                 option="Delivery"
-                // onChange={handleCheckbox}
-                // checked={checked}
+                onChange={handleCheckbox}
               />
             </div>
           </div>
