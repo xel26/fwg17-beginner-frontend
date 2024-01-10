@@ -513,7 +513,7 @@ const Products = () => {
         <Filter mobile={true} handleFilter={searchProduct}/>
       </section>
 
-      <section className="flex flex-col w-full items-center gap-4 overflow-hidden bg-blue-300">
+      <section className="flex flex-col w-full items-center gap-4 overflow-hidden ">
         <div className="w-5/6 flex justify-between ">
           <h1 className="text-2xl sm:text-3xl">
             Today <span className="text-[#8E6447]">Promo</span>
@@ -525,7 +525,7 @@ const Products = () => {
         </div>
 
         
-        <div className={`w-fit flex gap-10 bg-violet-400 translate-x-[${position}rem]`}>
+        <div className={`w-fit flex gap-10  translate-x-[${position}rem]`}>
           {kupon.map((item, index) => (
             <Kupon
               key={index}

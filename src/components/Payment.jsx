@@ -10,6 +10,7 @@ import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { resetProducts } from "../redux/reducers/product"
 import { resetTotal } from "../redux/reducers/totalOrder"
+import { resetShipping } from "../redux/reducers/deliveryShipping"
 
 import { useState, useEffect } from "react"
 
@@ -50,9 +51,10 @@ const Payment = () => {
       console.log(data)
       console.log(data.results.id)
   
-      // dispatch(resetProducts())
-      // dispatch(resetTotal())
-      // navigate('/history-order')
+      dispatch(resetProducts())
+      dispatch(resetTotal())
+      dispatch(resetShipping())
+      navigate('/history-order')
 
     } catch (error) {
       console.log(error)

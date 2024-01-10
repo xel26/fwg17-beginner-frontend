@@ -11,7 +11,7 @@ import Rating from "./Rating";
 import Tag from "../components/Tag";
 
 
-export const OptionVariety = ({option, onChange, size, variant}) => {
+export const OptionVariety = ({option, onChange, size, variant, variantsProduct}) => {
   const sizes = ["Regular", "Medium", "Large"]
   const variants = ["Cold", "Hot"]
   const shippingMethod = ["Dine In", "Door Delivery", "Pick Up"]
@@ -30,10 +30,10 @@ export const OptionVariety = ({option, onChange, size, variant}) => {
         </label>
         ))
       ) : option == "Hot/Ice?" ? (
-        variants.map((value, index) => (
-          <label key={index} type="button" className={`${value == variant ? 'border-[#FF8906]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
-          {value}
-          <input onChange={onChange}  type="radio" name={"variant"} value={value} className="hidden"/>
+        variantsProduct.map((item, index) => (
+          <label key={index} type="button" className={`${item.name == variant ? 'border-[#FF8906]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
+          {item.name}
+          <input onChange={onChange}  type="radio" name={"variant"} value={item.name} className="hidden"/>
         </label>
       ))
       ) :
@@ -50,7 +50,7 @@ export const OptionVariety = ({option, onChange, size, variant}) => {
 }
 
 
-const Details = ({ productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, handleAddToCart }) => {
+const Details = ({ productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, variants, handleAddToCart }) => {
   // quantity start
   const [quantity, setQuantity] = useState(1);
   const mininum = quantity <= 1;
@@ -77,10 +77,10 @@ const Details = ({ productName, rating, review, description, basePrice, discount
   const [variant, setVariant] = useState();
   const [dataVariant, setDataVariant] = useState();
 
-  const getPriceSize = async (size) => {
+  const getDataSize = async (size) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/additional-price-size?name=${size}`
+        `http://localhost:8888/data-size?name=${size}`
       );
       setDataSize(data.results);
     } catch (error) {
@@ -89,9 +89,9 @@ const Details = ({ productName, rating, review, description, basePrice, discount
   };
 
 
-    const getPriceVariant = async (variant) => {
+    const getDataVariant = async (variant) => {
       try {
-        const {data} = await axios.get(`http://localhost:8888/additional-price-variant?name=${variant}`)
+        const {data} = await axios.get(`http://localhost:8888/data-variant?name=${variant}`)
         setDataVariant(data.results)
       } catch (error) {
         console.log(error)
@@ -102,10 +102,10 @@ const Details = ({ productName, rating, review, description, basePrice, discount
       if (event.target.checked) {
         if (event.target.name == "size") {
           setSize(event.target.value);
-          getPriceSize(event.target.value);
+          getDataSize(event.target.value);
         } else {
           setVariant(event.target.value);
-          getPriceVariant(event.target.value)
+          getDataVariant(event.target.value)
         }
       }
     };
@@ -187,15 +187,19 @@ const Details = ({ productName, rating, review, description, basePrice, discount
         onChange={handleCheckbox}
         size={size}
       />
+
+      {variants[0].id !== null &&
       <OptionVariety
         option="Hot/Ice?"
         onChange={handleCheckbox}
         variant={variant}
+        variantsProduct={variants}
       />
+      }
 
       <div
         to="checkout"
-        className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-3 sm:mt-4"
+        className="flex-1 flex items-end sm:flex-row gap-3 sm:gap-4 mt-3 sm:mt-4"
       >
         <Link
           to="/checkout"

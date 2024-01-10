@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    shipping: ""
+    shipping: "Dine In"
 }
 
 const deliveryShipping = createSlice({
@@ -10,9 +10,12 @@ const deliveryShipping = createSlice({
     reducers: {
         setShipping: (state, action) => {
             state.shipping = action.payload
+        },
+        resetShipping: () => {
+            return initialState
         }
     }
 })
 
-export const {setShipping} = deliveryShipping.actions
+export const {setShipping, resetShipping} = deliveryShipping.actions
 export default deliveryShipping.reducer

@@ -19,6 +19,8 @@ const ProductDetails = () => {
   // details product start
   const {id} = useParams()
   const [infoProduct, setInfoProduct] = useState()
+  console.log(infoProduct && infoProduct.variantsProduct)
+  const variants = infoProduct && infoProduct.variantsProduct
 
   const dataDetails = async (productId) => {
     window.scrollTo({
@@ -46,12 +48,10 @@ const ProductDetails = () => {
       quantity,
       size,
       variant,
-      sizeId: dataSize.id,
-      variantId: dataVariant.id
     })
     )
 
-    dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + dataSize.additionalPrice + dataVariant.additionalPrice) * quantity))
+    dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + dataSize.additionalPrice + (dataVariant ? dataVariant.additionalPrice : 0)) * quantity))
 
     // navigate('/checkout')
   }
@@ -195,6 +195,7 @@ const ProductDetails = () => {
             price={infoProduct.basePrice}
             tag={infoProduct.tag}
             isRecommended={infoProduct.isRecommended}
+            variants={variants}
             handleAddToCart={addToCart}
           />
         ) : (
@@ -208,6 +209,7 @@ const ProductDetails = () => {
               discountPrice={infoProduct.basePrice - infoProduct.discount}
               tag={infoProduct.tag}
               isRecommended={infoProduct.isRecommended}
+              variants={variants}
               handleAddToCart={addToCart}
             />
           )

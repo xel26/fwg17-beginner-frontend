@@ -21,6 +21,7 @@ import Product4 from "../assets/media/home-product1.jpg";
 const Checkout = () => {
   const products = useSelector(state => state.product.data)
   const dispatch = useDispatch()
+  console.log(products.length)
 
 
   const handleCheckbox = (event) => {
