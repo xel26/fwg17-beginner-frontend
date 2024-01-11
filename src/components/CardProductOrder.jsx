@@ -3,8 +3,16 @@ import { FiXCircle } from "react-icons/fi"
 import Tag from '../components/Tag'
 import Price from "./Price"
 import Product1 from "../assets/media/detail-product1.jpg";
+import { useDispatch } from "react-redux";
+import { removeProduct } from "../redux/reducers/product";
 
-const CardProductOrder = ({productName, quantity, size, variant, image, basePrice, discountPrice, tag}) => {
+const CardProductOrder = ({id, productName, quantity, size, variant, image, basePrice, discountPrice, tag}) => {
+  const dispatch = useDispatch()
+
+  const deleteProduct = (id) => {
+    console.log(id)
+    dispatch(removeProduct(id))
+  }
   
     return (
         <div className="relative flex items-center gap-2 sm:gap-4 bg-[#E8E8E84D] p-2">
@@ -25,7 +33,7 @@ const CardProductOrder = ({productName, quantity, size, variant, image, basePric
           </div>
           <Price basePrice={parseInt(basePrice)} discountPrice={parseInt(discountPrice)}/>
           {document.URL.endsWith('checkout') &&
-          <button  type='button'className="delete absolute text-[#D00000] top-2 right-2 sm:top-auto sm:right-4 active:scale-90 transition-all">
+          <button onClick={() => deleteProduct(id)}  type='button'className="delete absolute text-[#D00000] top-2 right-2 sm:top-auto sm:right-4 active:scale-90 transition-all">
             <FiXCircle className="delete h-4" />
           </button>
           }

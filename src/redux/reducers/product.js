@@ -13,9 +13,12 @@ const product = createSlice({
         },
         resetProducts: () => {
             return initialState
-        }
+        },
+        removeProduct: (state, action) => {
+            state.data = state.data.filter((product) => product.id !== action.payload)
+        } 
     }
 })
 
-export const {setProduct, resetProducts} = product.actions
+export const {setProduct, resetProducts, removeProduct} = product.actions
 export default product.reducer

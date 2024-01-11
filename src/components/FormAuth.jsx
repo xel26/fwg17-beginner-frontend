@@ -83,7 +83,7 @@ const FormAuth = ({ handleAuth, type }) => {
       </div>
 
       <div className="flex flex-col gap-5">
-        <h1 className="text-[#8e6447] font-semibold text-xl">{type}</h1>
+        <h1 className="text-[#7E6363] font-semibold text-xl">{type}</h1>
         <p className="text-[#4f5665]">
           {type == "Register" || type == "Login"
             ? "Fill out the form correctly"
@@ -125,7 +125,7 @@ const FormAuth = ({ handleAuth, type }) => {
 
           {
             type == "Login" ? (
-              <Link to="/forgot-password" className="text-[#FF8906] flex justify-end text-sm">Lupa Password?</Link>
+              <Link to="/forgot-password" className="text-[#7E6363] flex justify-end text-sm">Lupa Password?</Link>
             ): ''
           }
 
@@ -150,7 +150,7 @@ const FormAuth = ({ handleAuth, type }) => {
                   : "Not Have An Account?"}
               </p>
               <a
-                className="text-[#ff8906] text-sm"
+                className="text-[#7E6363] text-sm"
                 href={type == "Register" ? "/login" : "/register"}
               >
                 {type == "Register" ? "Login" : "Register"}

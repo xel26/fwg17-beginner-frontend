@@ -9,7 +9,7 @@ const PageIndicator = ({totalPage, currentPage}) => {
           {pageIndicator.map((item) => {
             let display = item >= currentPage - 2 && item <= currentPage + 2
             return ( display &&
-              <button key={item} className={`${item === currentPage && 'bg-[#FF8906] w-8'} bg-[#E8E8E8] w-2 h-2 rounded-md transition-all`}></button>
+              <button key={item} className={`${item === currentPage && 'bg-[#A87C7C] w-8'} bg-[#E8E8E8] w-2 h-2 rounded-md transition-all`}></button>
             )
           })}
       </div>

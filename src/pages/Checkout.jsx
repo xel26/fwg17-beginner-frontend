@@ -44,7 +44,7 @@ const Checkout = () => {
                 <h4 className="font-semibold">Your Order</h4>
                 <Link
                   to="/products"
-                  className="flex items-center justify-center gap-2 bg-[#FF8906] rounded-md active:scale-95 transition-all p-1.5 sm:p-2"
+                  className="flex items-center justify-center gap-2 bg-[#A87C7C] rounded-md active:scale-95 transition-all p-1.5 sm:p-2"
                 >
                   <FiPlus />
                   <h5 className="text-xs">Add Menu</h5>

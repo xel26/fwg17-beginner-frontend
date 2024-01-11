@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 const Data = ({ value, text }) => {
   return (
     <div>
-      <h1 className={`text-[#ff8906] text-2xl sm:text-4xl font-semibold flex justify-between ${text == "Staff" || text == "Stores" ? 'w-12 sm:w-[4.5rem]' : 'w-16 sm:w-24'}`}>
+      <h1 className={`text-[#A87C7C] text-2xl sm:text-4xl font-semibold flex justify-between ${text == "Staff" || text == "Stores" ? 'w-12 sm:w-[4.5rem]' : 'w-16 sm:w-24'}`}>
         <h1>
         {value}
         </h1>
@@ -30,7 +30,7 @@ const Data = ({ value, text }) => {
 const ListProvide = ({ text }) => {
   return (
     <div className="flex gap-4">
-      <div className="bg-[#2FAB73] rounded-full text-white w-fit h-fit">
+      <div className="bg-[#3F2305] rounded-full text-white w-fit h-fit">
         <FiCheckCircle className="h-5 w-fit" />
       </div>
       <p className="text-xs sm:text-sm text-[#4F5665]">{text}</p>
@@ -207,7 +207,7 @@ const Home = () => {
 
       <button
         onClick={() => setChatBox(!chatBox)}
-        className="fixed flex justify-center items-center right-6 bottom-6 sm:right-12 sm:bottom-12 bg-[#ff8906] rounded-full p-1 w-10 h-10 sm:p-2 sm:w-12 sm:h-12 z-50 active:scale-90 transition"
+        className="fixed flex justify-center items-center right-6 bottom-6 sm:right-12 sm:bottom-12 bg-[#A87C7C] rounded-full p-1 w-10 h-10 sm:p-2 sm:w-12 sm:h-12 z-50 active:scale-90 transition"
       >
         <FiMessageCircle size={25} />
       </button>
@@ -217,7 +217,7 @@ const Home = () => {
           !chatBox ? "hidden" : "flex"
         } fixed w-60 h-80 sm:w-72 sm:h-96 rounded-xl sm:rounded-2xl flex-col bg-white top-24 sm:right-24 z-50`}
       >
-        <div className="flex border-t-[0.8rem] sm:border-t-[1rem] border-[#FF8906] rounded-tr-xl rounded-tl-xl sm:rounded-tr-2xl sm:rounded-tl-2xl pl-4 gap-4 py-2">
+        <div className="flex border-t-[0.8rem] sm:border-t-[1rem] border-[#A87C7C] rounded-tr-xl rounded-tl-xl sm:rounded-tr-2xl sm:rounded-tl-2xl pl-4 gap-4 py-2">
           <div>
             <img
               className=" w-10 h-10 sm:w-14 sm:h-14 rounded-full"
@@ -226,7 +226,7 @@ const Home = () => {
           </div>
           <div className="admin-support">
             <h1 className="font-bold text-sm sm:text-base">Maria Angela</h1>
-            <h1 className="text-[#FF8906] text-sm sm:text-base">
+            <h1 className="text-[#A87C7C] text-sm sm:text-base">
               Admin Support
             </h1>
           </div>
@@ -266,14 +266,14 @@ const Home = () => {
             type="text"
             placeholder="Masukan Pesan Anda"
           />
-          <div className="flex-1 flex justify-center items-center bg-[#FF8906] rounded-md p-1 sm:p-1.5 active:scale-95 transition-all">
+          <div className="flex-1 flex justify-center items-center bg-[#A87C7C] rounded-md p-1 sm:p-1.5 active:scale-95 transition-all">
             <FiSend size={20} />
           </div>
         </div>
       </div>
 
       <section className="flex flex-col-reverse sm:flex-row h-[64rem] sm:h-screen w-full">
-        <div className="flex h-fit py-16 sm:py-0 sm:h-screen sm:flex-1 justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909]">
+        <div className="flex h-fit py-16 sm:py-0 sm:h-screen sm:flex-1 justify-center items-center bg-gradient-to-b from-[#3E3232] to-black">
           <div className="flex flex-col gap-6 max-w-md h-fit px-4 sm:px-0">
             <h1
               className={`text-2xl sm:text-5xl text-white font-medium transition-all duration-1000 
@@ -293,11 +293,11 @@ const Home = () => {
 
             <Link
               to={token ? '/products' : '/login'}
-              className="relative w-fit bg-[#ff8906] py-2 px-3 rounded-md text-xs sm:text-sm font-semibold active:scale-95 transition-all overflow-hidden"
+              className="relative w-fit text-white bg-[#A87C7C] py-2 px-3 rounded-md text-xs sm:text-sm font-semibold active:scale-95 transition-all overflow-hidden"
             >
               Get Started
               <span
-                className={`absolute top-0 right-0 h-full bg-[#ff8906] transition-all duration-1000 delay-1000 ${
+                className={`absolute top-0 right-0 h-full bg-[#A87C7C] transition-all duration-1000 delay-1000 ${
                   display ? "w-0" : " w-full"
                 }`}
               ></span>
@@ -333,14 +333,14 @@ const Home = () => {
             <div
               className={`flex items-center gap-4`}
             >
-              <hr className="border-[#ff8906] border-2 sm:border-4 h-14" />
+              <hr className="border-[#A87C7C] border-2 sm:border-4 h-14" />
               <h1 className="text-2xl sm:text-5xl font-medium">
                 We Provide{" "}
-                <span className="text-[#8E6447]">
+                <span className="text-[#A87C7C]">
                   Good <br /> Coffee
                 </span>{" "}
                 and{" "}
-                <span className="text-[#8E6447]">Healthy <br /> Meals</span>
+                <span className="text-[#A87C7C]">Healthy <br /> Meals</span>
               </h1>
             </div>
             <p className={`text-xs sm:text-sm text-[#4F5665]`}>
@@ -366,9 +366,9 @@ const Home = () => {
           <h1
             className={`relative text-2xl text-center sm:text-5xl font-medium sm:mb-2 px-4`}
           >
-            Here is People's <span className="text-[#8E6447]">Favorite</span>
+            Here is People's <span className="text-[#A87C7C]">Favorite</span>
           </h1>
-          <hr className="border-[#ff8906] border-2 sm:border-4 w-16" />
+          <hr className="border-[#A87C7C] border-2 sm:border-4 w-16" />
           <p className="text-[#4f5665] text-xs sm:text-base text-center px-4">
             Let's choose and have a bit taste of poeple's favorite. It might be
             yours too!
@@ -395,10 +395,10 @@ const Home = () => {
       <section className="h-fit py-6 mt-10 sm:h-screen flex flex-col items-center justify-center w-full bg-[#E8E8E84D] gap-12">
         <div className="flex flex-col items-center gap-2 sm:gap-4">
           <h1 className="text-2xl sm:text-5xl font-medium text-center px-4 sm:px-0">
-            <span className="text-[#8E6447]">Visit Our Store</span> in the Spot
+            <span className="text-[#A87C7C]">Visit Our Store</span> in the Spot
             on the Map Below
           </h1>
-          <hr className="border-[#ff8906] border-2 sm:border-4 w-16" />
+          <hr className="border-[#A87C7C] border-2 sm:border-4 w-16" />
           <p className="text-[#4f5665] text-center text-xs sm:text-base max-w-lg px-4 sm:px-0">
             You can explore the menu that we provide with fun and have their own
             taste and make your day better.
@@ -411,7 +411,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="flex justify-center items-center bg-gradient-to-b from-[#323436] to-[#0B0909] w-full h-fit py-6 sm:h-fit sm:py-12">
+      <section className="flex justify-center items-center bg-gradient-to-b from-[#3E3232] to-black w-full h-fit py-6 sm:h-fit sm:py-12">
         {dataTesti && (
           <Testimonial
             fullName={dataTesti[0].fullName}

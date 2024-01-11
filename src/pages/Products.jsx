@@ -149,7 +149,7 @@ const Filter = ({mobile, handleFilter}) => {
         </div> */}
 
         <button
-          className="bg-[#FF8906] rounded p-2 text-xs text-black font-semibold active:scale-95 transition-all"
+          className="bg-[#A87C7C] text-white rounded p-2 text-xs font-semibold active:scale-95 transition-all"
           type="submit"
         >
           Apply Filter
@@ -502,7 +502,7 @@ const Products = () => {
 
           <button
             onClick={filterMobile}
-            className=" bg-[#FF8906] rounded-md p-2 w-fit flex items-center  justify-center active:scale-95 transition-all"
+            className=" bg-[#A87C7C] rounded-md p-2 w-fit flex items-center  justify-center active:scale-95 transition-all"
           >
             <FiList size={20} />
           </button>

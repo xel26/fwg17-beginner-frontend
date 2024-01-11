@@ -13,10 +13,10 @@ const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, ha
 
       <div className="flex flex-col gap-4 w-full sm:w-[30rem]">
         <p className="text-white hidden sm:block">TESTIMONIAL</p>
-        <h1 className="text-white text-2xl sm:text-4xl border-l-4 border-[#FF8906] pl-4">
+        <h1 className="text-white text-2xl sm:text-4xl border-l-4 border-[#A87C7C] pl-4">
           {fullName}
         </h1>
-        <p className="text-[#FF8906]">{role} Coffee Shop</p>
+        <p className="text-[#A87C7C]">{role} Coffee Shop</p>
         <p className="flex-1 flex items-center text-white text-sm sm:text-base">{feedback}</p>
         <Rating rating={rate} color/>
 

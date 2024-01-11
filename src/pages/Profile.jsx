@@ -183,7 +183,7 @@ const Profile = () => {
           </label>
           <button
             type="submit"
-            className="text-xs bg-[#FF8906] w-full rounded p-2 transition-all active:scale-95"
+            className="text-xs bg-[#A87C7C] w-full rounded p-2 transition-all active:scale-95"
           >
             Upload New Photo
           </button>

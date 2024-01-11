@@ -4,7 +4,6 @@ import Facebook from "../assets/media/facebook-logo-circle.png"
 import Twitter from "../assets/media/twitter-logo-circle.png" 
 import Instagram from "../assets/media/instagram-logo-circle.png"
 import { Link } from "react-router-dom";
-import { useState } from "react"
 
 const FooterLink = ({destination1, text1, destination2, text2, destination3, text3, destination4, text4, destination5, text5}) => {
   return (

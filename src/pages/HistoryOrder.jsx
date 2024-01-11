@@ -69,14 +69,14 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
                 <p className="text-xs sm:text-base">Status</p>
               </div>
               <h5
-                className="font-semibold text-[#FF8906] text-xs bg-[#FF890633] p-1.5 rounded-3xl translate-y-[-0.3rem] w-fit"
+                className="font-semibold text-[#A87C7C] text-xs bg-[#FF890633] p-1.5 rounded-3xl translate-y-[-0.3rem] w-fit"
               >
                 {statusDelivery}
               </h5>
             </div>
           </div>
 
-          <Link to={`/order-details/${id}`} className="text-[#FF8906] underline text-xs sm:text-base"
+          <Link to={`/order-details/${id}`} className="text-[#A87C7C] underline text-xs sm:text-base"
             >Views Order Detail
             </Link>
         </div>
@@ -380,7 +380,7 @@ const [totalPage, setTotalPage] = useState()
         <div className="flex-1 flex flex-col gap-2 border border-[#E8E8E8] h-fit p-2 mt-4 sm:mt-0">
           <div className="relative bg-black rounded-2xl w-fit p-1.5 flex items-center justify-center">
             <FiMessageSquare color="white" size={25} />
-            <FiAlignRight className="absolute top-2.5 text-[#FF8906] h-3" />
+            <FiAlignRight className="absolute top-2.5 text-[#A87C7C] h-3" />
           </div>
           <h4 className="text-[#4F5665] font-bold text-sm">Send Us Message</h4>
           <p className="text-[#4F5665] text-xs">

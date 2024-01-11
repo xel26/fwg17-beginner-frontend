@@ -75,7 +75,7 @@ const Payment = () => {
 
           <PaymentList list="Sub Total" idr={totalOrder + 5000 + 4000}/>
 
-        <button onClick={checkoutAction} className="bg-[#FF8906] w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 transition-all flex justify-center">Checkout</button>
+        <button onClick={checkoutAction} className="bg-[#3E3232] w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 transition-all flex justify-center">Checkout</button>
           <p className="text-xs text-[#4F5665]">We Accept</p>
 
           <div className="flex flex-wrap justify-between gap-2 items-center">

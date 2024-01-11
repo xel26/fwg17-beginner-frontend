@@ -13,13 +13,13 @@ const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, 
     <label htmlFor={name} className="flex flex-col gap-2">
       {passProfile ? (
         <div className="flex justify-between items-center">
-          <div className="text-[#0b132a] font-semibold text-sm">{label}</div>
-          <Link to="/forgot-password" className="text-[#FF8906] text-xs sm:text-sm">
+          <div className="text-black font-semibold text-sm">{label}</div>
+          <Link to="/forgot-password" className="text-[#3F2305] text-xs sm:text-sm">
             Set New Password
           </Link>
         </div>
       ) : (
-        <div className="text-[#0b132a] font-semibold text-sm">{label}</div>
+        <div className="text-black font-semibold text-sm">{label}</div>
       )}
       
       <div className="flex border border-[#dedede] rounded-md p-2 gap-3 items-center">

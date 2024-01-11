@@ -8,6 +8,7 @@ const Register = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate()
 
   const authRegister = async (event) => {
     event.preventDefault();
@@ -15,7 +16,6 @@ const Register = () => {
     const { value: email } = event.target.email;
     const { value: password } = event.target.password;
     const { value: confirmPassword } = event.target.confirmPassword;
-    const navigate = useNavigate()
     
     
       const form = new URLSearchParams();
@@ -23,7 +23,6 @@ const Register = () => {
       form.append("password", password);
       form.append("confirmPassword", confirmPassword)
       form.append("fullName", fullName);
-      form.append("role", "customer");
 
       try {
         const { data } = await axios.post("http://localhost:8888/auth/register", form.toString());
