@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setProduct } from "../redux/reducers/product";
+import { setProduct } from "../redux/reducers/products";
 import { setTotal } from "../redux/reducers/totalOrder";
+import { setSize } from "../redux/reducers/sizeProducts";
+import { setVariant } from "../redux/reducers/variantProducts";
+import { setQuantity } from "../redux/reducers/quantityProducts";
+import { setId } from "../redux/reducers/productsId";
 
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -42,16 +46,16 @@ const ProductDetails = () => {
 
 
   // add to redux start
-  const addToCart = (quantity, size, variant, dataSize, dataVariant) => {
+  const addToCart = (quantity, size, variant, dataSize, dataVariant, id) => {
     dispatch(setProduct({
-      ...infoProduct,
-      quantity,
-      size,
-      variant,
-    })
-    )
+      ...infoProduct
+    }))
 
     dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + dataSize.additionalPrice + (dataVariant ? dataVariant.additionalPrice : 0)) * quantity))
+    dispatch(setSize(size))
+    dispatch(setVariant(variant))
+    dispatch(setQuantity(quantity))
+    dispatch(setId(id))
 
     // navigate('/checkout')
   }
@@ -165,7 +169,7 @@ const ProductDetails = () => {
 
   return (
     <body className="flex flex-col items-center gap-8">
-      <Navbar/>
+      <Navbar />
 
       <section className="h-fit sm:h-screen w-5/6 flex flex-col sm:flex-row items-center mt-20 sm:mt-8 gap-4 ">
         <div className="w-full sm:flex-1 flex flex-col items-center gap-2 sm:gap-4 h-96 sm:h-5/6">
@@ -173,7 +177,7 @@ const ProductDetails = () => {
             <div
               style={{
                 backgroundImage: `url('http://localhost:8888/uploads/products/${infoProduct.image}')`,
-                backgroundPosition: "center"
+                backgroundPosition: "center",
               }}
               className={`w-full h-72 sm:h-80 bg-center bg-cover`}
             ></div>
@@ -188,6 +192,7 @@ const ProductDetails = () => {
 
         {infoProduct && infoProduct.discount == 0 ? (
           <Details
+            id={infoProduct.id}
             productName={infoProduct.name}
             rating={infoProduct.rating}
             review={infoProduct.review}
@@ -201,6 +206,7 @@ const ProductDetails = () => {
         ) : (
           infoProduct && (
             <Details
+              id={infoProduct.id}
               productName={infoProduct.name}
               rating={infoProduct.rating}
               review={infoProduct.review}

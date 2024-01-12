@@ -4,14 +4,24 @@ import Tag from '../components/Tag'
 import Price from "./Price"
 import Product1 from "../assets/media/detail-product1.jpg";
 import { useDispatch } from "react-redux";
-import { removeProduct } from "../redux/reducers/product";
+import { removeProduct } from "../redux/reducers/products";
+import { removeTotal } from "../redux/reducers/totalOrder";
+import { removeSize } from "../redux/reducers/sizeProducts";
+import { removeVariant } from "../redux/reducers/variantProducts";
+import { removeQuantity } from "../redux/reducers/quantityProducts";
+import { removeId } from "../redux/reducers/productsId";
 
-const CardProductOrder = ({id, productName, quantity, size, variant, image, basePrice, discountPrice, tag}) => {
+const CardProductOrder = ({id, index, productName, quantity, size, variant, image, basePrice, discountPrice, tag}) => {
   const dispatch = useDispatch()
 
-  const deleteProduct = (id) => {
+  const deleteProduct = (id, index) => {
     console.log(id)
     dispatch(removeProduct(id))
+    dispatch(removeTotal(index))
+    dispatch(removeSize(index))
+    dispatch(removeVariant(index))
+    dispatch(removeQuantity(index))
+    dispatch(removeId(index))
   }
   
     return (
@@ -33,7 +43,7 @@ const CardProductOrder = ({id, productName, quantity, size, variant, image, base
           </div>
           <Price basePrice={parseInt(basePrice)} discountPrice={parseInt(discountPrice)}/>
           {document.URL.endsWith('checkout') &&
-          <button onClick={() => deleteProduct(id)}  type='button'className="delete absolute text-[#D00000] top-2 right-2 sm:top-auto sm:right-4 active:scale-90 transition-all">
+          <button onClick={() => deleteProduct(id, index)}  type='button'className="delete absolute text-[#D00000] top-2 right-2 sm:top-auto sm:right-4 active:scale-90 transition-all">
             <FiXCircle className="delete h-4" />
           </button>
           }

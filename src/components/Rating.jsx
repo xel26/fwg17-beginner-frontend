@@ -11,7 +11,7 @@ const Rating = ({rating, color}) => {
         <div className="flex gap-1 sm:gap-2">
           {stars.map((index) => (
             index <= parseInt(rating)
-            ? <FaStar key={index} color="#A87C7C" className="text-xs sm:text-base"/>
+            ? <FaStar key={index} color="orange" className="text-xs sm:text-base"/>
             : <FaStar key={index} color="#a7a9ad" className="text-xs sm:text-base"/>
           ))}
         </div>

@@ -19,9 +19,12 @@ import Product4 from "../assets/media/home-product1.jpg";
 
 
 const Checkout = () => {
-  const products = useSelector(state => state.product.data)
+  const products = useSelector(state => state.products.data)
+  const sizeProducts = useSelector(state => state.sizeProducts.sizes)
+  const variantProduct = useSelector(state => state.variantProducts.variants)
+  const quantityProducts = useSelector(state => state.quantityProducts.quantities)
+
   const dispatch = useDispatch()
-  console.log(products.length)
 
 
   const handleCheckbox = (event) => {
@@ -44,7 +47,7 @@ const Checkout = () => {
                 <h4 className="font-semibold">Your Order</h4>
                 <Link
                   to="/products"
-                  className="flex items-center justify-center gap-2 bg-[#A87C7C] rounded-md active:scale-95 transition-all p-1.5 sm:p-2"
+                  className="flex items-center justify-center gap-2 text-white bg-gradient-to-b from-[#7E6363] to-black rounded-md active:scale-95 transition-all p-1.5 sm:p-2"
                 >
                   <FiPlus />
                   <h5 className="text-xs">Add Menu</h5>
@@ -57,10 +60,11 @@ const Checkout = () => {
                     <CardProductOrder
                       key={index}
                       id={product.id}
+                      index={index}
                       productName={product.name}
-                      quantity={product.quantity}
-                      size={product.size}
-                      variant={product.variant}
+                      quantity={quantityProducts[index]}
+                      size={sizeProducts[index]}
+                      variant={variantProduct[index]}
                       delivery={product.delivery}
                       basePrice={product.basePrice}
                       discountPrice={product.basePrice - product.discount}

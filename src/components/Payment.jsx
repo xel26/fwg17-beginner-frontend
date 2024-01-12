@@ -8,9 +8,13 @@ import PayPal from "../assets/media/paypal.png"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { resetProducts } from "../redux/reducers/product"
-import { resetTotal } from "../redux/reducers/totalOrder"
+import { resetProducts } from "../redux/reducers/products"
+import { resetTotal, setTotal } from "../redux/reducers/totalOrder"
 import { resetShipping } from "../redux/reducers/deliveryShipping"
+import { resetSizes } from "../redux/reducers/sizeProducts"
+import { resetVariants } from "../redux/reducers/variantProducts"
+import { resetQuantities } from "../redux/reducers/quantityProducts"
+import { resetId } from "../redux/reducers/productsId"
 
 import { useState, useEffect } from "react"
 
@@ -27,9 +31,15 @@ const PaymentList = ({list, idr}) => {
 
 const Payment = () => {
   const token = useSelector(state => state.auth.token)
-  const products = useSelector(state => state.product.data)
-  const totalOrder = useSelector(state => state.totalOrder.total)
+
+  const productId = useSelector(state => state.productsId.id)
+  const sizeProduct = useSelector(state => state.sizeProducts.sizes)
+  const variantProduct = useSelector(state => state.variantProducts.variants)
+  const quantityProduct = useSelector(state => state.quantityProducts.quantities)
   const shipping = useSelector(state => state.deliveryShipping.shipping)
+
+  const totalOrder = useSelector(state => state.totalOrder.total).reduce((prev, curr) => prev + curr, 0)
+  const tax = totalOrder * 0.025
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -38,7 +48,10 @@ const Payment = () => {
     event.preventDefault();
 
     const form = new URLSearchParams();
-    form.append("products", JSON.stringify(products))
+    form.append("productId", productId)
+    form.append("sizeProduct", sizeProduct)
+    form.append("variantProduct", variantProduct)
+    form.append("quantityProduct", quantityProduct)
     form.append("deliveryShipping", shipping)
 
     try {
@@ -54,6 +67,11 @@ const Payment = () => {
       dispatch(resetProducts())
       dispatch(resetTotal())
       dispatch(resetShipping())
+      dispatch(resetSizes())
+      dispatch(resetVariants())
+      dispatch(resetQuantities())
+      dispatch(resetId())
+      
       navigate('/history-order')
 
     } catch (error) {
@@ -69,13 +87,13 @@ const Payment = () => {
         <div className="payment-summary bg-[#E8E8E84D] p-3 text-sm flex flex-col gap-4">
             <PaymentList list="order" idr={totalOrder}/>
             <PaymentList list="Delivery" idr={5000}/>
-            <PaymentList list="Tax" idr={4000}/>
+            <PaymentList list="Tax" idr={tax}/>
 
           <hr/>
 
-          <PaymentList list="Sub Total" idr={totalOrder + 5000 + 4000}/>
+          <PaymentList list="Sub Total" idr={totalOrder + 5000 + tax}/>
 
-        <button onClick={checkoutAction} className="bg-[#3E3232] w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 transition-all flex justify-center">Checkout</button>
+        <button onClick={checkoutAction} className="bg-gradient-to-b from-[#7E6363] to-black text-white w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 transition-all flex justify-center">Checkout</button>
           <p className="text-xs text-[#4F5665]">We Accept</p>
 
           <div className="flex flex-wrap justify-between gap-2 items-center">

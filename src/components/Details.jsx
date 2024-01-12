@@ -23,21 +23,21 @@ export const OptionVariety = ({option, onChange, size, variant, variantsProduct}
       <div className="flex justify-between gap-2 sm:gap-4">
       {option == "Choose Size" ?(
         sizes.map((value, index) => (
-          <label key={index} type="button" className={`${value == size ? 'border-[#A87C7C]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
+          <label key={index} type="button" className={`${value == size ? 'border-[#7E6363]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
           {value}
           <input onChange={onChange}  type="radio" name={"size"} value={value} className="hidden"/>
         </label>
         ))
       ) : option == "Hot/Ice?" ? (
         variantsProduct.map((item, index) => (
-          <label key={index} type="button" className={`${item.name == variant ? 'border-[#A87C7C]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
+          <label key={index} type="button" className={`${item.name == variant ? 'border-[#7E6363]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
           {item.name}
           <input onChange={onChange}  type="radio" name={"variant"} value={item.name} className="hidden"/>
         </label>
       ))
       ) :
       shippingMethod.map((value, index) => (
-        <label key={index} type="button" className={`${value == deliveryShipping ? 'border-[#A87C7C]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border border-[#E8E8E8]  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
+        <label key={index} type="button" className={`${value == deliveryShipping ? 'border-[#7E6363]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border border-[#E8E8E8]  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
         {value}
         <input onChange={onChange}  type="radio" name={"delivery"} value={value} className="hidden"/>
       </label>
@@ -49,7 +49,7 @@ export const OptionVariety = ({option, onChange, size, variant, variantsProduct}
 }
 
 
-const Details = ({ productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, variants, handleAddToCart }) => {
+const Details = ({id, productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, variants, handleAddToCart }) => {
   // quantity start
   const [quantity, setQuantity] = useState(1);
   const mininum = quantity <= 1;
@@ -120,7 +120,7 @@ const Details = ({ productName, rating, review, description, basePrice, discount
       {rating ? (
         <Rating rating={rating} />
       ) : (
-        <h1 className="text-[#A87C7C] text-xs sm:text-sm">
+        <h1 className="text-[#7E6363] text-xs sm:text-sm">
           be the first to rate
         </h1>
       )}
@@ -136,7 +136,7 @@ const Details = ({ productName, rating, review, description, basePrice, discount
           <div className="pl-2 flex gap-2 sm:gap-4 justify-center items-center ">
             <p className="text-xs sm:text-sm ">Recommendation</p>
             <FiThumbsUp
-              color="#A87C7C"
+              color="#7E6363"
               className="translate-y-[-3px] text-lg sm:text-xl"
             />
           </div>
@@ -153,10 +153,10 @@ const Details = ({ productName, rating, review, description, basePrice, discount
           className={`${
             mininum
               ? "border-gray-300"
-              : "border-[#A87C7C] active:scale-95"
+              : "border-[#7E6363] active:scale-95"
           } border bg-white rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-1 transition-all`}
         >
-          <FiMinus className="text-xs sm:text-base text-[#A87C7C]" />
+          <FiMinus className={`text-xs sm:text-base ${mininum ? 'text-black' : 'text-[#7E6363]'}`} />
         </button>
         <div className="border border-[#E8E8E8] w-9 sm:w-12 flex justify-center items-center rounded-sm">
           <h1
@@ -170,10 +170,10 @@ const Details = ({ productName, rating, review, description, basePrice, discount
           onClick={increment}
           disabled={maximum}
           className={`${
-            maximum ? "bg-gray-300" : "bg-[#A87C7C] active:scale-95"
+            maximum ? "bg-gray-300" : "bg-gradient-to-br from-[#7E6363] to-black active:scale-95"
           }  rounded-sm w-4 h-4 sm:h-6 sm:w-6 flex items-center justify-center translate-x-[-0.25rem] transition-all`}
         >
-          <FiPlus className="text-xs sm:text-base text-white" />
+          <FiPlus className={`text-xs sm:text-base ${maximum ? 'text-black' : 'text-white'}`} />
         </button>
       </div>
 
@@ -198,13 +198,13 @@ const Details = ({ productName, rating, review, description, basePrice, discount
       >
         <Link
           to="/checkout"
-          className="flex-1 text-white text-xs sm:text-sm bg-[#A87C7C] rounded py-1.5 active:scale-95 transition-all flex justify-center"
+          className="flex-1 text-white text-xs sm:text-sm bg-gradient-to-br from-[#7E6363] to-black rounded py-1.5 active:scale-95 transition-all flex justify-center"
         >
           Buy
         </Link>
         <button
-          onClick={() => handleAddToCart(quantity, size, variant, dataSize && dataSize, dataVariant && dataVariant)}
-          className="flex-1 flex justify-center gap-2 sm:gap-4 text-[#A87C7C] border border-[#A87C7C] rounded py-1.5 active:scale-95 transition-all"
+          onClick={() => handleAddToCart(quantity, size, variant, dataSize && dataSize, dataVariant && dataVariant, id)}
+          className="flex-1 flex justify-center gap-2 sm:gap-4 text-[#7E6363] border border-[#7E6363] rounded py-1.5 active:scale-95 transition-all"
         >
           <FiShoppingCart size={20} />
           <p className="text-xs sm:text-sm">add to cart</p>

@@ -69,14 +69,14 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
                 <p className="text-xs sm:text-base">Status</p>
               </div>
               <h5
-                className="font-semibold text-[#A87C7C] text-xs bg-[#FF890633] p-1.5 rounded-3xl translate-y-[-0.3rem] w-fit"
+                className="font-semibold text-white text-xs bg-gradient-to-br from-[#7E6363] to-black p-1.5 rounded-3xl translate-y-[-0.3rem] w-fit"
               >
                 {statusDelivery}
               </h5>
             </div>
           </div>
 
-          <Link to={`/order-details/${id}`} className="text-[#A87C7C] underline text-xs sm:text-base"
+          <Link to={`/order-details/${id}`} className="text-[#7E6363] underline text-xs sm:text-base"
             >Views Order Detail
             </Link>
         </div>

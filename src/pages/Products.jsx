@@ -10,6 +10,7 @@ import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 
 // filter start
@@ -149,7 +150,7 @@ const Filter = ({mobile, handleFilter}) => {
         </div> */}
 
         <button
-          className="bg-[#A87C7C] text-white rounded p-2 text-xs font-semibold active:scale-95 transition-all"
+          className="bg-gradient-to-br from-[#7E6363] to-black text-white rounded p-2 text-xs font-semibold active:scale-95 transition-all"
           type="submit"
         >
           Apply Filter
@@ -194,6 +195,8 @@ const Kupon = ({ title, description, klaim, bg }) => {
 
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+
   const [display, setDisplay] =useState(false)
 
   const [kupon, setKupon] = useState([
@@ -304,6 +307,10 @@ const Products = () => {
       setCurrentPage(data.pageInfo.currentPage)
       setDataProducts(data.results)
       setQueryParameter(queryParams)
+
+      setSearchParams({
+        searchKey
+      })
 
       if(data.pageInfo.nextPage === null){
         setDisable(true)
@@ -462,7 +469,11 @@ const Products = () => {
 
     setDisplay(true)
 
-    listAllProducts();
+    if(searchParams.get("searchKey")){
+      searchProduct()
+    }else{
+      listAllProducts();
+    }
   }, []);
 
   return (
@@ -502,7 +513,7 @@ const Products = () => {
 
           <button
             onClick={filterMobile}
-            className=" bg-[#A87C7C] rounded-md p-2 w-fit flex items-center  justify-center active:scale-95 transition-all"
+            className=" bg-gradient-to-br from-[#7E6363] to-black rounded-md p-2 w-fit flex items-center  justify-center active:scale-95 transition-all"
           >
             <FiList size={20} />
           </button>

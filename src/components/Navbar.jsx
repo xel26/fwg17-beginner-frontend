@@ -151,7 +151,7 @@ const Navbar = ({home}) => {
               <button
                 onClick={onLogout}
                 type="button"
-                className="bg-[#A87C7C] py-2 px-3 text-sm rounded hidden sm:block active:scale-95 transition-all"
+                className="bg-gradient-to-br text-white from-[#7E6363] to-black py-2 px-3 text-sm rounded hidden sm:block active:scale-95 transition-all"
               >
                 Logout
               </button>
@@ -166,7 +166,7 @@ const Navbar = ({home}) => {
               </Link>
               <Link
                 to="/register"
-                className="bg-[#A87C7C] py-2 px-3 text-white text-sm rounded hidden sm:block active:scale-95 transition-all"
+                className="bg-gradient-to-br from-[#7E6363] to-black py-2 px-3 text-white text-sm rounded hidden sm:block active:scale-95 transition-all"
               >
                 Sign Up
               </Link>
@@ -207,7 +207,7 @@ const Navbar = ({home}) => {
           <button
             type="button"
             onClick={onLogout}
-            className="bg-[#A87C7C] py-1 px-2 text-sm rounded w-full text-center active:scale-90 transition-all"
+            className="text-white bg-gradient-to-br from-[#7E6363] to-black py-1 px-2 text-sm rounded w-full text-center active:scale-90 transition-all"
           >
             Logout
           </button>
@@ -220,7 +220,7 @@ const Navbar = ({home}) => {
               Sign In
             </Link>
             <Link
-              className="flex-1 bg-[#A87C7C] text-white py-1 px-2 text-sm rounded w-full text-center active:scale-90 transition-all"
+              className="flex-1 bg-gradient-to-br from-[#7E6363] to-black text-white py-1 px-2 text-sm rounded w-full text-center active:scale-90 transition-all"
               to="/register"
             >
               Sign Up

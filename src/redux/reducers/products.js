@@ -4,7 +4,7 @@ const initialState = {
     data: []
 }
 
-const product = createSlice({
+const products = createSlice({
     name: 'product',
     initialState,
     reducers: {
@@ -20,5 +20,5 @@ const product = createSlice({
     }
 })
 
-export const {setProduct, resetProducts, removeProduct} = product.actions
-export default product.reducer
+export const {setProduct, resetProducts, removeProduct} = products.actions
+export default products.reducer

@@ -33,7 +33,7 @@ const ListOrderInformation = ({field, value, color}) => {
         }
           <p className="text-xs sm:text-base">{field}</p>
         </div>
-        <h5 className={`font-bold text-xs sm:text-base ${color == "green" ? `text-[#00A700]` : ''} ${color?  `text-[${color}]`: ''} ${field == "Status" ? " text-[0.6rem] sm:text-xs bg-[#00A70033] py-1 px-2 rounded-full flex items-center" : ''}`}>
+        <h5 className={`font-bold text-xs sm:text-base ${color === "white" ? 'text-white' : ''} ${color?  `text-[${color}]`: ''} ${field == "Status" ? " text-[0.6rem] sm:text-xs bg-gradient-to-br from-[#7E6363] to-black py-1 px-2 rounded-full flex items-center" : ''}`}>
           {field == "Total Transaksi" ? `Idr ${value.toLocaleString('id')}` : value}
         </h5>
       </div>
@@ -84,48 +84,6 @@ const OrderDetails = () => {
     getDetailsOrder()
   }, [])
 
-  const [products, setProducts] = useState([
-    {
-      name:"Hazelnut Latte",
-      quantity:"2",
-      size:"Regular",
-      variant:"Ice",
-      delivery:"Dine in",
-      basePrice:"20000",
-      discountPrice:"10000",
-      image:Product1
-    },
-    {
-      name:"Latte",
-      quantity:"1",
-      size:"Small",
-      variant:"Ice",
-      delivery:"Door Delivery",
-      basePrice:"25000",
-      discountPrice:"20000",
-      image:Product2
-    },
-    {
-      name:"Cappucino",
-      quantity:"2",
-      size:"Regular",
-      variant:"Hot",
-      delivery:"Dine in",
-      basePrice:"30000",
-      discountPrice:"25000",
-      image:Product3
-    },
-    {
-      name:"Affogato",
-      quantity:"3",
-      size:"Medium",
-      variant:"Ice",
-      delivery:"Pick Up",
-      basePrice:"20000",
-      discountPrice:"15000",
-      image:Product4
-    }
-  ])
 
     return (
       <body className="flex flex-col items-center">
@@ -179,13 +137,13 @@ const OrderDetails = () => {
                   <ListOrderInformation
                     field="Status"
                     value={dataDetails && dataDetails.status}
-                    color="green"
+                    color="white"
                   />
 
                   <ListOrderInformation
                     field="Total Transaksi"
                     value={dataDetails && parseInt(dataDetails.subtotal)}
-                    color="#A87C7C"
+                    color="#7E6363"
                   />
                 </>
               )}
