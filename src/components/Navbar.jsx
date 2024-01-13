@@ -30,11 +30,12 @@ const Navbar = ({home}) => {
   const [navSearch, setNavSearch] = useState(false)
   const [homeActive, setHomeActive] = useState(false)
   const [productActive, setProductActive] = useState(false)
-  const navigate = useNavigate()
-
+  
   const token = useSelector(state => state.auth.token)
   const dataProfile = useSelector(state => state.profile.data)
+  const products = useSelector(state => state.products.data)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   
   const getProfile =  async () => {
     if(token){
@@ -63,6 +64,7 @@ const Navbar = ({home}) => {
     getProfile()
 
     if(document.URL.endsWith('/')){
+      console.log(document.URL)
       setHomeActive(true)
       setProductActive(false)
     }else{
@@ -117,11 +119,18 @@ const Navbar = ({home}) => {
             color="white"
             className="text-2xl text-white hidden sm:block z-50 active:scale-90 transition-all cursor-pointer"
           />
-          <Link to="/history-order">
+          <Link to="/checkout" className="flex relative">
             <FiShoppingCart
               color="white"
               className="text-2xl hidden sm:block text-white active:scale-90 transition-all"
             />
+            {products.length ? (
+              <div className="absolute hidden sm:flex w-4 h-4 bg-white rounded z-50 -right-2 -top-2 justify-center items-center text-xs font-bold">
+                {products.length}
+              </div>
+            ) : (
+              ""
+            )}
           </Link>
 
           {token && dataProfile && (
@@ -129,7 +138,11 @@ const Navbar = ({home}) => {
               <Link to="/profile">
                 <img
                   className="rounded-full w-8 h-8 object-cover"
-                  src={dataProfile && dataProfile.picture ? `http://localhost:8888/uploads/users/${dataProfile.picture}` : defaultPhoto}
+                  src={
+                    dataProfile && dataProfile.picture
+                      ? `http://localhost:8888/uploads/users/${dataProfile.picture}`
+                      : defaultPhoto
+                  }
                 ></img>
               </Link>
             </div>
@@ -144,7 +157,11 @@ const Navbar = ({home}) => {
               <Link to="/profile" className="hidden sm:block">
                 <img
                   className="rounded-full w-8 h-8 object-cover"
-                  src={dataProfile && dataProfile.picture ? `http://localhost:8888/uploads/users/${dataProfile.picture}` : defaultPhoto}
+                  src={
+                    dataProfile && dataProfile.picture
+                      ? `http://localhost:8888/uploads/users/${dataProfile.picture}`
+                      : defaultPhoto
+                  }
                 ></img>
               </Link>
 
@@ -185,11 +202,16 @@ const Navbar = ({home}) => {
             <LinkNav mobile={true} destination="/" value="Home" />
             <LinkNav mobile={true} destination="/products" value="Product" />
           </div>
-          <Link to="/history-order">
+          <Link to="/checkout" className="relative">
             <FiShoppingCart
               color="white"
               className="text-2xl text-white active:scale-90 transition-all"
             />
+            {products.length ? (
+              <div className="absolute sm:hidden w-4 h-4 bg-white rounded z-50 -right-2 -top-2 flex justify-center items-center text-xs font-bold text-black">
+                {products.length}
+              </div>
+            ) : ''}
           </Link>
         </div>
 

@@ -271,6 +271,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      
 
       <section className="flex flex-col-reverse sm:flex-row h-[64rem] sm:h-screen w-full">
         <div className="flex h-fit py-16 sm:py-0 sm:h-screen sm:flex-1 justify-center items-center bg-gradient-to-b from-[#3E3232] to-black">

@@ -1,10 +1,11 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setShipping } from "../redux/reducers/deliveryShipping";
+import { setEmail } from "../redux/reducers/emailCustomer";
+import { setFullName } from "../redux/reducers/FullNameCustomer";
+import { setDeliveryAddress } from "../redux/reducers/deliveryAddress";
 
 import { OptionVariety } from "../components/Details";
 import Footer from "../components/Footer";
@@ -12,10 +13,6 @@ import Navbar from "../components/Navbar";
 import CardProductOrder from "../components/CardProductOrder";
 import Payment from "../components/Payment";
 import InputForm from "../components/InputForm";
-import Product1 from "../assets/media/detail-product1.jpg";
-import Product2 from "../assets/media/detail-product2.jpg";
-import Product3 from "../assets/media/detail-product3.jpg";
-import Product4 from "../assets/media/home-product1.jpg";
 
 
 const Checkout = () => {
@@ -32,6 +29,16 @@ const Checkout = () => {
       dispatch(setShipping(event.target.value))
     }
   };
+
+  const setDataCustomer = (event) => {
+    if(event.target.name == "email"){
+      dispatch(setEmail(event.target.value))
+    }else if(event.target.name == "full-name"){
+      dispatch(setFullName(event.target.value))
+    }else{
+      dispatch(setDeliveryAddress(event.target.value))
+    }
+  }
 
   return (
     <body className="flex flex-col items-center">
@@ -84,18 +91,21 @@ const Checkout = () => {
                 label="Email"
                 type="email"
                 placeholder="Enter Your Email"
+                onChange={setDataCustomer}
               />
               <InputForm
                 name="full-name"
                 label="Full Name"
                 type="text"
                 placeholder="Enter Your Full Name"
+                onChange={setDataCustomer}
               />
               <InputForm
                 name="address"
                 label="Address"
                 type="text"
                 placeholder="Enter Your Address"
+                onChange={setDataCustomer}
               />
               <OptionVariety
                 option="Delivery"

@@ -37,7 +37,7 @@ export const OptionVariety = ({option, onChange, size, variant, variantsProduct}
       ))
       ) :
       shippingMethod.map((value, index) => (
-        <label key={index} type="button" className={`${value == deliveryShipping ? 'border-[#7E6363]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border border-[#E8E8E8]  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
+        <label key={index} type="button" className={`${value == deliveryShipping ? 'border-[#7E6363]' : 'border-[#E8E8E8]'} flex-1 flex justify-center border  text-[0.65rem] sm:text-xs text-[#4F5665] focus:text-black  rounded py-1 sm:py-1.5 transition-all`}>
         {value}
         <input onChange={onChange}  type="radio" name={"delivery"} value={value} className="hidden"/>
       </label>

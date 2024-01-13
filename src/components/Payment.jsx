@@ -37,9 +37,12 @@ const Payment = () => {
   const variantProduct = useSelector(state => state.variantProducts.variants)
   const quantityProduct = useSelector(state => state.quantityProducts.quantities)
   const shipping = useSelector(state => state.deliveryShipping.shipping)
+  const deliveryAddress = useSelector(state => state.deliveryAddress.deliveryAddress)
+  const fullName = useSelector(state => state.fullNameCustomer.fullName)
+  const email = useSelector(state => state.emailCustomer.email)
 
   const totalOrder = useSelector(state => state.totalOrder.total).reduce((prev, curr) => prev + curr, 0)
-  const tax = totalOrder * 0.025
+  const tax = Math.round(totalOrder * 0.025)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -53,6 +56,16 @@ const Payment = () => {
     form.append("variantProduct", variantProduct)
     form.append("quantityProduct", quantityProduct)
     form.append("deliveryShipping", shipping)
+    form.append("deliveryAddress", deliveryAddress)
+    form.append("fullName", fullName)
+    form.append("email", email)
+
+    // if(typeof email !== "email"){
+    //   console.log("invalid email", typeof email, email)
+    //   return
+    // }else{
+    //   form.append("email", email)
+    // }
 
     try {
       const {data} = await axios.post(`http://localhost:8888/checkout`, form.toString(), {

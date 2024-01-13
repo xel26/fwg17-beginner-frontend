@@ -11,6 +11,9 @@ import sizeProducts from "./sizeProducts";
 import variantProducts from "./variantProducts";
 import quantityProducts from "./quantityProducts";
 import productsId from "./productsId";
+import emailCustomer from "./emailCustomer";
+import fullNameCustomer from './FullNameCustomer'
+import deliveryAddress from "./deliveryAddress";
 
 const authConfig = {
     key: 'auth',
@@ -26,7 +29,10 @@ const reducer = combineReducers({
     sizeProducts,
     variantProducts,
     quantityProducts,
-    productsId
+    productsId,
+    emailCustomer,
+    fullNameCustomer,
+    deliveryAddress
 })
 
 export default reducer

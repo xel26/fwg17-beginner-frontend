@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FiUser, FiMail, FiMapPin, FiLock, FiPhoneCall, FiEye, FiEyeOff } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, profile}) => {
+const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, profile, onChange}) => {
   const [show, setShow] = useState(false)
 
   const passReveal = () => {
@@ -52,6 +52,7 @@ const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, 
             name={name}
             type={type === 'password' && show ? 'text' : type}
             placeholder={placeholder}
+            onChange={onChange}
           />
           )
         }
