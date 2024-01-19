@@ -40,7 +40,7 @@ const Navbar = ({home}) => {
   const getProfile =  async () => {
     if(token){
       try {
-        const {data} = await axios.get(`http://localhost:8888/profile`, {
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/profile`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
