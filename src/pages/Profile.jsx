@@ -38,7 +38,7 @@ const Profile = () => {
       })
 
       try {
-        const {data} = await axios.patch('http://localhost:8888/profile', form, {
+        const {data} = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/profile`, form, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
@@ -90,7 +90,7 @@ const Profile = () => {
       form.append('picture', file)
 
       try {
-        const {data} = await axios.patch('http://localhost:8888/profile', form, {
+        const {data} = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/profile`, form, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
@@ -105,7 +105,7 @@ const Profile = () => {
         }, 2000);
       } catch (error) {
         console.log(error)
-        setErrorMessage(error.response.data.message)
+        // setErrorMessage(error.response.data.message)
         setError(true)
         setTimeout(() => {
           setError(false)
@@ -159,7 +159,7 @@ const Profile = () => {
                 className="rounded-full w-28 h-28 object-cover"
                 src={
                   dataProfile &&
-                  `http://localhost:8888/uploads/users/${dataProfile.picture}`
+                  `${import.meta.env.VITE_SERVER_URL}/uploads/users/${dataProfile.picture}`
                 }
               ></img>
             )}

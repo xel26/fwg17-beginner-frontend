@@ -5,8 +5,6 @@ import moment from 'moment';
 import {
   FiMessageSquare,
   FiAlignRight,
-  FiCalendar,
-  FiChevronDown,
 } from "react-icons/fi";
 
 import { useSelector } from "react-redux";
@@ -16,9 +14,6 @@ import Navbar from "../components/Navbar";
 import PageNavigation from "../components/PageNavigation";
 import Button from "../components/Button";
 import Product1 from "../assets/media/detail-product1.jpg";
-import Product2 from "../assets/media/detail-product2.jpg";
-import Product3 from "../assets/media/detail-product3.jpg";
-import Product4 from "../assets/media/home-product1.jpg";
 
 const optionFilter = ["On Progress", "Sending Goods", "Finish Order"]
 
@@ -100,7 +95,7 @@ const [totalPage, setTotalPage] = useState()
 
   const dataOrders = async () => {
     try {
-      const {data} = await axios.get('http://localhost:8888/orders', {
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/orders`, {
         headers: {
           'Authorization' : `Bearer ${token}`
         }
@@ -124,7 +119,7 @@ const [totalPage, setTotalPage] = useState()
     const filterStatus = event.target.innerText
 
     try {
-      const {data} = await axios.get(`http://localhost:8888/orders?status=${filterStatus}`, {
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/orders?status=${filterStatus}`, {
         headers : {
           'Authorization' : `Bearer ${token}`
         }
@@ -161,7 +156,7 @@ const [totalPage, setTotalPage] = useState()
     try {
       if (filter) {
         const { data } = await axios.get(
-          `http://localhost:8888/orders?page=${page}&status=${filter}`,
+          `${import.meta.env.VITE_SERVER_URL}/orders?page=${page}&status=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -181,7 +176,7 @@ const [totalPage, setTotalPage] = useState()
         }
       } else {
         const { data } = await axios.get(
-          `http://localhost:8888/orders?page=${page}`,
+          `${import.meta.env.VITE_SERVER_URL}/orders?page=${page}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -217,7 +212,7 @@ const [totalPage, setTotalPage] = useState()
     try {
       if (filter) {
         const { data } = await axios.get(
-          `http://localhost:8888/orders?page=${nextPage}&status=${filter}`,
+          `${import.meta.env.VITE_SERVER_URL}/orders?page=${nextPage}&status=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -237,7 +232,7 @@ const [totalPage, setTotalPage] = useState()
         }
       } else {
         const { data } = await axios.get(
-          `http://localhost:8888/orders?page=${nextPage}`,
+          `${import.meta.env.VITE_SERVER_URL}/orders?page=${nextPage}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -273,7 +268,7 @@ const [totalPage, setTotalPage] = useState()
     try {
       if (filter) {
         const { data } = await axios.get(
-          `http://localhost:8888/orders?page=${prevPage}&status=${filter}`,
+          `${import.meta.env.VITE_SERVER_URL}/orders?page=${prevPage}&status=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -293,7 +288,7 @@ const [totalPage, setTotalPage] = useState()
         }
       } else {
         const { data } = await axios.get(
-          `http://localhost:8888/orders?page=${prevPage}`,
+          `${import.meta.env.VITE_SERVER_URL}/orders?page=${prevPage}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -27,7 +27,7 @@ const CardProductOrder = ({id, index, productName, quantity, size, variant, imag
     return (
         <div className="relative flex items-center gap-2 sm:gap-4 bg-[#E8E8E84D] p-2">
         <div className="">
-          <img className="w-24 h-24 sm:h-36 sm:w-36 object-cover" src={image ? `http://localhost:8888/uploads/products/${image}`: Product1} />
+          <img className="w-24 h-24 sm:h-36 sm:w-36 object-cover" src={image ? `${import.meta.env.VITE_SERVER_URL}/uploads/products/${image}`: Product1} />
         </div>
         <div className="flex-1 flex flex-col gap-2 sm:gap-3 justify-center">
           <div>

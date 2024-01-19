@@ -34,7 +34,7 @@ const ProductDetails = () => {
     });
 
     try {
-      const {data} = await axios.get(`http://localhost:8888/products/${productId ? productId : id}`)
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products/${productId ? productId : id}`)
       setInfoProduct(data.results)
       console.log(data.results)
     } catch (error) {
@@ -73,7 +73,7 @@ const ProductDetails = () => {
 
   const pageNavigator = async (page) => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/products`, {
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`, {
         params: {
           limit: 3,
           page,
@@ -98,7 +98,7 @@ const ProductDetails = () => {
 
   const nextPageNavigator = async () => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/products`, {
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`, {
         params: {
           limit: 3,
           page: nextPage,
@@ -124,7 +124,7 @@ const ProductDetails = () => {
 
   const prevPageNavigator = async () => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/products`, {
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`, {
         params: {
           limit: 3,
           page: prevPage,
@@ -176,7 +176,7 @@ const ProductDetails = () => {
           {infoProduct && (
             <div
               style={{
-                backgroundImage: `url('http://localhost:8888/uploads/products/${infoProduct.image}')`,
+                backgroundImage: `url('${import.meta.env.VITE_SERVER_URL}/uploads/products/${infoProduct.image}')`,
                 backgroundPosition: "center",
               }}
               className={`w-full h-72 sm:h-80 bg-center bg-cover`}

@@ -75,7 +75,7 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
   const getDataSize = async (size) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/data-size?name=${size}`
+        `${import.meta.env.VITE_SERVER_URL}/data-size?name=${size}`
       );
       setDataSize(data.results);
     } catch (error) {
@@ -86,7 +86,7 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
 
     const getDataVariant = async (variant) => {
       try {
-        const {data} = await axios.get(`http://localhost:8888/data-variant?name=${variant}`)
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/data-variant?name=${variant}`)
         setDataVariant(data.results)
       } catch (error) {
         console.log(error)
@@ -206,7 +206,7 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
           onClick={() => handleAddToCart(quantity, size, variant, dataSize && dataSize, dataVariant && dataVariant, id)}
           className="flex-1 flex justify-center gap-2 sm:gap-4 text-[#7E6363] border border-[#7E6363] rounded py-1.5 active:scale-95 transition-all"
         >
-          <FiShoppingCart size={20} />
+          <FiShoppingCart/>
           <p className="text-xs sm:text-sm">add to cart</p>
         </button>
       </div>

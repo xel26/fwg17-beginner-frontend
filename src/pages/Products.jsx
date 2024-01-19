@@ -9,7 +9,6 @@ import GreenKuponStiker from "../assets/media/stiker-kupon-hijau.png";
 import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 
@@ -249,7 +248,7 @@ const Products = () => {
 
   const listAllProducts = async () => {
     try {
-      const {data} = await axios.get("http://localhost:8888/products")
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`)
       console.log(data)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
@@ -299,7 +298,7 @@ const Products = () => {
     const queryParams = form.toString()
     
     try {
-      const {data} = await axios.get(`http://localhost:8888/products?${queryParams}`)
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${queryParams}`)
       console.log(data)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
@@ -337,7 +336,7 @@ const Products = () => {
 
     try {
       if(queryParameter){
-        const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${page}`)
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${queryParameter}&page=${page}`)
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -350,7 +349,7 @@ const Products = () => {
           setDisable(false)
         }
       }else{
-        const {data} = await axios.get(`http://localhost:8888/products?page=${page}`)
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?page=${page}`)
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -378,7 +377,7 @@ const Products = () => {
     
     try {
       if(queryParameter){
-        const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${nextPage}`)
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${queryParameter}&page=${nextPage}`)
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -391,7 +390,7 @@ const Products = () => {
           setDisable(false)
         }
       }else{
-        const {data} = await axios.get(`http://localhost:8888/products?page=${nextPage}`)
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?page=${nextPage}`)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
@@ -418,7 +417,7 @@ const Products = () => {
     
     try {
       if(queryParameter){
-        const {data} = await axios.get(`http://localhost:8888/products?${queryParameter}&page=${prevPage}`)
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${queryParameter}&page=${prevPage}`)
         console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -431,7 +430,7 @@ const Products = () => {
           setDisable(false)
         }
       }else{
-        const {data} = await axios.get(`http://localhost:8888/products?page=${prevPage}`)
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?page=${prevPage}`)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
@@ -515,7 +514,7 @@ const Products = () => {
             onClick={filterMobile}
             className=" bg-gradient-to-br from-[#7E6363] to-black rounded-md p-2 w-fit flex items-center  justify-center active:scale-95 transition-all"
           >
-            <FiList size={20} />
+            <FiList size={20} color="white"/>
           </button>
         </div>
       </section>

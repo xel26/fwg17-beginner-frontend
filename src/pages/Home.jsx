@@ -42,7 +42,7 @@ const ListProvide = ({ text }) => {
 // recommendation products start
 export const recommendProducts= async (setData) => {
   try {
-    const {data} = await axios.get("http://localhost:8888/products", {
+    const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`, {
       params: {
         limit: setData.limit,
         isRecommended: true
@@ -117,7 +117,7 @@ const Home = () => {
   
   const testi = async () => {
     try {
-      const {data} = await axios.get("http://localhost:8888/testimonial")
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial`)
       console.log(data)
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)
@@ -139,7 +139,7 @@ const Home = () => {
 
   const next = async () => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/testimonial?page=${nextPage}`)
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial?page=${nextPage}`)
       console.log(data)
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)
@@ -160,7 +160,7 @@ const Home = () => {
 
   const prev = async () => {
     try {
-      const {data} = await axios.get(`http://localhost:8888/testimonial?page=${prevPage}`)
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial?page=${prevPage}`)
       console.log(data)
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)

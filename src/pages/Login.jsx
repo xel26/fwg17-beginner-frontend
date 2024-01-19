@@ -28,7 +28,7 @@ const Login = () => {
     form.append('password', password)
 
     try{
-      const {data} = await axios.post('http://localhost:8888/auth/login', form.toString())
+      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`, form.toString())
       const {token: resultToken} = data.results
 
       dispatch(loginAction(resultToken))

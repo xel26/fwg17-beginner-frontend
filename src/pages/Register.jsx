@@ -25,7 +25,7 @@ const Register = () => {
       form.append("fullName", fullName);
 
       try {
-        const { data } = await axios.post("http://localhost:8888/auth/register", form.toString());
+        const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/register`, form.toString());
         console.log(data)
 
         setSuccessMessage(data.message)

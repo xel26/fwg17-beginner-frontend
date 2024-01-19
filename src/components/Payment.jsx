@@ -68,7 +68,7 @@ const Payment = () => {
     // }
 
     try {
-      const {data} = await axios.post(`http://localhost:8888/checkout`, form.toString(), {
+      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/checkout`, form.toString(), {
         headers: {
           'Authorization' : `Bearer ${token}`
         }

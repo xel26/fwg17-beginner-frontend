@@ -140,7 +140,7 @@ const Navbar = ({home}) => {
                   className="rounded-full w-8 h-8 object-cover"
                   src={
                     dataProfile && dataProfile.picture
-                      ? `http://localhost:8888/uploads/users/${dataProfile.picture}`
+                      ? `${import.meta.env.VITE_SERVER_URL}/uploads/users/${dataProfile.picture}`
                       : defaultPhoto
                   }
                 ></img>
@@ -159,7 +159,7 @@ const Navbar = ({home}) => {
                   className="rounded-full w-8 h-8 object-cover"
                   src={
                     dataProfile && dataProfile.picture
-                      ? `http://localhost:8888/uploads/users/${dataProfile.picture}`
+                      ? `${import.meta.env.VITE_SERVER_URL}/uploads/users/${dataProfile.picture}`
                       : defaultPhoto
                   }
                 ></img>
