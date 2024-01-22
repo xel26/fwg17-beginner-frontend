@@ -159,7 +159,7 @@ const Profile = () => {
                 className="rounded-full w-28 h-28 object-cover"
                 src={
                   dataProfile &&
-                  `${import.meta.env.VITE_SERVER_URL}/uploads/users/${dataProfile.picture}`
+                  dataProfile.picture
                 }
               ></img>
             )}

@@ -5,18 +5,20 @@ import gopay from "../assets/media/gopay.png"
 import ovo from "../assets/media/ovo.png"
 import PayPal from "../assets/media/paypal.png"
 
-import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { resetProducts } from "../redux/reducers/products"
-import { resetTotal, setTotal } from "../redux/reducers/totalOrder"
+import { resetTotal } from "../redux/reducers/totalOrder"
 import { resetShipping } from "../redux/reducers/deliveryShipping"
 import { resetSizes } from "../redux/reducers/sizeProducts"
 import { resetVariants } from "../redux/reducers/variantProducts"
 import { resetQuantities } from "../redux/reducers/quantityProducts"
 import { resetId } from "../redux/reducers/productsId"
+import { resetEmail } from "../redux/reducers/emailCustomer"
+import { resetFullName } from "../redux/reducers/FullNameCustomer"
+import { resetdeliveryAddress } from "../redux/reducers/deliveryAddress"
 
-import { useState, useEffect } from "react"
 
 const PaymentList = ({list, idr}) => {
   return (
@@ -31,6 +33,7 @@ const PaymentList = ({list, idr}) => {
 
 const Payment = () => {
   const token = useSelector(state => state.auth.token)
+  const products = useSelector(state => state.products.data)
 
   const productId = useSelector(state => state.productsId.id)
   const sizeProduct = useSelector(state => state.sizeProducts.sizes)
@@ -60,22 +63,12 @@ const Payment = () => {
     form.append("fullName", fullName)
     form.append("email", email)
 
-    // if(typeof email !== "email"){
-    //   console.log("invalid email", typeof email, email)
-    //   return
-    // }else{
-    //   form.append("email", email)
-    // }
-
     try {
       const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/checkout`, form.toString(), {
         headers: {
           'Authorization' : `Bearer ${token}`
         }
       })
-
-      console.log(data)
-      console.log(data.results.id)
   
       dispatch(resetProducts())
       dispatch(resetTotal())
@@ -84,6 +77,9 @@ const Payment = () => {
       dispatch(resetVariants())
       dispatch(resetQuantities())
       dispatch(resetId())
+      dispatch(resetEmail())
+      dispatch(resetFullName())
+      dispatch(resetdeliveryAddress())
       
       navigate('/history-order')
 
@@ -91,6 +87,7 @@ const Payment = () => {
       console.log(error)
     }
   }
+
 
     return (
         <div className="flex-1 h-fit flex flex-col">
@@ -106,7 +103,7 @@ const Payment = () => {
 
           <PaymentList list="Sub Total" idr={totalOrder + 5000 + tax}/>
 
-        <button onClick={checkoutAction} className="bg-gradient-to-b from-[#7E6363] to-black text-white w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 transition-all flex justify-center">Checkout</button>
+        <button disabled={!products.length}  onClick={checkoutAction} className="bg-gradient-to-b from-[#7E6363] to-black text-white w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 disabled:active:scale-100 transition-all flex justify-center">Checkout</button>
           <p className="text-xs text-[#4F5665]">We Accept</p>
 
           <div className="flex flex-wrap justify-between gap-2 items-center">

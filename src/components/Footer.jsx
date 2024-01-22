@@ -3,6 +3,8 @@ import TextLogo from "../assets/media/text-logo.png"
 import Facebook from "../assets/media/facebook-logo-circle.png"
 import Twitter from "../assets/media/twitter-logo-circle.png" 
 import Instagram from "../assets/media/instagram-logo-circle.png"
+
+import {FiFacebook, FiTwitter, FiInstagram} from "react-icons/fi"
 import { Link } from "react-router-dom";
 
 const FooterLink = ({destination1, text1, destination2, text2, destination3, text3, destination4, text4, destination5, text5}) => {
@@ -59,9 +61,9 @@ const Footer = () => {
             <div className="flex flex-col gap-4 text-sm sm:text-base">
               <p className="font-semibold">Social Media</p>
               <div className="flex gap-4">
-                <Link to="#" className="active:scale-90 transition-all duration-300"><img src={Facebook} /></Link>
-                <Link to="#" className="active:scale-90 transition-all duration-300"><img src={Twitter} /></Link>
-                <Link to="#" className="active:scale-90 transition-all duration-300"><img src={Instagram} /></Link>
+                <Link to="#" className="active:scale-90 transition-all duration-300 bg-gradient-to-br from-[#7E6363] to-black rounded-3xl text-xl p-2 text-white"> <FiFacebook/> </Link>
+                <Link to="#" className="active:scale-90 transition-all duration-300 bg-gradient-to-br from-[#7E6363] to-black rounded-3xl text-xl p-2 text-white"> <FiTwitter/> </Link>
+                <Link to="#" className="active:scale-90 transition-all duration-300 bg-gradient-to-br from-[#7E6363] to-black rounded-3xl text-xl p-2 text-white"> <FiInstagram/> </Link>
               </div>
             </div>
           </div>

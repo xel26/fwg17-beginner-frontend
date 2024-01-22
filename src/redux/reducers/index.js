@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage";
 import auth from "./auth";
 import profile from "./profile";
 import products from "./products"
+import detailProduct from './detailProduct'
 import totalOrder from "./totalOrder";
 import deliveryShipping from "./deliveryShipping";
 import sizeProducts from "./sizeProducts";
@@ -32,7 +33,8 @@ const reducer = combineReducers({
     productsId,
     emailCustomer,
     fullNameCustomer,
-    deliveryAddress
+    deliveryAddress,
+    detailProduct
 })
 
 export default reducer

@@ -15,16 +15,14 @@ import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
 import { recommendProducts } from './Home'
+import { setDetailProduct } from '../redux/reducers/detailProduct'
 
 const ProductDetails = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   // details product start
   const {id} = useParams()
-  const [infoProduct, setInfoProduct] = useState()
-  console.log(infoProduct && infoProduct.variantsProduct)
-  const variants = infoProduct && infoProduct.variantsProduct
+  const infoProduct = useSelector(state => state.detailProduct.data)
 
   const dataDetails = async (productId) => {
     window.scrollTo({
@@ -35,7 +33,7 @@ const ProductDetails = () => {
 
     try {
       const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products/${productId ? productId : id}`)
-      setInfoProduct(data.results)
+      dispatch(setDetailProduct(data.results))
       console.log(data.results)
     } catch (error) {
       console.log(error)
@@ -44,14 +42,19 @@ const ProductDetails = () => {
   // details product end
 
 
-
+  const [successAddToCart, setSuccessAddToCart] = useState(false)
   // add to redux start
   const addToCart = (quantity, size, variant, dataSize, dataVariant, id) => {
+    setSuccessAddToCart(true)
+    setTimeout(() => {
+      setSuccessAddToCart(false)
+    }, 1500);
+
     dispatch(setProduct({
       ...infoProduct
     }))
 
-    dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + dataSize.additionalPrice + (dataVariant ? dataVariant.additionalPrice : 0)) * quantity))
+    dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + (dataSize ? dataSize.additionalPrice : 0) + (dataVariant ? dataVariant.additionalPrice : 0)) * quantity))
     dispatch(setSize(size))
     dispatch(setVariant(variant))
     dispatch(setQuantity(quantity))
@@ -176,7 +179,7 @@ const ProductDetails = () => {
           {infoProduct && (
             <div
               style={{
-                backgroundImage: `url('${import.meta.env.VITE_SERVER_URL}/uploads/products/${infoProduct.image}')`,
+                backgroundImage: `url('${infoProduct.image}')`,
                 backgroundPosition: "center",
               }}
               className={`w-full h-72 sm:h-80 bg-center bg-cover`}
@@ -200,8 +203,9 @@ const ProductDetails = () => {
             price={infoProduct.basePrice}
             tag={infoProduct.tag}
             isRecommended={infoProduct.isRecommended}
-            variants={variants}
+            variants={infoProduct.variantsProduct}
             handleAddToCart={addToCart}
+            addToCart={successAddToCart}
           />
         ) : (
           infoProduct && (
@@ -215,8 +219,9 @@ const ProductDetails = () => {
               discountPrice={infoProduct.basePrice - infoProduct.discount}
               tag={infoProduct.tag}
               isRecommended={infoProduct.isRecommended}
-              variants={variants}
+              variants={infoProduct.variantsProduct}
               handleAddToCart={addToCart}
+              addToCart={successAddToCart}
             />
           )
         )}

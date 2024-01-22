@@ -13,6 +13,7 @@ import Navbar from "../components/Navbar";
 import CardProductOrder from "../components/CardProductOrder";
 import Payment from "../components/Payment";
 import InputForm from "../components/InputForm";
+import { useEffect } from "react";
 
 
 const Checkout = () => {
@@ -40,6 +41,14 @@ const Checkout = () => {
     }
   }
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }, [])
+
   return (
     <body className="flex flex-col items-center">
       <Navbar />
@@ -51,7 +60,7 @@ const Checkout = () => {
           <div className="flex flex-col w-full sm:w-7/12 gap-6 sm:gap-16">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
-                <h4 className="font-semibold">Your Order</h4>
+                <h4 className="font-semibold">{products.length ? 'Your Order' : 'No Order Yet'}</h4>
                 <Link
                   to="/products"
                   className="flex items-center justify-center gap-2 text-white bg-gradient-to-b from-[#7E6363] to-black rounded-md active:scale-95 transition-all p-1.5 sm:p-2"

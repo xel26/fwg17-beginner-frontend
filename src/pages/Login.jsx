@@ -30,14 +30,15 @@ const Login = () => {
     try{
       const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`, form.toString())
       const {token: resultToken} = data.results
-
-      dispatch(loginAction(resultToken))
-
+      
       setSuccessMessage(data.message)
       setSuccess(true)
+
       setTimeout(() => {
+        dispatch(loginAction(resultToken))
         navigate('/products')
       }, 2000);
+      
     }catch(err){
       setError(true)
       setTimeout(() => {
@@ -48,9 +49,9 @@ const Login = () => {
   }
 
   useEffect(() => {
-    // if(token){
-    //   navigate('/products')
-    // }
+    if(token){
+      navigate('/products')
+    }
   },[token, navigate])
 
     return (

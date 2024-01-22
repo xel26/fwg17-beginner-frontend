@@ -11,11 +11,11 @@ const fullNameCustomer = createSlice({
         setFullName: (state, action) => {
             state.fullName = action.payload
         },
-        resetName: () => {
+        resetFullName: () => {
             return initialState
         }
     }
 })
 
-export const {setFullName, resetName} = fullNameCustomer.actions
+export const {setFullName, resetFullName} = fullNameCustomer.actions
 export default fullNameCustomer.reducer

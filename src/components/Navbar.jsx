@@ -7,17 +7,28 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { logout as logoutAction } from "../redux/reducers/auth";
 import { setProfile as setProfileAction} from '../redux/reducers/profile'
+import { resetProfile } from "../redux/reducers/profile";
+import { resetProducts } from "../redux/reducers/products"
+import { resetTotal } from "../redux/reducers/totalOrder"
+import { resetShipping } from "../redux/reducers/deliveryShipping"
+import { resetSizes } from "../redux/reducers/sizeProducts"
+import { resetVariants } from "../redux/reducers/variantProducts"
+import { resetQuantities } from "../redux/reducers/quantityProducts"
+import { resetId } from "../redux/reducers/productsId"
+import { resetEmail } from "../redux/reducers/emailCustomer"
+import { resetFullName } from "../redux/reducers/FullNameCustomer"
+import { resetdeliveryAddress } from "../redux/reducers/deliveryAddress"
 
 import CupCoffee from "../assets/media/cup-coffee-icon-white.png";
 import TextLogo from "../assets/media/text-logo-white.png";
 import defaultPhoto from '../assets/media/default-photo-profil.jpeg'
 
 
-const LinkNav = ({mobile, destination, value, handlective}) => {
+const LinkNav = ({mobile, path, value}) => {
   return (
       <Link
-      to={destination}
-      className={` text-white ${!mobile ? 'hidden sm:block' : ''} ${handlective ? 'border-b-2 border-[#A87C7C]' : ''}`}
+      to={path}
+      className={` text-white ${!mobile ? 'hidden sm:block' : ''} ${document.URL.endsWith(path) && `border-b-2 border-white`}`}
     >
       {value}
     </Link>
@@ -28,8 +39,6 @@ const Navbar = ({home}) => {
 
   const [navMobile, setNavMobile] = useState(false)
   const [navSearch, setNavSearch] = useState(false)
-  const [homeActive, setHomeActive] = useState(false)
-  const [productActive, setProductActive] = useState(false)
   
   const token = useSelector(state => state.auth.token)
   const dataProfile = useSelector(state => state.profile.data)
@@ -55,6 +64,17 @@ const Navbar = ({home}) => {
 
   const onLogout = () => {
     dispatch(logoutAction())
+    dispatch(resetProfile())
+    dispatch(resetProducts())
+    dispatch(resetTotal())
+    dispatch(resetShipping())
+    dispatch(resetSizes())
+    dispatch(resetVariants())
+    dispatch(resetQuantities())
+    dispatch(resetId())
+    dispatch(resetEmail())
+    dispatch(resetFullName())
+    dispatch(resetdeliveryAddress())
     navigate('/')
   }
 
@@ -62,15 +82,6 @@ const Navbar = ({home}) => {
 
   useEffect(() => {
     getProfile()
-
-    if(document.URL.endsWith('/')){
-      console.log(document.URL)
-      setHomeActive(true)
-      setProductActive(false)
-    }else{
-      setHomeActive(false)
-      setProductActive(true)                                      // note: product belum active saat di klik
-    }
   },[])
 
   return (
@@ -90,11 +101,10 @@ const Navbar = ({home}) => {
             </div>
           </div>
           <div className="flex gap-12">
-            <LinkNav destination="/" value="Home" handlective={homeActive} />
+            <LinkNav path="/" value="Home" />
             <LinkNav
-              destination="/products"
+              path="/products"
               value="Product"
-              handleActive={productActive}
             />
           </div>
         </div>
@@ -140,7 +150,7 @@ const Navbar = ({home}) => {
                   className="rounded-full w-8 h-8 object-cover"
                   src={
                     dataProfile && dataProfile.picture
-                      ? `${import.meta.env.VITE_SERVER_URL}/uploads/users/${dataProfile.picture}`
+                      ? dataProfile.picture
                       : defaultPhoto
                   }
                 ></img>
@@ -159,7 +169,7 @@ const Navbar = ({home}) => {
                   className="rounded-full w-8 h-8 object-cover"
                   src={
                     dataProfile && dataProfile.picture
-                      ? `${import.meta.env.VITE_SERVER_URL}/uploads/users/${dataProfile.picture}`
+                      ? dataProfile.picture
                       : defaultPhoto
                   }
                 ></img>
@@ -199,8 +209,8 @@ const Navbar = ({home}) => {
       >
         <div className="w-full flex justify-between items-center text-white h-6">
           <div className="flex-1 flex items-center gap-4">
-            <LinkNav mobile={true} destination="/" value="Home" />
-            <LinkNav mobile={true} destination="/products" value="Product" />
+            <LinkNav mobile={true} path="/" value="Home" />
+            <LinkNav mobile={true} path="/products" value="Product" />
           </div>
           <Link to="/checkout" className="relative">
             <FiShoppingCart

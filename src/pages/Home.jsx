@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 const Data = ({ value, text }) => {
   return (
     <div>
-      <h1 className={`text-[#A87C7C] text-2xl sm:text-4xl font-semibold flex justify-between ${text == "Staff" || text == "Stores" ? 'w-12 sm:w-[4.5rem]' : 'w-16 sm:w-24'}`}>
+      <h1 className={`text-white text-2xl sm:text-4xl font-semibold flex justify-between ${text == "Staff" || text == "Stores" ? 'w-12 sm:w-[4.5rem]' : 'w-16 sm:w-24'}`}>
         <h1>
         {value}
         </h1>

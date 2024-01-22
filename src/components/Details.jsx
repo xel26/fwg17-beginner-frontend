@@ -49,7 +49,7 @@ export const OptionVariety = ({option, onChange, size, variant, variantsProduct}
 }
 
 
-const Details = ({id, productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, variants, handleAddToCart }) => {
+const Details = ({id, productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, variants, handleAddToCart, addToCart }) => {
   // quantity start
   const [quantity, setQuantity] = useState(1);
   const mininum = quantity <= 1;
@@ -105,6 +105,8 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
       }
     };
   // variant end
+
+
 
   return (
     <div className="w-full sm:flex-1 flex flex-col gap-3 sm:gap-[0.45rem] h-5/6 ">
@@ -204,10 +206,13 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
         </Link>
         <button
           onClick={() => handleAddToCart(quantity, size, variant, dataSize && dataSize, dataVariant && dataVariant, id)}
-          className="flex-1 flex justify-center gap-2 sm:gap-4 text-[#7E6363] border border-[#7E6363] rounded py-1.5 active:scale-95 transition-all"
+          className="relative overflow-hidden flex-1 flex justify-center gap-2 sm:gap-4 text-[#7E6363] border border-[#7E6363] rounded py-1.5 active:scale-95 transition-all"
         >
           <FiShoppingCart/>
           <p className="text-xs sm:text-sm">add to cart</p>
+          <div className={`${addToCart ? 'opacity-100' : 'opacity-0'} absolute bg-gradient-to-br from-[#7E6363] to-black text-xs sm:text-sm text-white h-full w-full flex items-center justify-center left-0 top-0 transition-all duration-200`}>
+            <p>Success add to cart</p>
+          </div>
         </button>
       </div>
     </div>
