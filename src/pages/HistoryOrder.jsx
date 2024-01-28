@@ -13,83 +13,25 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import PageNavigation from "../components/PageNavigation";
 import Button from "../components/Button";
-import Product1 from "../assets/media/detail-product1.jpg";
+import defaultHistoryOrder from "../assets/media/default-history-order.jpg";
+import CardHistoryOrder from "../components/CardHistoryOrder";
+import Info from '../components/Info'
+import Alert from "../components/Alert";
 
 const optionFilter = ["On Progress", "Sending Goods", "Finish Order"]
 
-const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image}) => {
-    return (
-        <div className="flex gap-4 items-center p-2 bg-[#E8E8E84D] text-sm">
-        <div className="hidden sm:block w-28">
-          <img src={image} />
-        </div>
-
-        <div className="flex-1 flex flex-col gap-4">
-          <div
-            className="grid grid-cols-2 place-content-between gap-y-6 sm:flex justify-between"
-          >
-            <div className="flex flex-col gap-2 text-[#4F5665]">
-              <div className="flex items-center gap-1">
-                <i className="h-3.5 w-fit" data-feather="coffee"></i>
-                <p className="text-xs sm:text-base">No. Order</p>
-              </div>
-              <h5 className="font-semibold text-black text-xs sm:text-base">
-               #{orderNumber}
-              </h5>
-            </div>
-
-            <div className="flex flex-col gap-2 text-[#4F5665]">
-              <div className="flex items-center gap-1">
-                <i className="h-3.5 w-fit" data-feather="calendar"></i>
-                <p className="text-xs sm:text-base">Date</p>
-              </div>
-              <h5 className="font-semibold text-black text-xs sm:text-base">
-                {date}
-              </h5>
-            </div>
-
-            <div className="flex flex-col gap-2 text-[#4F5665]">
-              <div className="flex items-center gap-1">
-                <i className="h-3.5 w-fit" data-feather="repeat"></i>
-                <p className="text-xs sm:text-base">Total</p>
-              </div>
-              <h5 className="font-semibold text-black text-xs sm:text-base">
-                Idr {total.toLocaleString('id')}
-              </h5>
-            </div>
-
-            <div className="flex flex-col gap-2 text-[#4F5665]">
-              <div className="flex items-center gap-1">
-                <i className="h-3.5 w-fit" data-feather="refresh-ccw"></i>
-                <p className="text-xs sm:text-base">Status</p>
-              </div>
-              <h5
-                className="font-semibold text-white text-xs bg-gradient-to-br from-[#7E6363] to-black p-1.5 rounded-3xl translate-y-[-0.3rem] w-fit"
-              >
-                {statusDelivery}
-              </h5>
-            </div>
-          </div>
-
-          <Link to={`/order-details/${id}`} className="text-[#7E6363] underline text-xs sm:text-base"
-            >Views Order Detail
-            </Link>
-        </div>
-      </div>
-    )
-}
 
 const HistoryOrder = () => {
 const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
   const [prevPage, setPrevPage] = useState()
   const[currentPage, setCurrentPage] = useState()
-  const [filter, setFilter] = useState(null)
+  const [filter, setFilter] = useState()
   const [disable, setDisable] = useState(false)
   const [orders, setOrders] = useState()
   const [totalData, setTotalData] = useState(0)
   const [errorMessage, setErrorMessage] = useState()
-  const [error, setError] = useState(false)
+  const [error, setError] = useState()
 
   const token = useSelector(state => state.auth.token)
 
@@ -107,9 +49,12 @@ const [totalPage, setTotalPage] = useState()
       setPrevPage(data.pageInfo.prevPage);
       setTotalData(data.pageInfo.totalData)
       setCurrentPage(data.pageInfo.currentPage)
-    } catch (error) {
-      console.log(error.response.data.message)
-      setErrorMessage(error.response.data.message)
+      setFilter(null)
+      setError(false)
+
+    } catch ({response:{data:{message}}}) {
+      console.log(message)
+      setErrorMessage(message)
       setError(true)
     }
   }
@@ -117,6 +62,7 @@ const [totalPage, setTotalPage] = useState()
 
   const filterStatus = async (event) => {
     const filterStatus = event.target.innerText
+    
 
     try {
       const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/orders?status=${filterStatus}`, {
@@ -124,7 +70,7 @@ const [totalPage, setTotalPage] = useState()
           'Authorization' : `Bearer ${token}`
         }
       })
-      console.log(data && data)
+   
       setOrders(data.results)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
@@ -132,16 +78,20 @@ const [totalPage, setTotalPage] = useState()
       setCurrentPage(data.pageInfo.currentPage)
       setTotalData(data.pageInfo.totalData)
       setFilter(filterStatus)
+      setError(false)
 
       if (data.pageInfo.nextPage === null) {
         setDisable(true);
       } else {
         setDisable(false);
       }
-    } catch (error) {
-      console.log(error.response.data.message)
-      setErrorMessage(error.response.data.message)
+
+    } catch ({response:{data:{message}}}) {
+      setErrorMessage(message)
       setError(true)
+      setOrders(null)
+      setFilter(filterStatus)
+      
     }
   }
 
@@ -313,6 +263,16 @@ const [totalPage, setTotalPage] = useState()
   };
 
 
+  const [showAlert, setShowAlert] = useState()
+  const handleSendMessage = (event) => {
+    event.preventDefault()
+    setShowAlert(true)
+
+    setTimeout(() => {
+      setShowAlert(false)
+    }, 6000);
+  }
+
   useEffect(() => {
     dataOrders()
   }, [])
@@ -320,7 +280,7 @@ const [totalPage, setTotalPage] = useState()
 
   return (
     <body className="flex flex-col items-center gap-6 sm:gap-10">
-      <Navbar/>
+      <Navbar />
 
       <div className="header flex justify-between sm:justify-start w-5/6 mt-20 sm:mt-24 gap-8 items-end">
         <h1 className="text-2xl sm:text-4xl font-semibold">History Order</h1>
@@ -332,26 +292,38 @@ const [totalPage, setTotalPage] = useState()
       <div className="flex flex-col sm:flex-row w-5/6 gap-4">
         <div className="sm:w-2/3 flex flex-col gap-8 sm:gap-10">
           <div className="flex flex-col-reverse sm:flex-row gap-y-4 sm:gap-12 justify-between">
-            <div className="flex flex-col items-start gap-2 w-fit sm:w-auto sm:flex-row sm:justify-between sm:gap-4 bg-[#E8E8E899] p-1.5 sm:p-3">
-            {optionFilter.map((item, index) => (
-              <button key={index} onClick={filterStatus} className={`${filter == item ? 'bg-white' : 'bg-transparen'}  p-1 text-xs sm:text-base font-semibold transition-all`}>
-                {item}
-              </button>
-            ))}
+            <div className="flex gap-0 w-fit sm:w-auto justify-between sm:gap-4 bg-[#E8E8E899] p-1.5 sm:p-3">
+              {optionFilter.map((item, index) => (
+                <button
+                  key={index}
+                  onClick={filterStatus}
+                  className={`${
+                    filter == item ? "bg-white" : "bg-transparen"
+                  }  p-1 text-xs sm:text-base font-semibold transition-all`}
+                >
+                  {item}
+                </button>
+              ))}
             </div>
 
-            <label className="relative w-fit sm:w-auto flex items-center justify-center bg-[#E8E8E899] p-1.5 sm:p-3 gap-2 font-semibold">
-              {/* <FiCalendar />
+            {/* <label className="relative w-fit sm:w-auto flex items-center justify-center bg-[#E8E8E899] p-1.5 sm:p-3 gap-2 font-semibold">
+              <FiCalendar />
               <h4 className="text-xs sm:text-base">January 2023</h4>
-              <FiChevronDown /> */}
+              <FiChevronDown />
               <input className="outline-none bg-transparent" type="month" name="date"/>
-            </label>
+            </label> */}
           </div>
 
-          <div className="relative flex flex-col gap-4 h-fit">
-          <div className={`absolute text-center top-10 py-2 px-4 bg-white shadow-md rounded text-sm text-red-500 flex justify-center items-center font-bold ${error ? 'flex' : 'hidden'}`}>
-                <h1>{errorMessage}</h1>
-          </div>
+          <div
+            className={`relative flex flex-col gap-4 h-fit ${
+              error ? "pb-12" : "pb-0"
+            }`}
+          >
+            <div className={`${error ? "block " : "hidden"} `}>
+              <Info
+                message={`${filter ? `No order history under the '${filter}' status currently!` : 'No order for all status currently!'}`}
+              />
+            </div>
 
             {orders &&
               orders.map((order) => (
@@ -359,20 +331,38 @@ const [totalPage, setTotalPage] = useState()
                   key={order.id}
                   id={order.id}
                   orderNumber={order.orderNumber}
-                  date={`${moment(order.createdAt).format('D').padStart(2, '0')} ${moment(order.createdAt).format('MMMM')} ${moment(order.createdAt).format('YYYY')}`}
+                  date={`${moment(order.createdAt)
+                    .format("D")
+                    .padStart(2, "0")} ${moment(order.createdAt).format(
+                    "MMMM"
+                  )} ${moment(order.createdAt).format("YYYY")}`}
                   total={parseInt(order.subtotal)}
                   statusDelivery={order.status}
-                  image={Product1}
+                  image={defaultHistoryOrder}
                 />
               ))}
           </div>
-          
-          {!error &&
-          <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} prevPageHandle={prevPageNavigator} handleDisable={disable} currentPage={currentPage}/>
-          }
+
+          {!error && (
+            <PageNavigation
+              totalPage={totalPage}
+              pageHandle={pageNavigator}
+              nextPageHandle={nextPageNavigator}
+              prevPageHandle={prevPageNavigator}
+              handleDisable={disable}
+              currentPage={currentPage}
+            />
+          )}
         </div>
 
-        <div className="flex-1 flex flex-col gap-2 border border-[#E8E8E8] h-fit p-2 mt-4 sm:mt-0">
+        <div className="relative flex-1 flex flex-col gap-2 border border-[#E8E8E8] h-fit p-2 mt-4 sm:mt-0">
+          <div className="absolute -top-20 -left-6 sm:-left-14 z-50 ">
+          <Alert
+            showAlert={showAlert} isSuccess={false}
+            message="Sorry, could not send the message for now. This feature is currently unavailable !"
+          />
+          </div>
+
           <div className="relative bg-black rounded-2xl w-fit p-1.5 flex items-center justify-center">
             <FiMessageSquare color="white" size={25} />
             <FiAlignRight className="absolute top-2.5 text-[#A87C7C] h-3" />
@@ -382,7 +372,11 @@ const [totalPage, setTotalPage] = useState()
             if your unable to find answer or find your product quickly, please
             describe your problem and tell us. we will give you solution.
           </p>
-          <Button destination="#" value="Send Message" py="1.5" />
+          <Button
+            handleSubmit={handleSendMessage}
+            value="Send Message"
+            py="1.5"
+          />
         </div>
       </div>
 

@@ -14,15 +14,15 @@ import Navbar from "../components/Navbar";
 import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
-import { recommendProducts } from './Home'
 import { setDetailProduct } from '../redux/reducers/detailProduct'
 
 const ProductDetails = () => {
   const dispatch = useDispatch()
+  const [mainImage, setMainImage] = useState()
 
   // details product start
   const {id} = useParams()
-  const infoProduct = useSelector(state => state.detailProduct.data)
+  const [infoProduct, setInfoProduct] = useState()
 
   const dataDetails = async (productId) => {
     window.scrollTo({
@@ -34,6 +34,8 @@ const ProductDetails = () => {
     try {
       const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products/${productId ? productId : id}`)
       dispatch(setDetailProduct(data.results))
+      setInfoProduct(data.results)
+      setMainImage(data.results.image)
       console.log(data.results)
     } catch (error) {
       console.log(error)
@@ -45,10 +47,14 @@ const ProductDetails = () => {
   const [successAddToCart, setSuccessAddToCart] = useState(false)
   // add to redux start
   const addToCart = (quantity, size, variant, dataSize, dataVariant, id) => {
-    setSuccessAddToCart(true)
+
+    setTimeout(() => {
+      setSuccessAddToCart(true)
+    }, 500);
+
     setTimeout(() => {
       setSuccessAddToCart(false)
-    }, 1500);
+    }, 4000);
 
     dispatch(setProduct({
       ...infoProduct
@@ -74,6 +80,32 @@ const ProductDetails = () => {
   const [disable, setDisable] = useState(false)
   const[currentPage, setCurrentPage] = useState()
 
+
+
+  const recommendProducts = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/products`,
+        {
+          params: {
+            limit: 3,
+            isRecommended: true
+          },
+        }
+      );
+
+      console.log(data.results)
+      setDataProducts(data.results);
+      setCurrentPage(data.pageInfo.currentPage);
+      setTotalPage(data.pageInfo.totalPage);
+      setNextPage(data.pageInfo.nextPage);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
   const pageNavigator = async (page) => {
     try {
       const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`, {
@@ -83,7 +115,8 @@ const ProductDetails = () => {
           isRecommended: true
         }
       })
-      console.log(data)
+      
+        console.log(data.results)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setprevPage(data.pageInfo.prevPage)
@@ -108,7 +141,8 @@ const ProductDetails = () => {
           isRecommended: true
         }
       })
-      console.log(data)
+      
+      console.log(data.results)
       setDataProducts(data.results)
       setNextPage(data.pageInfo.nextPage)
       setprevPage(data.pageInfo.prevPage)
@@ -134,7 +168,8 @@ const ProductDetails = () => {
           isRecommended: true
         }
       })
-      console.log(data)
+      
+      console.log(data.results)
       setDataProducts(data.results)
       setNextPage(data.pageInfo.nextPage)
       setprevPage(data.pageInfo.prevPage)
@@ -152,20 +187,23 @@ const ProductDetails = () => {
   // recommendation products end
 
 
+
+  const clickImage = (event) => {
+    const url = event.target.style.backgroundImage
+    const prefix = "url"
+    const imageUrl = url.slice(prefix.length).replaceAll(/[()"]/g, '')
+    setMainImage(imageUrl)
+  }
+
+
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
       behavior: 'smooth'
     });
-
-    recommendProducts({
-      setDataProducts,
-      setTotalPage,
-      setNextPage,
-      setCurrentPage,
-      limit: 3,
-    });
+      
+    recommendProducts()
 
     dataDetails()
   }, [])
@@ -175,21 +213,33 @@ const ProductDetails = () => {
       <Navbar />
 
       <section className="h-fit sm:h-screen w-5/6 flex flex-col sm:flex-row items-center mt-20 sm:mt-8 gap-4 ">
-        <div className="w-full sm:flex-1 flex flex-col items-center gap-2 sm:gap-4 h-96 sm:h-5/6">
+        <div className="w-full sm:flex-1 flex flex-col items-center gap-2 h-96 sm:h-5/6">
           {infoProduct && (
             <div
               style={{
-                backgroundImage: `url('${infoProduct.image}')`,
+                backgroundImage: `url('${mainImage}')`,
                 backgroundPosition: "center",
+                backgroundSize: "cover",
               }}
-              className={`w-full h-72 sm:h-80 bg-center bg-cover`}
+              className={`w-full sm:w-5/6 h-72 sm:h-[22.5rem]`}
             ></div>
           )}
 
-          <div className="flex-1 flex justify-between gap-4 w-full">
-            <div className="flex-1 bg-[url('../assets/media/detail-product1.jpg')] bg-center bg-cover"></div>
-            <div className="flex-1 bg-[url('../assets/media/detail-product2.jpg')] bg-center bg-cover"></div>
-            <div className="flex-1 bg-[url('../assets/media/detail-product3.jpg')] bg-center bg-cover"></div>
+          <div className="flex-1 flex justify-between gap-2 w-full sm:w-5/6">
+            {infoProduct &&
+              infoProduct.productImages.map((item) => (
+                <div
+                  onClick={clickImage}
+                  key={item.id}
+                  style={{
+                    backgroundImage: `url('${item.imageUrl}')`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                  className={`flex-1 w-full h-full active:scale-95 transition-all duration-300`}
+                >
+                </div>
+              ))}
           </div>
         </div>
 
@@ -227,43 +277,45 @@ const ProductDetails = () => {
         )}
       </section>
 
-      <div className="h-fit sm:h-screen flex flex-col justify-center items-center w-5/6 gap-4 mb-8 sm:mb-0">
+      <div className="h-fit sm:h-screen flex flex-col justify-center items-center w-5/6 gap-4 mb-4 sm:mb-0">
         <h1 className="w-full text-xl text-center sm:text-start sm:text-4xl">
           Recommendation <span className="text-[#8E6447]">For You</span>
         </h1>
 
-        <div className="flex justify-center gap-4 sm:gap-12 mb-48 w-md sm:w-fit flex-wrap gap-y-48">
-          {dataProducts &&
+        <div className="flex justify-center gap-4 sm:gap-12 mb-44 sm:mb-52 w-md sm:w-fit flex-wrap gap-y-44">
+          {infoProduct && dataProducts ? (
             dataProducts.map((product) =>
-              product.discount == 0 ? (
-                <CardProduct
-                  id={product.id}
-                  key={product.id}
-                  productName={product.name}
-                  description={product.description}
-                  rating={product.rating}
-                  price={product.basePrice}
-                  image={product.image}
-                  handleDetails={dataDetails}
-                  tag={product.tag}
-                />
-              ) : (
-                <CardProduct
-                  id={product.id}
-                  key={product.id}
-                  productName={product.name}
-                  description={product.description}
-                  rating={product.rating}
-                  basePrice={product.basePrice}
-                  discountPrice={product.basePrice - product.discount}
-                  image={product.image}
-                  handleDetails={dataDetails}
-                  tag={product.tag}
-                />
-              )
-            )}
+            product.discount == 0 ? (
+              <CardProduct
+                id={product.id}
+                key={product.id}
+                productName={product.name}
+                description={product.description}
+                rating={product.rating}
+                price={product.basePrice}
+                image={product.image}
+                handleDetails={dataDetails}
+                tag={product.tag}
+              />
+            ) : (
+              <CardProduct
+                id={product.id}
+                key={product.id}
+                productName={product.name}
+                description={product.description}
+                rating={product.rating}
+                basePrice={product.basePrice}
+                discountPrice={product.basePrice - product.discount}
+                image={product.image}
+                handleDetails={dataDetails}
+                tag={product.tag}
+              />
+            )
+          )
+          ): ''}
         </div>
 
+        {infoProduct && infoProduct.productCategory &&
         <PageNavigation
           totalPage={totalPage}
           pageHandle={pageNavigator}
@@ -272,6 +324,7 @@ const ProductDetails = () => {
           handleDisable={disable}
           currentPage={currentPage}
         />
+        }
       </div>
 
       <Footer />

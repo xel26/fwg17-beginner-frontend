@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Alert from '../components/Alert'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { login as loginAction } from '../redux/reducers/auth'
@@ -9,10 +10,10 @@ import FormAuth from '../components/FormAuth'
 
 
 const Login = () => {
-  const [success, setSuccess] = useState(false)
-  const [successMessage, setSuccessMessage] = useState('')
-  const [error, setError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [message, setMessage] = useState()
+  const [showAlert, setShowAlert] = useState()
+  const [isSuccess, setIsSuccess] = useState()
+
   const navigate = useNavigate()
   
   const token = useSelector(state => state.auth.token)
@@ -31,20 +32,27 @@ const Login = () => {
       const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`, form.toString())
       const {token: resultToken} = data.results
       
-      setSuccessMessage(data.message)
-      setSuccess(true)
+      setMessage(data.message)
+      setIsSuccess(true)
+      setShowAlert(true)
 
       setTimeout(() => {
+        setShowAlert(false)
         dispatch(loginAction(resultToken))
         navigate('/products')
-      }, 2000);
+      }, 4000);
       
-    }catch(err){
-      setError(true)
+      event.target.email.value = ''
+      event.target.password.value = ''
+      
+    }catch({response:{data:{message}}}){
+      setMessage(message)
+      setIsSuccess(false)
+      setShowAlert(true)
+
       setTimeout(() => {
-        setError(false)
-      }, 2000);
-      setErrorMessage(err.response.data.message)
+        setShowAlert(false)
+      }, 4000);
     }
   }
 
@@ -55,23 +63,20 @@ const Login = () => {
   },[token, navigate])
 
     return (
-        <div className="flex m-0 p-0 h-[38rem] xl:h-screen">
+      <div className="flex m-0 p-0 h-[38rem] xl:h-screen">
         <div
           className="hidden sm:block sm:w-2/5 md:w-2/6 lg:w-1/4
           bg-[url('../assets/media/bg-login.jpg')] w-1/4 bg-center bg-cover"
         ></div>
-    
+
         <div className="relative flex flex-1 items-center justify-center">
-          <div className={`fixed top-10 py-2 px-4 bg-white shadow-md text-green-400 rounded text-sm flex justify-center items-center font-bold ${success? 'block' : 'hidden'}`}>
-            <h1>{successMessage}</h1>
+          <div className="absolute top-7 left-0 sm:left-9 z-50">
+            <Alert showAlert={showAlert} isSuccess={isSuccess} message={message} />
           </div>
-          <div className={`fixed top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error? 'block' : 'hidden'}`}>
-            <h1>{errorMessage}</h1>
-          </div>
-          <FormAuth handleAuth={authLogin} type="Login"/>
+          <FormAuth handleAuth={authLogin} type="Login" />
         </div>
       </div>
-    )
+    );
 }
 
 export default Login

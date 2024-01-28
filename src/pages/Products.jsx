@@ -10,19 +10,20 @@ import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import Info from "../components/Info";
 
 
 // filter start
 const CheckBox = ({label, value, name}) => {
   return (
-      <div className="flex gap-2 sm:gap-3">
+      <label className="flex gap-2 sm:gap-3">
       <input
-        type="checkbox"
+        type="radio"
         name={name}
         value={value}
       />
-      <label htmlFor={value} className="text-xs sm:text-sm">{label}</label>
-    </div>
+      <div className="text-xs sm:text-sm">{label}</div>
+    </label>
   )
 }
 
@@ -126,12 +127,12 @@ const Filter = ({mobile, handleFilter}) => {
 
         {!mobile ?
         <div className="flex flex-col gap-1">
-          <label className="font-semibold text-sm" htmlFor="search-product">
+          <label className="font-semibold text-sm " htmlFor="search-product">
             Search
           </label>
           <input
             name="searchKey"
-            className="rounded text-xs p-2 outline-none text-black"
+            className="rounded text-xs sm:text-sm p-1 outline-none text-black placeholder:text-black"
             id="search-product"
             type="text"
             placeholder="Search Your Product"
@@ -149,7 +150,7 @@ const Filter = ({mobile, handleFilter}) => {
         </div> */}
 
         <button
-          className="bg-gradient-to-br from-[#7E6363] to-black text-white rounded p-2 text-xs font-semibold active:scale-95 transition-all"
+          className="border border-white text-white rounded p-2 text-xs font-semibold active:scale-95 transition-all"
           type="submit"
         >
           Apply Filter
@@ -194,8 +195,6 @@ const Kupon = ({ title, description, klaim, bg }) => {
 
 
 const Products = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
-
   const [display, setDisplay] =useState(false)
 
   const [kupon, setKupon] = useState([
@@ -242,7 +241,6 @@ const Products = () => {
   const [prevPage, setPrevPage] = useState()
   const [currentPage, setCurrentPage] = useState(1)
   const [queryParameter, setQueryParameter] = useState(null)
-  const [errorMessage, setErrorMessage] = useState()
   const [error, setError] = useState(false)
   const [disable, setDisable] = useState(false)
 
@@ -307,21 +305,20 @@ const Products = () => {
       setDataProducts(data.results)
       setQueryParameter(queryParams)
 
-      setSearchParams({
-        searchKey
-      })
-
       if(data.pageInfo.nextPage === null){
         setDisable(true)
       }else{
         setDisable(false)
       }
       event.target.searchKey.value = ''
-    } catch (error) {
-      console.log(error.response.data.message)
-      setErrorMessage(error.response.data.message)
+    } catch ({response:{data:{message}}}) {
       setError(true)
       setDataProducts(null)
+      
+      setTimeout(() => {
+        setError(false)
+        listAllProducts()
+      }, 4000);
     }
   }
 
@@ -452,11 +449,6 @@ const Products = () => {
 
   const [position, setPosition] = useState(0);
 
-  const handleSlideLeft = () => {
-    setPosition(position + 1);
-    console.log("test")
-    console.log(position)
-  };
 
 
   useEffect(() => {
@@ -468,11 +460,7 @@ const Products = () => {
 
     setDisplay(true)
 
-    if(searchParams.get("searchKey")){
-      searchProduct()
-    }else{
-      listAllProducts();
-    }
+    listAllProducts();
   }, []);
 
   return (
@@ -530,7 +518,7 @@ const Products = () => {
           </h1>
 
           <div className="hidden sm:flex gap-2 ">
-            <ButtonSwipe handleNextPage={handleSlideLeft}/>
+            {/* <ButtonSwipe handleNextPage={handleSlideLeft}/> */}
           </div>
         </div>
 
@@ -565,11 +553,11 @@ const Products = () => {
 
           <main className="flex flex-col items-end sm:flex-1">
             <div className="relative flex justify-center w-full">
-              <div className={`absolute top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error ? 'flex' : 'hidden'}`}>
-                <h1>{errorMessage}</h1>
-              </div>
+              {error && 
+              <Info message="product not found. . . let's explore other choices"/>
+              }
 
-              <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-48 sm:gap-y-44 mb-48 max-w-xl">
+              <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-44 sm:gap-y-52 mb-44 sm:mb-52 max-w-xl">
                 { dataProducts &&
                   dataProducts.map((product) => (
                       product.discount == 0 ? 

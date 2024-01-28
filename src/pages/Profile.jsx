@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { setProfile as setProfileAction } from "../redux/reducers/profile";
-
 import { useState } from "react";
 
 import Footer from "../components/Footer";
@@ -9,7 +8,8 @@ import InputForm from "../components/InputForm";
 import Button from "../components/Button"
 import axios from "axios";
 import moment from "moment";
-import defaultPhoto from '../assets/media/default-photo-profil.jpeg'
+import defaultPhoto from '../assets/media/default-profile.png'
+import Alert from "../components/Alert";
 
 
 const Profile = () => {
@@ -20,10 +20,11 @@ const Profile = () => {
   const registrationDate = dataProfile && moment(dataProfile.createdAt)
 
   // update profile start
-    const [success, setSuccess] = useState(false)
-    const [error, setError] = useState(false)
-    const [errorMessage, setErrorMessage] = useState()
-    const [preview, setPreview] = useState()
+  const [message, setMessage] = useState()
+  const [showAlert, setShowAlert] = useState()
+  const [isSuccess, setIsSuccess] = useState()
+
+  const [preview, setPreview] = useState()
 
     const updateProfile = async (event) => {
       event.preventDefault();
@@ -47,25 +48,32 @@ const Profile = () => {
         if(data.results){
           dispatch(setProfileAction(data.results))
 
-          setSuccess(true)
+          setMessage(data.message)
+          setIsSuccess(true)
+          setShowAlert(true)
+    
           setTimeout(() => {
-            setSuccess(false)
-          }, 2000);
+            setShowAlert(false)
+          }, 4000);
+
           event.target.password.value = ''
         }else{
-          setErrorMessage(data.message)
-          setError(true)
+          setMessage(data.message)
+          setIsSuccess(false)
+          setShowAlert(true)
+    
           setTimeout(() => {
-            setError(false)
-          }, 2000);
+            setShowAlert(false)
+          }, 4000);
         }
-      } catch (error) {
-        console.log(error)
-        setErrorMessage(error.response.data.message)
-        setError(true)
+      } catch ({response:{data:{message}}}) {
+        setMessage(message)
+        setIsSuccess(false)
+        setShowAlert(true)
+  
         setTimeout(() => {
-          setError(false)
-        }, 2000);
+          setShowAlert(false)
+        }, 4000);
       }
     }
 
@@ -76,6 +84,7 @@ const Profile = () => {
     }
 
 
+    const [uploading, setUploading] = useState()
     const updatePicture = async (event) => {
       event.preventDefault();
       const [file] = event.target.picture.files
@@ -90,50 +99,52 @@ const Profile = () => {
       form.append('picture', file)
 
       try {
+
+        setUploading('uploading. . . please wait')
+        setTimeout(() => {
+          setUploading('')
+        }, 3000);
+
         const {data} = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/profile`, form, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
           }
         })
+
+
         dispatch(setProfileAction(data.results))
-        
-        setPreview(null)
-        setSuccess(true)
+
+        setPreview(false)
+        setMessage(data.message)
+        setIsSuccess(true)
+        setShowAlert(true)
+  
         setTimeout(() => {
-          setSuccess(false)
-        }, 2000);
-      } catch (error) {
-        console.log(error)
-        // setErrorMessage(error.response.data.message)
-        setError(true)
+          setShowAlert(false)
+        }, 4000);
+
+      } catch ({response:{data:{message}}}) {
+        setMessage(message)
+        setIsSuccess(false)
+        setShowAlert(true)
+  
         setTimeout(() => {
-          setError(false)
-        }, 2000);
+          setShowAlert(false)
+        }, 4000);
       }
 
     }
   // update profile end
 
   return (
-    <div className="flex flex-col items-center gap-6 sm:gap-12">
+    <div className="relative flex flex-col items-center gap-6">
       <Navbar />
 
-      <h1 className="w-5/6 mt-20 sm:mt-24 text-3xl font-bold">Profile</h1>
+      <h1 className="w-5/6 mt-20 text-3xl font-bold">Profile</h1>
 
-      <div
-        className={`fixed top-24 py-2 px-4 bg-white shadow-md text-green-400 rounded text-sm flex justify-center items-center font-bold ${
-          success ? "block" : "hidden"
-        }`}
-      >
-        <h1>Update Profile Success</h1>
-      </div>
-      <div
-        className={`fixed top-24 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${
-          error ? "block" : "hidden"
-        }`}
-      >
-        <h1>{errorMessage}</h1>
+      <div className="absolute top-20 left-0 sm:left-24 z-50">
+            <Alert showAlert={showAlert} isSuccess={isSuccess} message={message} />
       </div>
 
       <section className="w-5/6 flex flex-col sm:flex-row gap-4">
@@ -179,13 +190,15 @@ const Profile = () => {
               accept=".jpg, .jpeg, .png"
               name="picture"
               className="hidden"
+              size={10}
             />
           </label>
           <button
+            disabled={!preview}
             type="submit"
-            className="text-xs bg-gradient-to-br from-[#7E6363] to-black text-white w-full rounded p-2 transition-all active:scale-95"
+            className="text-xs bg-gradient-to-br from-[#7E6363] to-black text-white w-full rounded p-2 transition-all active:scale-95 disabled:active:scale-100"
           >
-            Upload New Photo
+            {uploading ? uploading : 'Upload New Photo'}
           </button>
           <p className="text-xs text-[#4F5665]">
             Since{" "}
@@ -243,7 +256,7 @@ const Profile = () => {
               />
             </>
           )}
-          <Button value="Submit" py="2" />
+          <Button value="Update Profile" py="2" />
         </form>
       </section>
 

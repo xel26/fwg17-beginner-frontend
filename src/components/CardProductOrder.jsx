@@ -34,11 +34,11 @@ const CardProductOrder = ({id, index, productName, quantity, size, variant, imag
             <Tag text={tag? tag: 'FLASHSALE'}/>
           </div>
           <h4 className="font-bold text-xs sm:text-base">{productName}</h4>
-          <div className={`flex divide-x text-xs sm:text-sm text-[#4F5665] divide-[#4F5665] ${variant ? 'w-44 sm:w-48' : 'w-24 sm:w-32'} whitespace-nowrap`}>
+          <div className={`flex divide-x text-xs sm:text-sm text-[#4F5665] divide-[#4F5665] ${variant ? 'w-44 sm:w-52' : 'w-24 sm:w-32'} whitespace-nowrap`}>
             <p className="flex-1">{quantity}pcs</p>
             <p className="flex-1 flex justify-center px-2">{size}</p>
             {variant &&
-            <p className="flex-1 flex justify-center ">{variant}</p>
+            <p className="flex-1 flex justify-center pl-2">{variant}</p>
             }
           </div>
           <Price basePrice={parseInt(basePrice)} discountPrice={parseInt(discountPrice)}/>

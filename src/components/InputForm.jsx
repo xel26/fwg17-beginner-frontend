@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiUser, FiMail, FiMapPin, FiLock, FiPhoneCall, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiUser, FiMail, FiMapPin, FiLock, FiPhoneCall, FiEye, FiEyeOff, FiCode } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, profile, onChange}) => {
@@ -29,8 +29,10 @@ const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, 
           <FiMail color="#4F5665" />
         ) : name == "address" ? (
           <FiMapPin color="#4F5665" />
-        ) : name == "password" || name == "confirm-password" || name == "confirmPassword" ? (
+        ) : name == "password" || name == "newPassword" || name == "confirmPassword" ? (
           <FiLock color="#4F5665" />
+        ) : name == "otp" ? (
+          <FiCode/>
         ) : (
           <FiPhoneCall color="#4F5665" />
         )}
@@ -45,7 +47,7 @@ const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, 
             placeholder={placeholder}
             defaultValue={defaultValue}
           />
-          ): (
+          ): onChange ? (
             <input
             className="w-full outline-none text-xs sm:text-sm bg-transparent"
             id={name}
@@ -54,12 +56,23 @@ const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, 
             placeholder={placeholder}
             onChange={onChange}
           />
+          ):(
+            <input
+            className="w-full outline-none text-xs sm:text-sm bg-transparent"
+            id={name}
+            name={name}
+            type={type === 'password' && show ? 'text' : type}
+            placeholder={placeholder}
+            maxLength={name == "otp" ? 6 : undefined}
+            minLength={name == "otp" ? 6 : undefined}
+            required
+          />
           )
         }
 
-        {(name == "password" || name == "confirm-password" || name == "confirmPassword") && show ?
+        {(name == "password" || name == "newPassword" || name == "confirmPassword") && show ?
           <FiEyeOff onClick={passReveal} className="text-xl text-[#4F5665]"/> :
-          (name == "password" || name == "confirm-password" || name == "confirmPassword") && !show ?
+          (name == "password" || name == "newPassword" || name == "confirmPassword") && !show ?
           <FiEye  onClick={passReveal} className="text-xl text-[#4F5665]"/> : ''
         }
       </div>

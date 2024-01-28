@@ -31,7 +31,7 @@ const ListProvide = ({ text }) => {
   return (
     <div className="flex gap-4">
       <div className="bg-gradient-to-br from-[#7E6363] to-black rounded-full text-white w-fit h-fit">
-        <FiCheckCircle className="h-5 w-fit" />
+        <FiCheckCircle className="sm:h-5 w-fit" />
       </div>
       <p className="text-xs sm:text-sm text-[#4F5665]">{text}</p>
     </div>
@@ -205,14 +205,14 @@ const Home = () => {
     <div className="font relative flex flex-col items-center">
       <Navbar home={true}/>
 
-      <button
+      {/* <button
         onClick={() => setChatBox(!chatBox)}
         className="fixed flex justify-center items-center text-white right-6 bottom-6 sm:right-12 sm:bottom-12 bg-gradient-to-br from-[#7E6363] to-black rounded-full p-1 w-10 h-10 sm:p-2 sm:w-12 sm:h-12 z-50 active:scale-90 transition"
       >
         <FiMessageCircle size={25} />
-      </button>
+      </button> */}
 
-      <div
+      {/* <div
         className={`${
           !chatBox ? "hidden" : "flex"
         } fixed w-60 h-80 sm:w-72 sm:h-96 rounded-xl sm:rounded-2xl flex-col bg-white top-24 sm:right-24 z-50`}
@@ -270,7 +270,7 @@ const Home = () => {
             <FiSend size={20} />
           </div>
         </div>
-      </div>
+      </div> */}
       
 
       <section className="flex flex-col-reverse sm:flex-row h-[64rem] sm:h-screen w-full">
@@ -376,7 +376,7 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="gap-y-48 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
+        <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
           {dataProducts &&
             dataProducts.map((product) => (
               <CardProduct

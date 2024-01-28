@@ -6,14 +6,17 @@ import { setShipping } from "../redux/reducers/deliveryShipping";
 import { setEmail } from "../redux/reducers/emailCustomer";
 import { setFullName } from "../redux/reducers/FullNameCustomer";
 import { setDeliveryAddress } from "../redux/reducers/deliveryAddress";
+import { useEffect } from "react";
 
-import { OptionVariety } from "../components/Details";
+
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardProductOrder from "../components/CardProductOrder";
 import Payment from "../components/Payment";
 import InputForm from "../components/InputForm";
-import { useEffect } from "react";
+import OptionVariety from "../components/OptionVariety";
+import Info from "../components/Info";
+
 
 
 const Checkout = () => {
@@ -53,17 +56,22 @@ const Checkout = () => {
     <body className="flex flex-col items-center">
       <Navbar />
 
-      <div className="flex flex-col px-4 w-full sm:w-5/6 mt-20 sm:mt-24 mb-10 sm:mb-16 gap-4">
+      <div className="flex flex-col px-4 w-full sm:w-5/6 mt-20 sm:mt-24 mb-10 sm:mb-16 gap-4 ">
         <h1 className="text-2xl sm:text-3xl font-semibold">Payment Details</h1>
 
-        <form className="flex flex-col sm:flex-row gap-4">
+        <form className="flex flex-col sm:flex-row gap-4 ">
           <div className="flex flex-col w-full sm:w-7/12 gap-6 sm:gap-16">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
-                <h4 className="font-semibold">{products.length ? 'Your Order' : 'No Order Yet'}</h4>
+                <div className={`${products.length == 0 ? 'block ': 'hidden'} `}>
+                  <Info message="empty cart. . . let's create a coffee moment !" />
+                </div>
+                <h4 className="font-semibold">
+                  {products.length != 0 && "Your Order"}
+                </h4>
                 <Link
                   to="/products"
-                  className="flex items-center justify-center gap-2 text-white bg-gradient-to-b from-[#7E6363] to-black rounded-md active:scale-95 transition-all p-1.5 sm:p-2"
+                  className="flex items-center justify-center gap-2 text-white bg-gradient-to-b from-[#7E6363] to-black rounded-md active:scale-95 transition-all p-1.5 sm:p-2 h-fit"
                 >
                   <FiPlus />
                   <h5 className="text-xs">Add Menu</h5>
@@ -116,10 +124,7 @@ const Checkout = () => {
                 placeholder="Enter Your Address"
                 onChange={setDataCustomer}
               />
-              <OptionVariety
-                option="Delivery"
-                onChange={handleCheckbox}
-              />
+              <OptionVariety option="Delivery" onChange={handleCheckbox} />
             </div>
           </div>
 

@@ -2,12 +2,13 @@ import FormAuth from "../components/FormAuth";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Alert from "../components/Alert";
 
 const Register = () => {
-  const [success, setSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState()
+  const [showAlert, setShowAlert] = useState()
+  const [isSuccess, setIsSuccess] = useState()
+
   const navigate = useNavigate()
 
   const authRegister = async (event) => {
@@ -17,29 +18,47 @@ const Register = () => {
     const { value: password } = event.target.password;
     const { value: confirmPassword } = event.target.confirmPassword;
     
+    if(confirmPassword !== password){
+      setMessage('confirm password does not match!. . . please double-check')
+      setIsSuccess(false)
+      setShowAlert(true)
+
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 4000);
+      
+      return
+    }
     
       const form = new URLSearchParams();
       form.append("email", email);
       form.append("password", password);
-      form.append("confirmPassword", confirmPassword)
       form.append("fullName", fullName);
 
       try {
         const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/register`, form.toString());
-        console.log(data)
+        setMessage(data.message)
+        setIsSuccess(true)
+        setShowAlert(true)
+  
+        setTimeout(() => {
+          setShowAlert(false)
+          navigate('/login')
+        }, 4000);
+        
+        event.target.email.value = ''
+        event.target.password.value = ''
+        event.target.confirmPassword.value = ''
+        event.target.fullName.value = ''
 
-        setSuccessMessage(data.message)
-        setSuccess(true);
+      } catch ({response:{data:{message}}}) {
+        setMessage(message)
+        setIsSuccess(false)
+        setShowAlert(true)
+  
         setTimeout(() => {
-          setSuccess(false);
-          navigate("/login")
-        }, 2000);
-      } catch (err) {
-        setErrorMessage(err.response.data.message);
-        setError(true);
-        setTimeout(() => {
-          setError(false);
-        }, 2000);
+          setShowAlert(false)
+        }, 4000);
       }
     
   };
@@ -51,15 +70,10 @@ const Register = () => {
           bg-[url('../assets/media/bg-register.jpg')] bg-center bg-cover"
       ></div>
 
-      <div className="flex flex-1 items-center justify-center">
-        <div className={`fixed top-10 py-2 px-4 bg-white shadow-md text-green-400 rounded text-sm flex justify-center items-center font-bold ${success ? "block" : "hidden"}`}>
-          <h1>{successMessage}</h1>
+      <div className="relative flex flex-1 items-center justify-center">
+        <div className="absolute top-9 left-0 sm:left-9 z-50">
+          <Alert showAlert={showAlert} isSuccess={isSuccess} message={message} />
         </div>
-
-        <div className={`fixed top-10 py-2 px-4 bg-white shadow-md text-red-500 rounded text-sm flex justify-center items-center font-bold ${error ? "block" : "hidden"}`}>
-          <h1>{errorMessage}</h1>
-        </div>
-
         <FormAuth handleAuth={authRegister} type="Register" />
       </div>
     </div>

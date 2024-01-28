@@ -1,11 +1,10 @@
 import Button from "./Button";
 import InputForm from "../components/InputForm";
-import CupCoffee from '../assets/media/cup-coffe-icon.png'
-import TextLogo from "../assets/media/text-logo.png"
 import { Link } from "react-router-dom";
 import facebook from '../assets/media/facebook-logo.png'
 import google from '../assets/media/google-logo.png'
 import { useState } from "react";
+import { FiCoffee } from "react-icons/fi";
 
 const ButtonAuth = ({value}) => {
   return (
@@ -71,23 +70,44 @@ const FormAuth = ({ handleAuth, type }) => {
     }
   ])
 
+  const [createNewPassword, setCreateNewPassword] = useState([
+    {
+      name:"otp",
+      label:"OTP",
+      type:"text",
+      placeholder:"Enter OTP code"
+    },
+    {
+      name:"newPassword",
+      label:"New Password",
+      type:"password",
+      placeholder:"Enter New Password"
+    },
+    {
+      name:"confirmPassword",
+      label:"Confirm Password",
+      type:"password",
+      placeholder:"Enter Confirm Password"
+    },
+  ])
+
   return (
     <div className="flex flex-col w-11/12">
-      <div className="flex items-center gap-4 mb-8">
-        <div>
-          <img src={CupCoffee} />
+      <div className="flex items-center gap-2 mb-6">
+        <div className="text-[#3E3232] text-2xl sm:text-3xl">
+          <FiCoffee />
         </div>
-        <div>
-          <img src={TextLogo} />
+        <div className="font-bold text-[#3E3232] text-sm sm:text-base">
+          <p>Coffee Shop</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-5">
-        <h1 className="text-[#7E6363] font-semibold text-xl">{type}</h1>
-        <p className="text-[#4f5665]">
-          {type == "Register" || type == "Login"
+        <h1 className="text-[#7E6363] font-semibold text-lg sm:text-xl">{type}</h1>
+        <p className="text-[#4f5665] text-sm sm:text-base">
+          {type == "Register" || type == "Login" || type == "Create New Password"
             ? "Fill out the form correctly"
-            : "We will send new password to your email"}
+            : "We will send OTP code to your email"}
         </p>
 
         <form onSubmit={handleAuth} className="flex flex-col gap-5">
@@ -111,7 +131,7 @@ const FormAuth = ({ handleAuth, type }) => {
                 placeholder={item.placeholder}
               />
             ))
-          ) : (
+          ) : type == "Forgot Password" ? (
             forgotPass.map((item, index) => (
               <InputForm
                 key={index}
@@ -121,11 +141,21 @@ const FormAuth = ({ handleAuth, type }) => {
                 placeholder={item.placeholder}
               />
             ))
+          ) : (
+            createNewPassword.map((item, index) => (
+              <InputForm
+              key={index}
+              name={item.name}
+              label={item.label}
+              type={item.type}
+              placeholder={item.placeholder}
+            />
+            ))
           )}
 
           {
             type == "Login" ? (
-              <Link to="/forgot-password" className="text-[#7E6363] flex justify-end text-sm">Lupa Password?</Link>
+              <Link to="/forgot-password" className="text-[#7E6363] flex justify-end text-sm">Forgot Password?</Link>
             ): ''
           }
 

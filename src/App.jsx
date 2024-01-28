@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import ForgotPassword from './pages/ForgotPassword'
+import CreateNewPassword from './pages/CreateNewPassword'
 import Home from './pages/Home'
 import Products from './pages/Products'
 import ProductDetails from './pages/ProductDetails'
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: '/forgot-password',
     element: <ForgotPassword />
+  },
+  {
+    path: 'create-new-password',
+    element: <CreateNewPassword/>
   },
   {
     path: '/',

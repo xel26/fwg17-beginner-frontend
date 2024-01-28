@@ -17,22 +17,24 @@ const CardProduct = ({id, productName, description, rating, basePrice, discountP
         <Tag text={tag}/>
       </div>
       }
-      <div className="absolute w-11/12 h-[12.5rem] sm:h-5/6 bg-white top-[85%] p-1.5 sm:p-2 flex flex-col gap-1.5">
+      <div className="absolute w-11/12 h-44 sm:h-52 bg-white top-[85%] p-1.5 sm:p-2 flex flex-col gap-1.5 shadow-md">
         <h1 className="font-semibold text-sm sm:text-base" id="product-name">
           {productName}
         </h1>
-        <p className="flex-1 text-[0.6rem] sm:text-[0.7rem] text-[#4F5665]">
+        <p className="flex-1 text-[0.6rem] sm:text-[0.7rem] text-[#4F5665] h-14 flex items-start overflow-hidden ">
           {description}
         </p>
+        <div className="flex flex-col justify-center gap-2 sm:gap-1 ">
         {rating && <Rating rating={rating}/>}
         <Price basePrice={basePrice} discountPrice={discountPrice} price={price}/>
-        <div className="flex-1 flex flex-col sm:flex-row items-end gap-1 sm:gap-2">
-          <Link to={`/products/${id}`} onClick={handleDetails ? () => handleDetails(id) : undefined}  className="text-white w-full sm:w-9/12 bg-gradient-to-br from-[#7E6363] to-black rounded-md text-xs sm:text-sm py-1 active:scale-95 transition-all flex justify-center">
-            Buy
+        </div>
+        <div className=" flex flex-col sm:flex-row items-end justify-end gap-1 sm:gap-2">
+          <Link to={`/products/${id}`} onClick={handleDetails ? () => handleDetails(id) : undefined}  className=" text-white w-full  bg-gradient-to-br from-[#7E6363] to-black rounded-md text-xs sm:text-sm py-1 active:scale-95 transition-all flex justify-center">
+            See Detail
           </Link>
-          <Link to={`/products/${id}`} onClick={handleDetails ? () => handleDetails(id) : undefined} className="w-full sm:flex-1 border border-[#7E6363] text-[#7E6363] p-[0.21rem] rounded-md flex justify-center items-center active:scale-95 transition-all">
+          {/* <Link to={`/products/${id}`} onClick={handleDetails ? () => handleDetails(id) : undefined} className="w-full sm:flex-1 border border-[#7E6363] text-[#7E6363] p-[0.21rem] rounded-md flex justify-center items-center active:scale-95 transition-all">
             <FiShoppingCart color="#7E6363" className="h-4 sm:h-5" />
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

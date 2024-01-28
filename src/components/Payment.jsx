@@ -5,6 +5,8 @@ import gopay from "../assets/media/gopay.png"
 import ovo from "../assets/media/ovo.png"
 import PayPal from "../assets/media/paypal.png"
 
+import Info from "./Info"
+
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
@@ -18,6 +20,7 @@ import { resetId } from "../redux/reducers/productsId"
 import { resetEmail } from "../redux/reducers/emailCustomer"
 import { resetFullName } from "../redux/reducers/FullNameCustomer"
 import { resetdeliveryAddress } from "../redux/reducers/deliveryAddress"
+import { useState } from "react"
 
 
 const PaymentList = ({list, idr}) => {
@@ -47,6 +50,8 @@ const Payment = () => {
   const totalOrder = useSelector(state => state.totalOrder.total).reduce((prev, curr) => prev + curr, 0)
   const tax = Math.round(totalOrder * 0.025)
 
+  const [OrderSuccess, setOrderSuccess] = useState()
+
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -69,19 +74,28 @@ const Payment = () => {
           'Authorization' : `Bearer ${token}`
         }
       })
-  
-      dispatch(resetProducts())
-      dispatch(resetTotal())
-      dispatch(resetShipping())
-      dispatch(resetSizes())
-      dispatch(resetVariants())
-      dispatch(resetQuantities())
-      dispatch(resetId())
-      dispatch(resetEmail())
-      dispatch(resetFullName())
-      dispatch(resetdeliveryAddress())
+
       
-      navigate('/history-order')
+      setTimeout(() => {
+        setOrderSuccess(true)
+      }, 1000);
+      
+      setTimeout(() => {
+        setOrderSuccess(false)
+
+        dispatch(resetProducts())
+        dispatch(resetTotal())
+        dispatch(resetShipping())
+        dispatch(resetSizes())
+        dispatch(resetVariants())
+        dispatch(resetQuantities())
+        dispatch(resetId())
+        dispatch(resetEmail())
+        dispatch(resetFullName())
+        dispatch(resetdeliveryAddress())
+
+        navigate('/history-order')
+      }, 5000);
 
     } catch (error) {
       console.log(error)
@@ -90,20 +104,30 @@ const Payment = () => {
 
 
     return (
-        <div className="flex-1 h-fit flex flex-col">
+      <div className=" flex-1 h-fit flex flex-col">
+        <div className={`${OrderSuccess ? "block " : "hidden"} absolute left-2 sm:left-96 top-24`}>
+          <Info message="order placed successfully... have a coffee day!" />
+        </div>
+
         <div className="flex pt-1 h-12 font-semibold">
           <h4>Total</h4>
         </div>
         <div className="payment-summary bg-[#E8E8E84D] p-3 text-sm flex flex-col gap-4">
-            <PaymentList list="order" idr={totalOrder}/>
-            <PaymentList list="Delivery" idr={5000}/>
-            <PaymentList list="Tax" idr={tax}/>
+          <PaymentList list="order" idr={totalOrder} />
+          <PaymentList list="Delivery" idr={5000} />
+          <PaymentList list="Tax" idr={tax} />
 
-          <hr/>
+          <hr />
 
-          <PaymentList list="Sub Total" idr={totalOrder + 5000 + tax}/>
+          <PaymentList list="Sub Total" idr={totalOrder + 5000 + tax} />
 
-        <button disabled={!products.length}  onClick={checkoutAction} className="bg-gradient-to-b from-[#7E6363] to-black text-white w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 disabled:active:scale-100 transition-all flex justify-center">Checkout</button>
+          <button
+            disabled={!products.length}
+            onClick={checkoutAction}
+            className="bg-gradient-to-b from-[#7E6363] to-black text-white w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 disabled:active:scale-100 transition-all flex justify-center"
+          >
+            Checkout
+          </button>
           <p className="text-xs text-[#4F5665]">We Accept</p>
 
           <div className="flex flex-wrap justify-between gap-2 items-center">
@@ -132,10 +156,12 @@ const Payment = () => {
             </div>
           </div>
 
-          <p className="text-xs text-[#4F5665]">*Get Discount if you pay with Bank Central Asia</p>
+          <p className="text-xs text-[#4F5665]">
+            *Get Discount if you pay with Bank Central Asia
+          </p>
         </div>
       </div>
-    )
+    );
 }
 
 export default Payment

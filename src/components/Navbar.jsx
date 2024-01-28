@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FiShoppingCart, FiMenu, FiSearch, FiUser } from "react-icons/fi";
+import { FiShoppingCart, FiMenu, FiArchive, FiCoffee } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 
@@ -21,7 +21,7 @@ import { resetdeliveryAddress } from "../redux/reducers/deliveryAddress"
 
 import CupCoffee from "../assets/media/cup-coffee-icon-white.png";
 import TextLogo from "../assets/media/text-logo-white.png";
-import defaultPhoto from '../assets/media/default-photo-profil.jpeg'
+import defaultPhoto from '../assets/media/default-profile.png'
 
 
 const LinkNav = ({mobile, path, value}) => {
@@ -92,20 +92,17 @@ const Navbar = ({home}) => {
     >
       <div className="flex justify-between items-center sm:h-full w-5/6">
         <div className="flex sm:gap-12 ">
-          <div className="flex gap-4">
-            <div>
-              <img src={CupCoffee} />
+          <div className="flex justify-center items-center gap-2 sm:gap-4">
+            <div className="text-white text-2xl sm:text-3xl">
+              <FiCoffee/>
             </div>
-            <div>
-              <img src={TextLogo} />
+            <div className="font-medium text-white text-sm sm:text-base">
+              <p>Coffee Shop</p>
             </div>
           </div>
           <div className="flex gap-12">
             <LinkNav path="/" value="Home" />
-            <LinkNav
-              path="/products"
-              value="Product"
-            />
+            <LinkNav path="/products" value="Product" />
           </div>
         </div>
 
@@ -124,11 +121,18 @@ const Navbar = ({home}) => {
             />
             <button className="hidden" type="submit"></button>
           </form>
-          <FiSearch
+          {/* <FiSearch
             onClick={() => setNavSearch(!navSearch)}
             color="white"
             className="text-2xl text-white hidden sm:block z-50 active:scale-90 transition-all cursor-pointer"
-          />
+          /> */}
+          <Link to="/history-order">
+            <FiArchive
+              color="white"
+              className="text-xl hidden sm:block text-white active:scale-90 transition-all"
+            />
+          </Link>
+
           <Link to="/checkout" className="flex relative">
             <FiShoppingCart
               color="white"
@@ -178,7 +182,11 @@ const Navbar = ({home}) => {
               <button
                 onClick={onLogout}
                 type="button"
-                className="bg-gradient-to-br text-white from-[#7E6363] to-black py-2 px-3 text-sm rounded hidden sm:block active:scale-95 transition-all"
+                className={`${
+                  document.URL.endsWith("/")
+                    ? "bg-gradient-to-br from-[#7E6363] to-black"
+                    : "border border-white"
+                } text-white py-2 px-3 text-sm rounded hidden sm:block active:scale-95 transition-all`}
               >
                 Logout
               </button>
@@ -212,20 +220,32 @@ const Navbar = ({home}) => {
             <LinkNav mobile={true} path="/" value="Home" />
             <LinkNav mobile={true} path="/products" value="Product" />
           </div>
-          <Link to="/checkout" className="relative">
-            <FiShoppingCart
-              color="white"
-              className="text-2xl text-white active:scale-90 transition-all"
-            />
-            {products.length ? (
-              <div className="absolute sm:hidden w-4 h-4 bg-white rounded z-50 -right-2 -top-2 flex justify-center items-center text-xs font-bold text-black">
-                {products.length}
-              </div>
-            ) : ''}
-          </Link>
+
+          <div className="flex justify-center items-center gap-4">
+            <Link to="/history-order">
+              <FiArchive
+                color="white"
+                className="text-xl  sm:hidden  text-white active:scale-90 transition-all"
+              />
+            </Link>
+
+            <Link to="/checkout" className="relative">
+              <FiShoppingCart
+                color="white"
+                className="text-2xl text-white active:scale-90 transition-all"
+              />
+              {products.length ? (
+                <div className="absolute sm:hidden w-4 h-4 bg-white rounded z-50 -right-2 -top-2 flex justify-center items-center text-xs font-bold text-black">
+                  {products.length}
+                </div>
+              ) : (
+                ""
+              )}
+            </Link>
+          </div>
         </div>
 
-        <form className="flex-1 flex items-center gap-2 w-full border border-white rounded py-1 px-2">
+        {/* <form className="flex-1 flex items-center gap-2 w-full border border-white rounded py-1 px-2">
           <FiSearch color="white" size={23} />
           <input
             className="bg-transparent text-white text-sm outline-none placeholder-white w-full"
@@ -233,13 +253,17 @@ const Navbar = ({home}) => {
             placeholder="search"
           />
           <button type="submit" className="hidden"></button>
-        </form>
+        </form> */}
 
         {token ? (
           <button
             type="button"
             onClick={onLogout}
-            className="text-white bg-gradient-to-br from-[#7E6363] to-black py-1 px-2 text-sm rounded w-full text-center active:scale-90 transition-all"
+            className={`text-white ${
+              document.URL.endsWith("/")
+                ? "bg-gradient-to-br from-[#7E6363] to-black"
+                : "border border-white"
+            }  py-1 px-2 text-sm rounded w-full text-center active:scale-90 transition-all`}
           >
             Logout
           </button>
