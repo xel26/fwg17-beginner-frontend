@@ -53,4 +53,4 @@ The project structure is organized as follows:
 
 ## Contributing
 
-We welcome contributions! If you have ideas for improvements, bug fixes, or new features, please open an issue or submit a pull request.
+This project is still in progress of development! If you have ideas for improvements, bug fixes, or new features, please open an issue or submit a pull request.
