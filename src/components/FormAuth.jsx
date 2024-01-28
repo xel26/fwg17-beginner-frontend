@@ -179,12 +179,12 @@ const FormAuth = ({ handleAuth, type }) => {
                   ? "Have An Account?"
                   : "Not Have An Account?"}
               </p>
-              <a
+              <Link
                 className="text-[#7E6363] text-sm"
-                href={type == "Register" ? "/login" : "/register"}
+                to={type == "Register" ? "/login" : "/register"}
               >
                 {type == "Register" ? "Login" : "Register"}
-              </a>
+              </Link>
             </div>
 
             <div className="grid grid-cols-3">
