@@ -31,7 +31,7 @@ const [totalPage, setTotalPage] = useState()
   const [orders, setOrders] = useState()
   const [totalData, setTotalData] = useState(0)
   const [errorMessage, setErrorMessage] = useState()
-  const [error, setError] = useState()
+  const [error, setError] = useState(true)
 
   const token = useSelector(state => state.auth.token)
 
@@ -315,11 +315,11 @@ const [totalPage, setTotalPage] = useState()
           </div>
 
           <div
-            className={`relative flex flex-col gap-4 h-fit ${
+            className={`flex flex-col gap-4 h-fit ${
               error ? "pb-12" : "pb-0"
             }`}
           >
-            <div className={`${error ? "block " : "hidden"} `}>
+            <div className={`${error ? "block " : "hidden"} z-50 `}>
               <Info
                 message={`${filter ? `No order history under the '${filter}' status currently!` : 'No order for all status currently!'}`}
               />

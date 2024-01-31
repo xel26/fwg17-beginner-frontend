@@ -265,7 +265,7 @@ const Products = () => {
 
 
     window.scrollTo({
-      top: 500,
+      top: 450,
       left: 0,
       behavior: "smooth",
     });
@@ -326,7 +326,7 @@ const Products = () => {
 
   const pageNavigator = async (page) => {
     window.scrollTo({
-      top: 500,
+      top: 450,
       left: 0,
       behavior: "smooth",
     });
@@ -367,7 +367,7 @@ const Products = () => {
 
   const nextPageNavigator = async () => {
     window.scrollTo({                           // note: bug saat ke halaman terakhir
-      top: 500,
+      top: 450,
       left: 0,
       behavior: "smooth",
     });
@@ -407,7 +407,7 @@ const Products = () => {
   
   const prevPageNavigator = async () => {
     window.scrollTo({                           // note: bug saat ke halaman terakhir
-      top: 500,
+      top: 450,
       left: 0,
       behavior: "smooth",
     });
@@ -447,13 +447,13 @@ const Products = () => {
 
 
 
-  const [position, setPosition] = useState(0);
+  // const [position, setPosition] = useState(0);
 
 
 
   useEffect(() => {
     window.scrollTo({
-      top: 0,
+      top: 450,
       left: 0,
       behavior: "smooth",
     });
@@ -465,9 +465,13 @@ const Products = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
-      <Navbar/>
+      <Navbar />
       <header className="hidden sm:flex items-center bg-[url('../assets/media/header-product-page.jpg')] bg-center w-full h-72 mt-12">
-        <h1 className={`text-white text-5xl transition-all duration-1000 ${display ? "ml-28 opacity-100 " : "-ml-32 opacity-0 "}`}>
+        <h1
+          className={`text-white text-5xl transition-all duration-1000 ${
+            display ? "ml-28 opacity-100 " : "-ml-32 opacity-0 "
+          }`}
+        >
           We Provide Good Coffee and Healthy <br />
           Meals
         </h1>
@@ -479,7 +483,8 @@ const Products = () => {
             htmlFor="find-product"
             className="w-11/12 flex gap-2 border border-[#DEDEDE] rounded-md p-2"
           >
-            <form onSubmit={searchProduct}
+            <form
+              onSubmit={searchProduct}
               className="flex gap-2 items-center  w-full"
               id="search-by-name"
             >
@@ -502,23 +507,27 @@ const Products = () => {
             onClick={filterMobile}
             className=" bg-gradient-to-br from-[#7E6363] to-black rounded-md p-2 w-fit flex items-center  justify-center active:scale-95 transition-all"
           >
-            <FiList size={20} color="white"/>
+            <FiList size={20} color="white" />
           </button>
         </div>
       </section>
 
-      <section className={`${mobileFilter ? 'flex' : 'hidden'} sm:hidden absolute h-fit w-5/6 z-40 top-32 justify-end`}>
-        <Filter mobile={true} handleFilter={searchProduct}/>
+      <section
+        className={`${
+          mobileFilter ? "flex" : "hidden"
+        } sm:hidden absolute h-fit w-5/6 z-40 top-32 justify-end`}
+      >
+        <Filter mobile={true} handleFilter={searchProduct} />
       </section>
 
-      <section className="flex flex-col w-full items-center gap-4 overflow-hidden ">
+      {/* <section className="flex flex-col w-full items-center gap-4 overflow-hidden ">
         <div className="w-5/6 flex justify-between ">
           <h1 className="text-2xl sm:text-3xl">
             Today <span className="text-[#8E6447]">Promo</span>
           </h1>
 
           <div className="hidden sm:flex gap-2 ">
-            {/* <ButtonSwipe handleNextPage={handleSlideLeft}/> */}
+            <ButtonSwipe handleNextPage={handleSlideLeft}/>
           </div>
         </div>
 
@@ -535,33 +544,51 @@ const Products = () => {
           ))}
         </div>
 
-          {/* note: belum muncul */}
         <div className="w-5/6 bg-red-400">
           <PageIndicator totalPage="4"/> 
         </div>
-      </section>
+      </section> */}
 
-      <section className="w-full flex flex-col items-center gap-4">
-        <h1 className="w-5/6 text-2xl sm:text-3xl">
+      <section className="w-full flex flex-col items-center gap-12">
+        <div className="flex items-center gap-2 w-full px-6">
+          <hr className="hidden sm:block border-2 border-[#7E6363] flex-1 rounded" />
+
+          <div className="flex flex-col items-center gap-2 sm:gap-4">
+            <h1 className="text-2xl sm:text-5xl font-medium text-center px-4 sm:px-0">
+              Our <span className="text-[#7E6363]">Products</span>
+            </h1>
+            <p className="text-[#4f5665] text-center text-xs sm:text-base max-w-lg px-4 sm:px-0">
+              You can explore the menu that we provide with fun and have their
+              own taste and make your day better.
+            </p>
+          </div>
+
+          <hr className="hidden sm:block border-2 border-[#7E6363] flex-1 rounded" />
+        </div>
+        {/* <h1 className="w-5/6 text-2xl sm:text-3xl">
           Our <span className="text-[#8E6447]">Product</span>
-        </h1>
+        </h1> */}
 
         <div className="w-full px-2 sm:px-0 sm:w-5/6 flex justify-center gap-4">
           <aside className="hidden sm:block w-1/4 bg-black rounded-xl h-fit p-4 text-white">
-            <Filter handleFilter={searchProduct}/>
+            <Filter handleFilter={searchProduct} />
           </aside>
 
-          <main className="flex flex-col items-end sm:flex-1">
-            <div className="relative flex justify-center w-full">
-              {error && 
-              <Info message="product not found. . . let's explore other choices"/>
-              }
+          <main className="flex flex-col items-end sm:flex-1 ">
+            <div className="flex justify-center w-full ">
+              <div className="flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-44 sm:gap-y-52 mb-44 sm:mb-52 max-w-xl">
+              <div
+              className={`${error ? "block" : "hidden"}  absolute left-4 top-20 sm:left-[36rem] sm:top-24 w-full z-40`}
+            >
+              <Info
+                message={`product not found. . . let's explore other choices!`}
+              />
+            </div>
 
-              <div className=" flex flex-wrap justify-center gap-x-4 sm:gap-x-20 gap-y-44 sm:gap-y-52 mb-44 sm:mb-52 max-w-xl">
-                { dataProducts &&
-                  dataProducts.map((product) => (
-                      product.discount == 0 ? 
-                        (<CardProduct
+                {dataProducts &&
+                  dataProducts.map((product) =>
+                    product.discount == 0 ? (
+                      <CardProduct
                         key={product.id}
                         id={product.id}
                         productName={product.name}
@@ -570,27 +597,34 @@ const Products = () => {
                         price={product.basePrice}
                         image={product.image}
                         tag={product.tag}
-                      /> ) :
-                      (<CardProduct
-                      key={product.id}
-                      id={product.id}
-                      productName={product.name}
-                      description={product.description}
-                      rating={product.rating}
-                      basePrice={product.basePrice}
-                      discountPrice={product.basePrice - product.discount}
-                      image={product.image}
-                      tag={product.tag}
-                      />)
-                  ))
-                }
+                      />
+                    ) : (
+                      <CardProduct
+                        key={product.id}
+                        id={product.id}
+                        productName={product.name}
+                        description={product.description}
+                        rating={product.rating}
+                        basePrice={product.basePrice}
+                        discountPrice={product.basePrice - product.discount}
+                        image={product.image}
+                        tag={product.tag}
+                      />
+                    )
+                  )}
               </div>
             </div>
 
-            {!error &&
-            <PageNavigation totalPage={totalPage} pageHandle={pageNavigator} nextPageHandle={nextPageNavigator} prevPageHandle={prevPageNavigator} handleDisable={disable} currentPage={currentPage}/>
-            }
-            
+            {!error && (
+              <PageNavigation
+                totalPage={totalPage}
+                pageHandle={pageNavigator}
+                nextPageHandle={nextPageNavigator}
+                prevPageHandle={prevPageNavigator}
+                handleDisable={disable}
+                currentPage={currentPage}
+              />
+            )}
           </main>
         </div>
       </section>

@@ -325,7 +325,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex-1 bg-[url('../assets/media/bg-home.jpg')] bg-center"></div>
+        <div className="flex-1 bg-[url('../assets/media/bg-home.jpg')] bg-center bg-cover bg-no-repeat"></div>
       </section>
 
       <section className="flex flex-col-reverse sm:flex-row w-full h-[64rem] sm:h-screen ">
