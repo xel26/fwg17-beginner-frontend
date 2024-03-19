@@ -15,7 +15,7 @@ const OptionVariety = ({option, onChange, size, variant, variantsProduct}) => {
         name: "Large",
         addPrice: 5000,
       },
-    ];
+    ]
 
     const shippingMethod = ["Dine In", "Door Delivery", "Pick Up"]
   

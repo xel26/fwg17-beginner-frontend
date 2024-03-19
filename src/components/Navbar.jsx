@@ -1,13 +1,13 @@
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { FiShoppingCart, FiMenu, FiArchive, FiCoffee } from "react-icons/fi";
-import { useEffect, useState } from "react";
+import axios from "axios"
+import { Link } from "react-router-dom"
+import { FiShoppingCart, FiMenu, FiArchive, FiCoffee } from "react-icons/fi"
+import { useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux";
-import { logout as logoutAction } from "../redux/reducers/auth";
+import { useDispatch, useSelector } from "react-redux"
+import { logout as logoutAction } from "../redux/reducers/auth"
 import { setProfile as setProfileAction} from '../redux/reducers/profile'
-import { resetProfile } from "../redux/reducers/profile";
+import { resetProfile } from "../redux/reducers/profile"
 import { resetProducts } from "../redux/reducers/products"
 import { resetTotal } from "../redux/reducers/totalOrder"
 import { resetShipping } from "../redux/reducers/deliveryShipping"
@@ -19,8 +19,6 @@ import { resetEmail } from "../redux/reducers/emailCustomer"
 import { resetFullName } from "../redux/reducers/FullNameCustomer"
 import { resetdeliveryAddress } from "../redux/reducers/deliveryAddress"
 
-import CupCoffee from "../assets/media/cup-coffee-icon-white.png";
-import TextLogo from "../assets/media/text-logo-white.png";
 import defaultPhoto from '../assets/media/default-profile.png'
 
 
@@ -285,7 +283,7 @@ const Navbar = ({home}) => {
         )}
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

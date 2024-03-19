@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     total: []
@@ -11,6 +11,9 @@ const totalOrder = createSlice({
         setTotal: (state, action) => {
             state.total.push(action.payload)
         },
+        updateTotal: (state, action) => {
+            state.total[action.payload.index] = state.total[action.payload.index] + action.payload.total
+        },
         resetTotal: () => {
             return initialState
         },
@@ -20,5 +23,5 @@ const totalOrder = createSlice({
     }
 })
 
-export const {setTotal, resetTotal, removeTotal} = totalOrder.actions
+export const {setTotal, updateTotal, resetTotal, removeTotal} = totalOrder.actions
 export default totalOrder.reducer

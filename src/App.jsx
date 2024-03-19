@@ -75,7 +75,7 @@ function App() {
         <RouterProvider router={router} />
       </PersistGate>
     </Provider>
-  );
+  )
 }
 
 export default App

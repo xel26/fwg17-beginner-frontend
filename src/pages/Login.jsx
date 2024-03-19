@@ -29,7 +29,7 @@ const Login = () => {
     form.append('password', password)
 
     try{
-      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/login`, form.toString())
+      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, form.toString())
       const {token: resultToken} = data.results
       
       setMessage(data.message)
@@ -40,7 +40,7 @@ const Login = () => {
         setShowAlert(false)
         dispatch(loginAction(resultToken))
         navigate('/products')
-      }, 4000);
+      }, 4000)
       
       event.target.email.value = ''
       event.target.password.value = ''
@@ -52,7 +52,7 @@ const Login = () => {
 
       setTimeout(() => {
         setShowAlert(false)
-      }, 4000);
+      }, 4000)
     }
   }
 
@@ -76,7 +76,7 @@ const Login = () => {
           <FormAuth handleAuth={authLogin} type="Login" />
         </div>
       </div>
-    );
+    )
 }
 
 export default Login

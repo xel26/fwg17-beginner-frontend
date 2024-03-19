@@ -21,7 +21,7 @@ const ForgotPassword = () => {
     form.append("email", email)
 
     try {
-      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/forgot-password`, form.toString())
+      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`, form.toString())
       setMessage(data.message)
       setIsSuccess(true)
       setShowAlert(true)
@@ -29,7 +29,7 @@ const ForgotPassword = () => {
       setTimeout(() => {
         setShowAlert(false)
         navigate('/create-new-password')
-      }, 4000);
+      }, 4000)
       
       event.target.email.value = ''
 
@@ -40,7 +40,7 @@ const ForgotPassword = () => {
 
       setTimeout(() => {
         setShowAlert(false)
-      }, 4000);
+      }, 4000)
     }
   }
   
@@ -58,7 +58,7 @@ const ForgotPassword = () => {
           <FormAuth handleAuth={reqCreatNewPass} type="Forgot Password" />
         </div>
       </div>
-    );
+    )
 }
 
 export default ForgotPassword

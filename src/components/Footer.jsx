@@ -1,6 +1,6 @@
-import { FaFacebookF, FaTwitter, FaTelegram, FaTelegramPlane } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaTelegram, FaTelegramPlane } from "react-icons/fa"
 import { FiCoffee} from "react-icons/fi"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 const FooterLink = ({destination1, text1, destination2, text2, destination3, text3, destination4, text4, destination5, text5}) => {
   return (
@@ -14,8 +14,8 @@ const FooterLink = ({destination1, text1, destination2, text2, destination3, tex
         <Link to={destination5} className="hover:text-[#3E3232] transition-colors duration-300">{text5}</Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const Footer = () => {
 
@@ -99,7 +99,7 @@ const Footer = () => {
           </p>
         </div>
       </footer>
-    );
+    )
 }
 
 export default Footer

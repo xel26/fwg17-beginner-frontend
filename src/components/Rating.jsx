@@ -1,9 +1,9 @@
-import { FaStar } from "react-icons/fa";
+import { FaStar } from "react-icons/fa"
 
 const Rating = ({rating, color}) => {
-    const stars = [];
+    const stars = []
     for (let i = 1; i <= 5; i++) {
-      stars.push(i);
+      stars.push(i)
     }
 
     return (

@@ -18,7 +18,7 @@ const Kupon = ({title, description, klaim, bg}) => {
         {klaim ? <p className="text-[0.7rem] sm:text-xs text-white">Klaim Kupon</p> : ''}
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Kupon

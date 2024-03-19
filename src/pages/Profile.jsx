@@ -1,15 +1,15 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setProfile as setProfileAction } from "../redux/reducers/profile";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { setProfile as setProfileAction } from "../redux/reducers/profile"
+import { useState } from "react"
 
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import InputForm from "../components/InputForm";
+import Footer from "../components/Footer"
+import Navbar from "../components/Navbar"
+import InputForm from "../components/InputForm"
 import Button from "../components/Button"
-import axios from "axios";
-import moment from "moment";
+import axios from "axios"
+import moment from "moment"
 import defaultPhoto from '../assets/media/default-profile.png'
-import Alert from "../components/Alert";
+import Alert from "../components/Alert"
 
 
 const Profile = () => {
@@ -27,9 +27,9 @@ const Profile = () => {
   const [preview, setPreview] = useState()
 
     const updateProfile = async (event) => {
-      event.preventDefault();
+      event.preventDefault()
 
-      const form = new FormData();
+      const form = new FormData()
       
       const fields = ['fullName', 'email', 'phoneNumber', 'address', 'password']
       fields.forEach((field) => {
@@ -41,10 +41,11 @@ const Profile = () => {
       try {
         const {data} = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/profile`, form, {
           headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
           }
         })
+
         if(data.results){
           dispatch(setProfileAction(data.results))
 
@@ -54,7 +55,7 @@ const Profile = () => {
     
           setTimeout(() => {
             setShowAlert(false)
-          }, 4000);
+          }, 4000)
 
           event.target.password.value = ''
         }else{
@@ -64,7 +65,7 @@ const Profile = () => {
     
           setTimeout(() => {
             setShowAlert(false)
-          }, 4000);
+          }, 4000)
         }
       } catch ({response:{data:{message}}}) {
         setMessage(message)
@@ -73,7 +74,7 @@ const Profile = () => {
   
         setTimeout(() => {
           setShowAlert(false)
-        }, 4000);
+        }, 4000)
       }
     }
 
@@ -85,25 +86,20 @@ const Profile = () => {
 
 
     const [uploading, setUploading] = useState()
-    const updatePicture = async (event) => {
-      event.preventDefault();
-      const [file] = event.target.picture.files
 
-      console.log(event.target.picture.files)
-      console.log(file)
-      console.log(file.name)
-      console.log(file.size)
-      console.log(file.type)
+    const updatePicture = async (event) => {
+      event.preventDefault()
+      const [file] = event.target.picture.files
 
       const form  = new FormData()
       form.append('picture', file)
 
       try {
+        setUploading('uploading')
 
-        setUploading('uploading. . . please wait')
         setTimeout(() => {
           setUploading('')
-        }, 3000);
+        }, 3000)
 
         const {data} = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/profile`, form, {
           headers: {
@@ -122,7 +118,7 @@ const Profile = () => {
   
         setTimeout(() => {
           setShowAlert(false)
-        }, 4000);
+        }, 3000)
 
       } catch ({response:{data:{message}}}) {
         setMessage(message)
@@ -131,9 +127,47 @@ const Profile = () => {
   
         setTimeout(() => {
           setShowAlert(false)
-        }, 4000);
+        }, 4000)
       }
 
+    }
+
+
+
+    const deletePicture = async(event) => {
+      event.preventDefault()
+      
+      const form  = new URLSearchParams()
+      form.append("picture", "null")
+
+      try {
+        const {data} = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/profile`, form, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
+        })
+
+        console.log(data)
+        dispatch(setProfileAction(data.results))
+
+        setPreview(false)
+        setMessage(data.message)
+        setIsSuccess(true)
+        setShowAlert(true)
+  
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 4000)
+
+      } catch ({response:{data:{message}}}) {
+        setMessage(message)
+        setIsSuccess(false)
+        setShowAlert(true)
+  
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 4000)
+      }
     }
   // update profile end
 
@@ -168,10 +202,7 @@ const Profile = () => {
             {(!preview && dataProfile) && dataProfile.picture && (
               <img
                 className="rounded-full w-28 h-28 object-cover"
-                src={
-                  dataProfile &&
-                  dataProfile.picture
-                }
+                src={dataProfile && dataProfile.picture}
               ></img>
             )}
             {preview && (
@@ -196,10 +227,19 @@ const Profile = () => {
           <button
             disabled={!preview}
             type="submit"
-            className="text-xs bg-gradient-to-br from-[#7E6363] to-black text-white w-full rounded p-2 transition-all active:scale-95 disabled:active:scale-100"
+            className="text-xs bg-gradient-to-br from-[#7E6363] to-black text-white w-full rounded p-2 transition-all active:scale-95 disabled:active:scale-100 disabled:transition-none"
           >
             {uploading ? uploading : 'Upload New Photo'}
           </button>
+
+          <button
+            disabled={(preview && dataProfile) || !dataProfile.picture}
+            onClick={deletePicture}
+            className={`text-xs bg-gradient-to-br from-[#e60000] to-black text-white w-full rounded p-2 transition-all active:scale-95 disabled:active:scale-100 disabled:transition-none`}
+          >
+            Delete photo
+          </button>
+
           <p className="text-xs text-[#4F5665]">
             Since{" "}
             <span className="font-bold">
@@ -242,8 +282,9 @@ const Profile = () => {
                 profile={true}
                 name="password"
                 label="Password"
-                type="password"
+                type="text"
                 placeholder="Enter Your Password"
+                defaultValue="******"
                 passProfile={true}
               />
               <InputForm
@@ -262,7 +303,7 @@ const Profile = () => {
 
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

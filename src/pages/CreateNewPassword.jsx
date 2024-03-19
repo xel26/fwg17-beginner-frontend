@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import FormAuth from '../components/FormAuth'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Alert from '../components/Alert'
 
 const CreateNewPassword = () => {
@@ -20,6 +20,13 @@ const CreateNewPassword = () => {
 
     if(confirmPassword !== newPassword){
       setMessage("confirm password does not match!. . . please double check")
+      setShowAlert(true)
+      setIsSuccess(false)
+
+      setTimeout(() => {
+        showAlert(false)
+      }, 4000)
+
       return 
     }
     
@@ -28,7 +35,7 @@ const CreateNewPassword = () => {
     form.append("newPassword", newPassword)
     
     try {
-      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/forgot-password`, form.toString())
+      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/forgot-password`, form.toString())
       setMessage(data.message)
       setIsSuccess(true)
       setShowAlert(true)
@@ -36,7 +43,7 @@ const CreateNewPassword = () => {
       setTimeout(() => {
         setShowAlert(false)
         navigate('/login')
-      }, 4000);
+      }, 4000)
 
       event.target.otp.value = ''
       event.target.newPassword.value = ''
@@ -49,7 +56,7 @@ const CreateNewPassword = () => {
 
       setTimeout(() => {
         setShowAlert(false)
-      }, 4000);
+      }, 4000)
     }
   }
 

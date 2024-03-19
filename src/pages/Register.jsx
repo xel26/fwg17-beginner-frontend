@@ -12,7 +12,7 @@ const Register = () => {
   const navigate = useNavigate()
 
   const authRegister = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const { value: fullName } = event.target.fullName;
     const { value: email } = event.target.email;
     const { value: password } = event.target.password;
@@ -25,18 +25,18 @@ const Register = () => {
 
       setTimeout(() => {
         setShowAlert(false)
-      }, 4000);
+      }, 4000)
       
       return
     }
     
-      const form = new URLSearchParams();
-      form.append("email", email);
-      form.append("password", password);
-      form.append("fullName", fullName);
+      const form = new URLSearchParams()
+      form.append("email", email)
+      form.append("password", password)
+      form.append("fullName", fullName)
 
       try {
-        const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/register`, form.toString());
+        const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/register`, form.toString())
         setMessage(data.message)
         setIsSuccess(true)
         setShowAlert(true)
@@ -44,7 +44,7 @@ const Register = () => {
         setTimeout(() => {
           setShowAlert(false)
           navigate('/login')
-        }, 4000);
+        }, 4000)
         
         event.target.email.value = ''
         event.target.password.value = ''
@@ -58,10 +58,10 @@ const Register = () => {
   
         setTimeout(() => {
           setShowAlert(false)
-        }, 4000);
+        }, 4000)
       }
     
-  };
+  }
 
   return (
     <div className="flex m-0 p-0 h-[46rem] 2xl:h-screen">
@@ -77,7 +77,7 @@ const Register = () => {
         <FormAuth handleAuth={authRegister} type="Register" />
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Register;

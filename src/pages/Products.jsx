@@ -109,8 +109,8 @@ const FilterProduct = ({ filterBy }) => {
       ))
       }
     </div>
-  );
-};
+  )
+}
 
 const Filter = ({mobile, handleFilter}) => {
     return (
@@ -188,13 +188,14 @@ const Kupon = ({ title, description, klaim, bg }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 
 
 
 const Products = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [display, setDisplay] =useState(false)
 
   const [kupon, setKupon] = useState([
@@ -233,21 +234,20 @@ const Products = () => {
   const [mobileFilter, setMobileFilter] = useState(false)
   const filterMobile = () => {
     setMobileFilter(!mobileFilter)
-  };
+  }
 
   const [dataProducts, setDataProducts] = useState()
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
   const [prevPage, setPrevPage] = useState()
   const [currentPage, setCurrentPage] = useState(1)
-  const [queryParameter, setQueryParameter] = useState(null)
+  const [queryParameter, setQueryParameter] = useState()
   const [error, setError] = useState(false)
-  const [disable, setDisable] = useState(false)
+
 
   const listAllProducts = async () => {
     try {
       const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`)
-      console.log(data)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
       setPrevPage(data.pageInfo.prevPage)
@@ -260,44 +260,60 @@ const Products = () => {
 
 
   const searchProduct = async (event) => {
-    event.preventDefault()
-    mobileFilter && setMobileFilter(false);
+    if (event){
+      event.preventDefault()
+      searchParams.delete("searchKey")
+      searchParams.delete("page")
+    }
+
+    mobileFilter && setMobileFilter(false)
 
 
     window.scrollTo({
       top: 450,
       left: 0,
       behavior: "smooth",
-    });
-     
-    const searchKey = event.target.searchKey
-    const category = event.target.category && Array.from(event.target.category)
-    const sortBy = event.target.sortBy && Array.from(event.target.sortBy)
+    })
     
     const form = new URLSearchParams()
-    if(searchKey){
-      form.append("searchKey", searchKey.value)
+
+    if (event){
+      const searchKey = event.target.searchKey
+      const category = event.target.category && Array.from(event.target.category)
+      const sortBy = event.target.sortBy && Array.from(event.target.sortBy)
+      
+      if(searchKey){
+        form.append("searchKey", searchKey.value)
+        searchParams.delete("category")
+        searchParams.delete("sortBy")
+
+        searchParams.set('searchKey', searchKey.value)
+        setSearchParams(searchParams)
+      }
+      
+      category &&
+      category.map((checkBox) => {
+        if (checkBox.checked) {
+          form.append("category", checkBox.value)
+          searchParams.set('category', checkBox.value)
+          setSearchParams(searchParams)
+        }
+      })
+      
+      sortBy &&
+      sortBy.map((checkBox) => {
+        if (checkBox.checked) {
+          form.append("sortBy", checkBox.value)
+          searchParams.set('sortBy', checkBox.value)
+          setSearchParams(searchParams)
+        }
+      })
     }
-    
-    category &&
-    category.map((checkBox) => {
-      if (checkBox.checked) {
-        form.append("category", checkBox.value);
-      }
-    });
-    
-    sortBy &&
-    sortBy.map((checkBox) => {
-      if (checkBox.checked) {
-        form.append("sortBy", checkBox.value);
-      }
-    });
     
     const queryParams = form.toString()
     
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${queryParams}`)
-      console.log(data)
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${searchParams.size !== 0 ? searchParams : queryParams}`)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
       setPrevPage(data.pageInfo.prevPage)
@@ -305,20 +321,23 @@ const Products = () => {
       setDataProducts(data.results)
       setQueryParameter(queryParams)
 
-      if(data.pageInfo.nextPage === null){
-        setDisable(true)
-      }else{
-        setDisable(false)
+      if (event && event.target.searchKey){
+        event.target.searchKey.value = ''
       }
-      event.target.searchKey.value = ''
-    } catch ({response:{data:{message}}}) {
+    } catch (err) {
+      console.log(err.response.data.message)
+
+      if (event && event.target.searchKey){
+        event.target.searchKey.value = ''
+      }
+
       setError(true)
       setDataProducts(null)
       
       setTimeout(() => {
         setError(false)
         listAllProducts()
-      }, 4000);
+      }, 4000)
     }
   }
 
@@ -329,35 +348,28 @@ const Products = () => {
       top: 450,
       left: 0,
       behavior: "smooth",
-    });
+    })
+
+    searchParams.set("page", page)
+    setSearchParams(searchParams)
 
     try {
       if(queryParameter){
         const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${queryParameter}&page=${page}`)
-        console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
+        setTotalPage(data.pageInfo.totalPage)
 
-        if(data.pageInfo.nextPage === null){
-          setDisable(true)
-        }else{
-          setDisable(false)
-        }
       }else{
         const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?page=${page}`)
-        console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
+        setTotalPage(data.pageInfo.totalPage)
         
-        if(data.pageInfo.nextPage === null){
-          setDisable(true)
-        }else{
-          setDisable(false)
-        }
       }
     } catch (error) {
       console.log(error)
@@ -370,34 +382,28 @@ const Products = () => {
       top: 450,
       left: 0,
       behavior: "smooth",
-    });
+    })
+
+    searchParams.set("page", nextPage)
+    setSearchParams(searchParams)
     
     try {
       if(queryParameter){
         const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${queryParameter}&page=${nextPage}`)
-        console.log(data)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
+        setTotalPage(data.pageInfo.totalPage)
         
-        if(data.pageInfo.nextPage === null){
-          setDisable(true)
-        }else{
-          setDisable(false)
-        }
       }else{
         const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?page=${nextPage}`)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
+        setTotalPage(data.pageInfo.totalPage)
 
-        if(data.pageInfo.nextPage === null){
-          setDisable(true)
-        }else{
-          setDisable(false)
-        }
       }
     } catch (error) {
       console.log(error)
@@ -410,34 +416,28 @@ const Products = () => {
       top: 450,
       left: 0,
       behavior: "smooth",
-    });
+    })
+
+    searchParams.set("page", prevPage)
+    setSearchParams(searchParams)
     
     try {
       if(queryParameter){
         const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?${queryParameter}&page=${prevPage}`)
-        console.log(data)
+
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
+        setTotalPage(data.pageInfo.totalPage)
         
-        if(data.pageInfo.nextPage === null){
-          setDisable(true)
-        }else{
-          setDisable(false)
-        }
       }else{
         const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products?page=${prevPage}`)
         setDataProducts(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
-
-        if(data.pageInfo.nextPage === null){
-          setDisable(true)
-        }else{
-          setDisable(false)
-        }
+        setTotalPage(data.pageInfo.totalPage)
       }
     } catch (error) {
       console.log(error)
@@ -445,27 +445,26 @@ const Products = () => {
   }
 
 
-
-
-  // const [position, setPosition] = useState(0);
-
-
-
   useEffect(() => {
     window.scrollTo({
       top: 450,
       left: 0,
       behavior: "smooth",
-    });
+    })
 
     setDisplay(true)
 
-    listAllProducts();
-  }, []);
+    if (searchParams.size !== 0) {
+      searchProduct()
+    }else{
+      listAllProducts()
+    }
+  }, [])
 
   return (
     <div className="flex flex-col items-center gap-6 sm:gap-12">
       <Navbar />
+
       <header className="hidden sm:flex items-center bg-[url('../assets/media/header-product-page.jpg')] bg-center w-full h-72 mt-12">
         <h1
           className={`text-white text-5xl transition-all duration-1000 ${
@@ -615,23 +614,22 @@ const Products = () => {
               </div>
             </div>
 
-            {!error && (
+            {dataProducts && 
               <PageNavigation
                 totalPage={totalPage}
                 pageHandle={pageNavigator}
                 nextPageHandle={nextPageNavigator}
                 prevPageHandle={prevPageNavigator}
-                handleDisable={disable}
                 currentPage={currentPage}
               />
-            )}
+            }
           </main>
         </div>
       </section>
 
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default Products;
+export default Products

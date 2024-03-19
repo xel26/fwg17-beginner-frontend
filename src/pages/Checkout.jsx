@@ -1,25 +1,26 @@
-import { Link } from "react-router-dom";
-import { FiPlus } from "react-icons/fi";
+import { Link } from "react-router-dom"
+import { FiPlus } from "react-icons/fi"
 
-import { useDispatch, useSelector } from "react-redux";
-import { setShipping } from "../redux/reducers/deliveryShipping";
-import { setEmail } from "../redux/reducers/emailCustomer";
-import { setFullName } from "../redux/reducers/FullNameCustomer";
-import { setDeliveryAddress } from "../redux/reducers/deliveryAddress";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { setShipping } from "../redux/reducers/deliveryShipping"
+import { setEmail } from "../redux/reducers/emailCustomer"
+import { setFullName } from "../redux/reducers/FullNameCustomer"
+import { setDeliveryAddress } from "../redux/reducers/deliveryAddress"
+import { useEffect } from "react"
 
 
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import CardProductOrder from "../components/CardProductOrder";
-import Payment from "../components/Payment";
-import InputForm from "../components/InputForm";
-import OptionVariety from "../components/OptionVariety";
-import Info from "../components/Info";
+import Footer from "../components/Footer"
+import Navbar from "../components/Navbar"
+import CardProductOrder from "../components/CardProductOrder"
+import Payment from "../components/Payment"
+import InputForm from "../components/InputForm"
+import OptionVariety from "../components/OptionVariety"
+import Info from "../components/Info"
 
 
 
 const Checkout = () => {
+  const profile = useSelector(state => state.profile.data)
   const products = useSelector(state => state.products.data)
   const sizeProducts = useSelector(state => state.sizeProducts.sizes)
   const variantProduct = useSelector(state => state.variantProducts.variants)
@@ -32,7 +33,7 @@ const Checkout = () => {
     if (event.target.checked) {
       dispatch(setShipping(event.target.value))
     }
-  };
+  }
 
   const setDataCustomer = (event) => {
     if(event.target.name == "email"){
@@ -49,7 +50,7 @@ const Checkout = () => {
       top: 0,
       left: 0,
       behavior: "smooth",
-    });
+    })
   }, [])
 
   return (
@@ -63,8 +64,8 @@ const Checkout = () => {
           <div className="flex flex-col w-full sm:w-7/12 gap-6 sm:gap-16">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
-                <div className={`${products.length == 0 ? 'block ': 'hidden'} `}>
-                  <Info message="empty cart. . . let's create a coffee moment !" />
+                <div className={`${products.length == 0 || !profile.address ? 'block ': 'hidden'} `}>
+                  <Info message={!profile.address ? "please add your address to create an order" : "empty cart. . . let's create a coffee moment !"} />
                 </div>
                 <h4 className="font-semibold">
                   {products.length != 0 && "Your Order"}
@@ -134,7 +135,7 @@ const Checkout = () => {
 
       <Footer />
     </body>
-  );
-};
+  )
+}
 
-export default Checkout;
+export default Checkout

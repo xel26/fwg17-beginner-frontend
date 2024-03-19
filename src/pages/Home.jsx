@@ -1,15 +1,16 @@
-import axios from "axios";
-import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { FiMessageCircle, FiSend, FiCheckCircle } from "react-icons/fi";
+import axios from "axios"
+import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
+import {FiCheckCircle } from "react-icons/fi"
+import { useSelector } from "react-redux"
 
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import Map from "../assets/media/home-map.png";
-import MapMobile from "../assets/media/map-mobile.png";
-import Testimonial from "../components/Testimonial";
-import CardProduct from "../components/CardProduct";
-import { useSelector } from "react-redux";
+import Footer from "../components/Footer"
+import Navbar from "../components/Navbar"
+import Map from "../assets/media/home-map.png"
+import MapMobile from "../assets/media/map-mobile.png"
+import Testimonial from "../components/Testimonial"
+import CardProduct from "../components/CardProduct"
+import Alert from "../components/Alert"
 
 const Data = ({ value, text }) => {
   return (
@@ -22,8 +23,8 @@ const Data = ({ value, text }) => {
       </h1>
       <p className="text-white text-xs sm:text-sm">{text}</p>
     </div>
-  );
-};
+  )
+}
 
 
 
@@ -35,8 +36,8 @@ const ListProvide = ({ text }) => {
       </div>
       <p className="text-xs sm:text-sm text-[#4F5665]">{text}</p>
     </div>
-  );
-};
+  )
+}
 
 
 // recommendation products start
@@ -48,7 +49,7 @@ export const recommendProducts= async (setData) => {
         isRecommended: true
       }
     })
-    console.log(data)
+    
     setData.setDataProducts(data.results)
     setData.setCurrentPage && setData.setCurrentPage(data.pageInfo.currentPage)
     setData.setTotalPage && setData.setTotalPage(data.pageInfo.totalPage)
@@ -64,7 +65,7 @@ export const recommendProducts= async (setData) => {
 const Home = () => {
   const token = useSelector(state => state.auth.token)
 
-  const [chatBox, setChatBox] = useState(false);
+  // const [chatBox, setChatBox] = useState(false)
 
   // animasi landing page start
   const [display, setDisplay] = useState(false)
@@ -117,8 +118,8 @@ const Home = () => {
   
   const testi = async () => {
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial`)
-      console.log(data)
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial?limit=1`)
+
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)
       setNextPage(data.pageInfo.nextPage)
@@ -139,8 +140,8 @@ const Home = () => {
 
   const next = async () => {
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial?page=${nextPage}`)
-      console.log(data)
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial?limit=1&page=${nextPage}`)
+
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)
       setNextPage(data.pageInfo.nextPage)
@@ -160,8 +161,8 @@ const Home = () => {
 
   const prev = async () => {
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial?page=${prevPage}`)
-      console.log(data)
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/testimonial?limit=1&page=${prevPage}`)
+
       setDataTesti(data.results)
       setPrevPage(data.pageInfo.prevPage)
       setNextPage(data.pageInfo.nextPage)
@@ -187,18 +188,17 @@ const Home = () => {
       top: 0,
       left: 0,
       behavior: "smooth",
-    });
+    })
 
-    setDisplay(true);
+    setDisplay(true)
 
     recommendProducts({
       setDataProducts,
       limit: 4,
-    });
+    })
 
-    testi();
-    
-  },[]);
+    testi()
+  },[])
 
 
   return (
@@ -432,7 +432,7 @@ const Home = () => {
 
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

@@ -1,10 +1,10 @@
-import Button from "./Button";
-import InputForm from "../components/InputForm";
-import { Link } from "react-router-dom";
+import Button from "./Button"
+import InputForm from "../components/InputForm"
+import { Link } from "react-router-dom"
 import facebook from '../assets/media/facebook-logo.png'
 import google from '../assets/media/google-logo.png'
-import { useState } from "react";
-import { FiCoffee } from "react-icons/fi";
+import { useState } from "react"
+import { FiCoffee } from "react-icons/fi"
 
 const ButtonAuth = ({value}) => {
   return (
@@ -14,11 +14,11 @@ const ButtonAuth = ({value}) => {
       <img src={value == "Facebook" ? facebook : google} className="h-6"/>
       <p className="text-[#4f5665] text-semibold hidden sm:block">{value}</p>
     </Link>
-  );
-};
+  )
+}
 
 
-const FormAuth = ({ handleAuth, type }) => {
+const FormAuth = ({ handleAuth, type}) => {
   const [register, setRegister] = useState([
     {
       name:"fullName",
@@ -113,13 +113,24 @@ const FormAuth = ({ handleAuth, type }) => {
         <form onSubmit={handleAuth} className="flex flex-col gap-5">
           {type == "Register" ? (
             register.map((item, index) => (
-              <InputForm
+              item.name == "password" ? (
+                <InputForm
+                key={index}
+                name={item.name}
+                label={item.label}
+                type={item.type}
+                placeholder={item.placeholder}
+                creatPass={true}
+              />
+              ): (
+                <InputForm
                 key={index}
                 name={item.name}
                 label={item.label}
                 type={item.type}
                 placeholder={item.placeholder}
               />
+              )
             ))
           ) : type == "Login" ? (
             login.map((item, index) => (
@@ -143,13 +154,24 @@ const FormAuth = ({ handleAuth, type }) => {
             ))
           ) : (
             createNewPassword.map((item, index) => (
-              <InputForm
-              key={index}
-              name={item.name}
-              label={item.label}
-              type={item.type}
-              placeholder={item.placeholder}
-            />
+              item.name === "newPassword" ? (
+                <InputForm
+                key={index}
+                name={item.name}
+                label={item.label}
+                type={item.type}
+                placeholder={item.placeholder}
+                creatPass={true}
+              />
+              ):(
+                <InputForm
+                key={index}
+                name={item.name}
+                label={item.label}
+                type={item.type}
+                placeholder={item.placeholder}
+              />
+              )
             ))
           )}
 
@@ -208,7 +230,7 @@ const FormAuth = ({ handleAuth, type }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FormAuth;
+export default FormAuth

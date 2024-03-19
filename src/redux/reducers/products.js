@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     data: []
@@ -15,7 +15,10 @@ const products = createSlice({
             return initialState
         },
         removeProduct: (state, action) => {
-            state.data = state.data.filter((product) => product.id !== action.payload)
+            state.data = state.data.filter((product) => 
+            !(product.id === action.payload.id &&
+                product.size === action.payload.size &&
+                product.variant === action.payload.variant))
         } 
     }
 })

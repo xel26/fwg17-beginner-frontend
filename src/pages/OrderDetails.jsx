@@ -2,15 +2,15 @@ import Footer from '../components/Footer'
 import Navbar from '../components/Navbar'
 import CardProductOrder from '../components/CardProductOrder'
 import { FiUser, FiMapPin, FiPhoneCall, FiCreditCard, FiTruck, FiRefreshCcw } from "react-icons/fi"
-import Product1 from "../assets/media/detail-product1.jpg";
-import Product2 from "../assets/media/detail-product2.jpg";
-import Product3 from "../assets/media/detail-product3.jpg";
-import Product4 from "../assets/media/home-product1.jpg";
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import moment from 'moment';
-import { useSelector } from 'react-redux';
+import Product1 from "../assets/media/detail-product1.jpg"
+import Product2 from "../assets/media/detail-product2.jpg"
+import Product3 from "../assets/media/detail-product3.jpg"
+import Product4 from "../assets/media/home-product1.jpg"
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
+import moment from 'moment'
+import { useSelector } from 'react-redux'
 
 const ListOrderInformation = ({field, value, color}) => {
     return (
@@ -52,21 +52,20 @@ const OrderDetails = () => {
 
   const getDetailsOrder = async () => {
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/order/${id}`, {
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/history-order/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
-      console.log(data.results)
+
       setDataDetails(data.results)
 
-      const {data: dataProducts} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/order-details?orderId=${id}`, {
+      const {data: dataProducts} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/history-order/products?orderId=${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
       setDataProducts(dataProducts.results)
-      console.log(dataProducts)
 
 
     } catch (error) {
@@ -79,7 +78,7 @@ const OrderDetails = () => {
       top: 0,
       left: 0,
       behavior: "smooth",
-    });
+    })
 
     getDetailsOrder()
   }, [])
@@ -153,7 +152,7 @@ const OrderDetails = () => {
           <div className="w-full sm:flex-1 flex flex-col gap-4">
             <h4 className="font-semibold">Your Order</h4>
 
-            <div className="flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[22rem] sm:max-h-[21rem]">
+            <div className="flex flex-col gap-3 sm:gap-5 overflow-y-auto max-h-[23rem] sm:max-h-[21rem]">
               {dataProducts &&
                 dataProducts.map((product, index) => (
                   <CardProductOrder
@@ -174,7 +173,7 @@ const OrderDetails = () => {
 
         <Footer />
       </body>
-    );
+    )
 }
 
 export default OrderDetails

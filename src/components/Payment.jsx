@@ -31,10 +31,11 @@ const PaymentList = ({list, idr}) => {
       </h5>
       <h5 className="font-semibold text-xs sm:text-base">Idr.{idr.toLocaleString('id')}</h5>
     </div>
-  );
-};
+  )
+}
 
 const Payment = () => {
+  const profile = useSelector(state => state.profile.data)
   const token = useSelector(state => state.auth.token)
   const products = useSelector(state => state.products.data)
 
@@ -56,9 +57,9 @@ const Payment = () => {
   const dispatch = useDispatch()
 
   const checkoutAction = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    const form = new URLSearchParams();
+    const form = new URLSearchParams()
     form.append("productId", productId)
     form.append("sizeProduct", sizeProduct)
     form.append("variantProduct", variantProduct)
@@ -69,16 +70,15 @@ const Payment = () => {
     form.append("email", email)
 
     try {
-      const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/checkout`, form.toString(), {
+      await axios.post(`${import.meta.env.VITE_SERVER_URL}/checkout`, form.toString(), {
         headers: {
           'Authorization' : `Bearer ${token}`
         }
       })
 
-      
       setTimeout(() => {
         setOrderSuccess(true)
-      }, 1000);
+      }, 1000)
       
       setTimeout(() => {
         setOrderSuccess(false)
@@ -95,7 +95,7 @@ const Payment = () => {
         dispatch(resetdeliveryAddress())
 
         navigate('/history-order')
-      }, 5000);
+      }, 5000)
 
     } catch (error) {
       console.log(error)
@@ -122,7 +122,7 @@ const Payment = () => {
           <PaymentList list="Sub Total" idr={totalOrder + 5000 + tax} />
 
           <button
-            disabled={!products.length}
+            disabled={!products.length || !profile.address}
             onClick={checkoutAction}
             className="bg-gradient-to-b from-[#7E6363] to-black text-white w-full rounded-md text-xs sm:text-sm py-1.5 active:scale-95 disabled:active:scale-100 transition-all flex justify-center"
           >
@@ -161,7 +161,7 @@ const Payment = () => {
           </p>
         </div>
       </div>
-    );
+    )
 }
 
 export default Payment

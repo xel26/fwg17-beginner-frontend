@@ -1,54 +1,63 @@
-import axios from "axios";
-import { FiThumbsUp, FiShoppingCart, FiPlus, FiMinus } from "react-icons/fi";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios"
+import { FiThumbsUp, FiShoppingCart, FiPlus, FiMinus } from "react-icons/fi"
+import { useState } from "react"
+import { Link } from "react-router-dom"
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"
 
-import Price from "./Price";
-import Rating from "./Rating";
-import Tag from "../components/Tag";
-import OptionVariety from "./OptionVariety";
-import Info from "./Info";
+import Price from "./Price"
+import Rating from "./Rating"
+import Tag from "../components/Tag"
+import OptionVariety from "./OptionVariety"
+import Info from "./Info"
 
 
 const Details = ({id, productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, variants, handleAddToCart, addToCart }) => {
+  const dataProfile = useSelector(state => state.profile.data)
   const token = useSelector(state => state.auth.token)
 
   // quantity start
-  const [quantity, setQuantity] = useState(1);
-  const mininum = quantity <= 1;
-  const maximum = quantity >= 10;
+  const [quantity, setQuantity] = useState(1)
+  const mininum = quantity <= 1
+  const maximum = quantity >= 10
 
   const increment = () => {
-    setQuantity(quantity + 1);
-  };
+    setQuantity(quantity + 1)
+  }
 
   const decrement = () => {
-    setQuantity(quantity - 1);
-  };
+    setQuantity(quantity - 1)
+  }
   // quantity end
 
 
   // variant start
-  const [dataSize, setDataSize] = useState();
-  const [dataVariant, setDataVariant] = useState();
+  const [dataSize, setDataSize] = useState()
+  const [dataVariant, setDataVariant] = useState()
 
   const getDataSize = async (size) => {
     try {
       const { data } = await axios.get(
-        `${import.meta.env.VITE_SERVER_URL}/data-size?name=${size}`
-      );
-      setDataSize(data.results);
+        `${import.meta.env.VITE_SERVER_URL}/data-size?size=${size}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      )
+      setDataSize(data.results)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
 
     const getDataVariant = async (variant) => {
       try {
-        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/data-variant?name=${variant}`)
+        const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/data-variant?name=${variant}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
         setDataVariant(data.results)
       } catch (error) {
         console.log(error)
@@ -56,20 +65,20 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
     }
 
     
-  const [size, setSize] = useState();
-  const [variant, setVariant] = useState();
+  const [size, setSize] = useState()
+  const [variant, setVariant] = useState()
 
      const handleCheckbox = (event) => {
       if (event.target.checked) {
         if (event.target.name == "size") {
-          setSize(event.target.value);
-          getDataSize(event.target.value);
+          setSize(event.target.value)
+          getDataSize(event.target.value)
         } else {
-          setVariant(event.target.value);
+          setVariant(event.target.value)
           getDataVariant(event.target.value)
         }
       }
-    };
+    }
   // variant end
 
 
@@ -177,7 +186,7 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
         </Link> */}
         <button
           onClick={() => handleAddToCart(quantity, size, variant, dataSize && dataSize, dataVariant && dataVariant, id)}
-          disabled={!token || !size || !variant}
+          disabled={!token  || !size || !variant}
           className={`overflow-hidden flex-1 flex justify-center gap-2 sm:gap-4 bg-gradient-to-br from-[#7E6363] disabled:from-white to-black disabled:to-white text-white disabled:text-[#7E6363] disabled:border disabled:border-[#7E6363] disabled:transition-none active:scale-95 rounded py-1.5 transition-all
           disabled:active:scale-100 bg-black
           `}
@@ -187,7 +196,7 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Details;
+export default Details

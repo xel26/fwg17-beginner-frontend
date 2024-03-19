@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     quantities: []
@@ -11,6 +11,9 @@ const quantityProducts = createSlice({
         setQuantity: (state, action) => {
             state.quantities.push(action.payload)
         },
+        updateQuantity: (state, action) => {
+            state.quantities[action.payload.index] = state.quantities[action.payload.index] + action.payload.quantity
+        },
         resetQuantities: () => {
             return initialState
         },
@@ -20,5 +23,5 @@ const quantityProducts = createSlice({
     }
 })
 
-export const {setQuantity, resetQuantities, removeQuantity} = quantityProducts.actions
+export const {setQuantity, updateQuantity, resetQuantities, removeQuantity} = quantityProducts.actions
 export default quantityProducts.reducer

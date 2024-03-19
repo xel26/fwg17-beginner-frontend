@@ -1,7 +1,7 @@
-import PageIndicator from "../components/PageIndicator";
-import CustomerImage from "../assets/media/home-customer-image1.jpg";
-import ButtonSwipe from "../components/ButtonSwipe";
-import Rating from "./Rating";
+import PageIndicator from "../components/PageIndicator"
+import CustomerImage from "../assets/media/home-customer-image1.jpg"
+import ButtonSwipe from "../components/ButtonSwipe"
+import Rating from "./Rating"
 
 const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, handlePrevPage, nextDisable, prevDisable, totalPage, currentPage}) => {
   return (
@@ -26,7 +26,7 @@ const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, ha
         <PageIndicator totalPage={totalPage} currentPage={currentPage}/>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Testimonial;
+export default Testimonial

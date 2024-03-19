@@ -1,33 +1,33 @@
-import { Link } from "react-router-dom"
-import { useState, useEffect } from "react";
-import axios from "axios";
-import moment from 'moment';
+import { useState, useEffect } from "react"
+import axios from "axios"
+import moment from 'moment'
 import {
   FiMessageSquare,
   FiAlignRight,
-} from "react-icons/fi";
+} from "react-icons/fi"
 
-import { useSelector } from "react-redux";
+import { useSelector } from "react-redux"
+import { useSearchParams } from "react-router-dom"
 
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import PageNavigation from "../components/PageNavigation";
-import Button from "../components/Button";
-import defaultHistoryOrder from "../assets/media/default-history-order.jpg";
-import CardHistoryOrder from "../components/CardHistoryOrder";
+import Footer from "../components/Footer"
+import Navbar from "../components/Navbar"
+import PageNavigation from "../components/PageNavigation"
+import Button from "../components/Button"
+import defaultHistoryOrder from "../assets/media/default-history-order.jpg"
+import CardHistoryOrder from "../components/CardHistoryOrder"
 import Info from '../components/Info'
-import Alert from "../components/Alert";
+import Alert from "../components/Alert"
 
 const optionFilter = ["On Progress", "Sending Goods", "Finish Order"]
 
 
 const HistoryOrder = () => {
-const [totalPage, setTotalPage] = useState()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
   const [prevPage, setPrevPage] = useState()
   const[currentPage, setCurrentPage] = useState()
   const [filter, setFilter] = useState()
-  const [disable, setDisable] = useState(false)
   const [orders, setOrders] = useState()
   const [totalData, setTotalData] = useState(0)
   const [errorMessage, setErrorMessage] = useState()
@@ -37,23 +37,22 @@ const [totalPage, setTotalPage] = useState()
 
   const dataOrders = async () => {
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/orders`, {
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/history-order`, {
         headers: {
           'Authorization' : `Bearer ${token}`
         }
       })
-      console.log(data && data)
+
       setOrders(data.results)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
-      setPrevPage(data.pageInfo.prevPage);
+      setPrevPage(data.pageInfo.prevPage)
       setTotalData(data.pageInfo.totalData)
       setCurrentPage(data.pageInfo.currentPage)
       setFilter(null)
       setError(false)
 
     } catch ({response:{data:{message}}}) {
-      console.log(message)
       setErrorMessage(message)
       setError(true)
     }
@@ -61,11 +60,16 @@ const [totalPage, setTotalPage] = useState()
 
 
   const filterStatus = async (event) => {
-    const filterStatus = event.target.innerText
-    
+    let filterStatus
+    if (event){
+      filterStatus = event.target.innerText
+      searchParams.delete("page")
+      searchParams.set("status", filterStatus)
+      setSearchParams(searchParams)
+    }
 
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/orders?status=${filterStatus}`, {
+      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/history-order?${searchParams.size !== 0 ? searchParams : `status=${filterStatus}`}`, {
         headers : {
           'Authorization' : `Bearer ${token}`
         }
@@ -74,17 +78,11 @@ const [totalPage, setTotalPage] = useState()
       setOrders(data.results)
       setTotalPage(data.pageInfo.totalPage)
       setNextPage(data.pageInfo.nextPage)
-      setPrevPage(data.pageInfo.prevPage);
+      setPrevPage(data.pageInfo.prevPage)
       setCurrentPage(data.pageInfo.currentPage)
       setTotalData(data.pageInfo.totalData)
       setFilter(filterStatus)
       setError(false)
-
-      if (data.pageInfo.nextPage === null) {
-        setDisable(true);
-      } else {
-        setDisable(false);
-      }
 
     } catch ({response:{data:{message}}}) {
       setErrorMessage(message)
@@ -101,54 +99,47 @@ const [totalPage, setTotalPage] = useState()
       top: 0,
       left: 0,
       behavior: "smooth",
-    });
+    })
+
+    searchParams.set("page", page)
+    setSearchParams(searchParams)
 
     try {
       if (filter) {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/orders?page=${page}&status=${filter}`,
+          `${import.meta.env.VITE_SERVER_URL}/history-order?page=${page}&status=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
-        console.log(data);
-        setOrders(data.results);
-        setNextPage(data.pageInfo.nextPage);
-        setPrevPage(data.pageInfo.prevPage);
+        )
+
+        setOrders(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
 
-        if (data.pageInfo.nextPage === null) {
-          setDisable(true);
-        } else {
-          setDisable(false);
-        }
       } else {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/orders?page=${page}`,
+          `${import.meta.env.VITE_SERVER_URL}/history-order?page=${page}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
-        console.log(data);
-        setOrders(data.results);
-        setNextPage(data.pageInfo.nextPage);
-        setPrevPage(data.pageInfo.prevPage);
+        )
+        
+        setOrders(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
 
-        if (data.pageInfo.nextPage === null) {
-          setDisable(true);
-        } else {
-          setDisable(false);
-        }
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
 
   const nextPageNavigator = async () => {
@@ -157,54 +148,46 @@ const [totalPage, setTotalPage] = useState()
       top: 0,
       left: 0,
       behavior: "smooth",
-    });
+    })
+
+    searchParams.set("page", nextPage)
+    setSearchParams(searchParams)
 
     try {
       if (filter) {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/orders?page=${nextPage}&status=${filter}`,
+          `${import.meta.env.VITE_SERVER_URL}/history-order?page=${nextPage}&status=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
-        console.log(data);
-        setOrders(data.results);
-        setNextPage(data.pageInfo.nextPage);
-        setPrevPage(data.pageInfo.prevPage);
+        )
+
+        setOrders(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
 
-        if (data.pageInfo.nextPage === null) {
-          setDisable(true);
-        } else {
-          setDisable(false);
-        }
       } else {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/orders?page=${nextPage}`,
+          `${import.meta.env.VITE_SERVER_URL}/history-order?page=${nextPage}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
-        console.log(data);
-        setOrders(data.results);
-        setNextPage(data.pageInfo.nextPage);
-        setPrevPage(data.pageInfo.prevPage);
-        setCurrentPage(data.pageInfo.currentPage)
+        )
 
-        if (data.pageInfo.nextPage === null) {
-          setDisable(true);
-        } else {
-          setDisable(false);
-        }
+        setOrders(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
+        setCurrentPage(data.pageInfo.currentPage)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
 
   const prevPageNavigator = async () => {
@@ -213,54 +196,43 @@ const [totalPage, setTotalPage] = useState()
       top: 0,
       left: 0,
       behavior: "smooth",
-    });
+    })
 
     try {
       if (filter) {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/orders?page=${prevPage}&status=${filter}`,
+          `${import.meta.env.VITE_SERVER_URL}/history-order?page=${prevPage}&status=${filter}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
-        console.log(data);
-        setOrders(data.results);
-        setNextPage(data.pageInfo.nextPage);
-        setPrevPage(data.pageInfo.prevPage);
+        )
+
+        setOrders(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
 
-        if (data.pageInfo.nextPage === null) {
-          setDisable(true);
-        } else {
-          setDisable(false);
-        }
       } else {
         const { data } = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/orders?page=${prevPage}`,
+          `${import.meta.env.VITE_SERVER_URL}/history-order?page=${prevPage}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
-        console.log(data);
-        setOrders(data.results);
-        setNextPage(data.pageInfo.nextPage);
-        setPrevPage(data.pageInfo.prevPage);
-        setCurrentPage(data.pageInfo.currentPage)
+        )
 
-        if (data.pageInfo.nextPage === null) {
-          setDisable(true);
-        } else {
-          setDisable(false);
-        }
+        setOrders(data.results)
+        setNextPage(data.pageInfo.nextPage)
+        setPrevPage(data.pageInfo.prevPage)
+        setCurrentPage(data.pageInfo.currentPage)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
 
   const [showAlert, setShowAlert] = useState()
@@ -270,11 +242,15 @@ const [totalPage, setTotalPage] = useState()
 
     setTimeout(() => {
       setShowAlert(false)
-    }, 6000);
+    }, 6000)
   }
 
   useEffect(() => {
-    dataOrders()
+    if (searchParams.size !== 0){
+      filterStatus()
+    }else{
+      dataOrders()
+    }
   }, [])
 
 
@@ -343,13 +319,12 @@ const [totalPage, setTotalPage] = useState()
               ))}
           </div>
 
-          {!error && (
+          {orders && (
             <PageNavigation
               totalPage={totalPage}
               pageHandle={pageNavigator}
               nextPageHandle={nextPageNavigator}
               prevPageHandle={prevPageNavigator}
-              handleDisable={disable}
               currentPage={currentPage}
             />
           )}
@@ -382,7 +357,7 @@ const [totalPage, setTotalPage] = useState()
 
       <Footer />
     </body>
-  );
-};
+  )
+}
 
-export default HistoryOrder;
+export default HistoryOrder

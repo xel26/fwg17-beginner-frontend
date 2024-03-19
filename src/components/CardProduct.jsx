@@ -1,7 +1,6 @@
-import Rating from "./Rating";
-import { FiShoppingCart } from "react-icons/fi";
-import Tag from "./Tag";
-import { Link } from "react-router-dom";
+import Rating from "./Rating"
+import Tag from "./Tag"
+import { Link } from "react-router-dom"
 import Price from "./Price"
 import Product1 from '../assets/media/detail-product1.jpg'
 
@@ -21,11 +20,11 @@ const CardProduct = ({id, productName, description, rating, basePrice, discountP
         <h1 className="font-semibold text-sm sm:text-base" id="product-name">
           {productName}
         </h1>
-        <p className="flex-1 text-[0.6rem] sm:text-[0.7rem] text-[#4F5665] h-14 flex items-start overflow-hidden ">
+        <p className=" text-[0.6rem] sm:text-[0.7rem] text-[#4F5665] h-14 sm:h-12 flex items-start overflow-hidden ">
           {description}
         </p>
-        <div className="flex flex-col justify-center gap-2 sm:gap-1 ">
-        {rating && <Rating rating={rating}/>}
+        <div className="flex-1 flex flex-col justify-center gap-2 sm:gap-1 ">
+        {rating !== 0 && <Rating rating={rating}/>}
         <Price basePrice={basePrice} discountPrice={discountPrice} price={price}/>
         </div>
         <div className=" flex flex-col sm:flex-row items-end justify-end gap-1 sm:gap-2">
@@ -38,7 +37,7 @@ const CardProduct = ({id, productName, description, rating, basePrice, discountP
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CardProduct;
+export default CardProduct

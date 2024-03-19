@@ -1,76 +1,126 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setProduct } from "../redux/reducers/products";
 import { setTotal } from "../redux/reducers/totalOrder";
 import { setSize } from "../redux/reducers/sizeProducts";
 import { setVariant } from "../redux/reducers/variantProducts";
-import { setQuantity } from "../redux/reducers/quantityProducts";
+import {
+  setQuantity,
+  updateQuantity,
+} from "../redux/reducers/quantityProducts";
 import { setId } from "../redux/reducers/productsId";
+import { updateTotal } from "../redux/reducers/totalOrder";
 
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
-import { setDetailProduct } from '../redux/reducers/detailProduct'
+import { setDetailProduct } from "../redux/reducers/detailProduct";
 
 const ProductDetails = () => {
+  const products = useSelector((state) => state.products.data)
+  const sizeProduct = useSelector((state) => state.sizeProducts.sizes)
+  const variantProduct = useSelector((state) => state.variantProducts.variants)
+
   const dispatch = useDispatch()
   const [mainImage, setMainImage] = useState()
 
   // details product start
-  const {id} = useParams()
+  const { id } = useParams()
   const [infoProduct, setInfoProduct] = useState()
+  // console.log(infoProduct)
 
   const dataDetails = async (productId) => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
-    });
+      behavior: "smooth",
+    })
 
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products/${productId ? productId : id}`)
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/product/${
+          productId ? productId : id
+        }`
+      )
+
       dispatch(setDetailProduct(data.results))
       setInfoProduct(data.results)
       setMainImage(data.results.image)
-      console.log(data.results)
     } catch (error) {
       console.log(error)
     }
   }
   // details product end
 
-
-  const [successAddToCart, setSuccessAddToCart] = useState(false)
   // add to redux start
+  const [successAddToCart, setSuccessAddToCart] = useState(false)
   const addToCart = (quantity, size, variant, dataSize, dataVariant, id) => {
+    const total =
+      (infoProduct.basePrice -
+        infoProduct.discount.Int64 +
+        (dataSize ? dataSize.additionalPrice : 0) +
+        (dataVariant ? dataVariant.additionalPrice : 0)) *
+      quantity;
+
+      let isProductExist = false
+      
+      if (products.length){
+        products.forEach((product, index) => {
+          if (
+            product.id === id &&
+            sizeProduct[index] === size &&
+            variantProduct[index] === variant
+          ) {
+            dispatch(updateQuantity({ index, quantity }))
+            dispatch(updateTotal({ index, total }))
+            isProductExist = true
+            return
+          }
+        })
+
+
+        if(!isProductExist){
+          dispatch(setProduct({
+            ...infoProduct,
+            size,
+            variant
+          }))
+          dispatch(setTotal(total))
+          dispatch(setSize(size))
+          dispatch(setVariant(variant))
+          dispatch(setQuantity(quantity))
+          dispatch(setId(id))
+        }
+
+      } else {
+        dispatch(setProduct({
+          ...infoProduct,
+          size,
+          variant
+        }))
+        dispatch(setTotal(total))
+        dispatch(setSize(size))
+        dispatch(setVariant(variant))
+        dispatch(setQuantity(quantity))
+        dispatch(setId(id))
+      }
+
 
     setTimeout(() => {
       setSuccessAddToCart(true)
-    }, 500);
+    }, 500)
 
     setTimeout(() => {
       setSuccessAddToCart(false)
-    }, 4000);
-
-    dispatch(setProduct({
-      ...infoProduct
-    }))
-
-    dispatch(setTotal((infoProduct.basePrice - infoProduct.discount + (dataSize ? dataSize.additionalPrice : 0) + (dataVariant ? dataVariant.additionalPrice : 0)) * quantity))
-    dispatch(setSize(size))
-    dispatch(setVariant(variant))
-    dispatch(setQuantity(quantity))
-    dispatch(setId(id))
+    }, 4000)
 
     // navigate('/checkout')
   }
-   // add to redux end
-
-
+  // add to redux end
 
   // recommendation products start
   const [dataProducts, setDataProducts] = useState()
@@ -78,9 +128,7 @@ const ProductDetails = () => {
   const [nextPage, setNextPage] = useState()
   const [prevPage, setprevPage] = useState()
   const [disable, setDisable] = useState(false)
-  const[currentPage, setCurrentPage] = useState()
-
-
+  const [currentPage, setCurrentPage] = useState()
 
   const recommendProducts = async () => {
     try {
@@ -89,68 +137,41 @@ const ProductDetails = () => {
         {
           params: {
             limit: 3,
-            isRecommended: true
+            isRecommended: true,
           },
         }
-      );
+      )
 
-      console.log(data.results)
-      setDataProducts(data.results);
-      setCurrentPage(data.pageInfo.currentPage);
-      setTotalPage(data.pageInfo.totalPage);
-      setNextPage(data.pageInfo.nextPage);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-
-
-  const pageNavigator = async (page) => {
-    try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`, {
-        params: {
-          limit: 3,
-          page,
-          isRecommended: true
-        }
-      })
-      
-        console.log(data.results)
-        setDataProducts(data.results)
-        setNextPage(data.pageInfo.nextPage)
-        setprevPage(data.pageInfo.prevPage)
-        setCurrentPage(data.pageInfo.currentPage)
-
-        if(data.pageInfo.nextPage === null){
-          setDisable(true)
-        }else{
-          setDisable(false)
-        }
+      setDataProducts(data.results)
+      setCurrentPage(data.pageInfo.currentPage)
+      setTotalPage(data.pageInfo.totalPage)
+      setNextPage(data.pageInfo.nextPage)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const nextPageNavigator = async () => {
+  const pageNavigator = async (page) => {
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`, {
-        params: {
-          limit: 3,
-          page: nextPage,
-          isRecommended: true
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/products`,
+        {
+          params: {
+            limit: 3,
+            page,
+            isRecommended: true,
+          },
         }
-      })
-      
-      console.log(data.results)
+      )
+
       setDataProducts(data.results)
       setNextPage(data.pageInfo.nextPage)
       setprevPage(data.pageInfo.prevPage)
       setCurrentPage(data.pageInfo.currentPage)
 
-      if(data.pageInfo.nextPage === null){
+      if (data.pageInfo.nextPage === null) {
         setDisable(true)
-      }else{
+      } else {
         setDisable(false)
       }
     } catch (error) {
@@ -158,26 +179,55 @@ const ProductDetails = () => {
     }
   }
 
-
-  const prevPageNavigator = async () => {
+  const nextPageNavigator = async () => {
     try {
-      const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/products`, {
-        params: {
-          limit: 3,
-          page: prevPage,
-          isRecommended: true
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/products`,
+        {
+          params: {
+            limit: 3,
+            page: nextPage,
+            isRecommended: true,
+          },
         }
-      })
-      
-      console.log(data.results)
+      )
+
       setDataProducts(data.results)
       setNextPage(data.pageInfo.nextPage)
       setprevPage(data.pageInfo.prevPage)
       setCurrentPage(data.pageInfo.currentPage)
 
-      if(data.pageInfo.nextPage === null){
+      if (data.pageInfo.nextPage === null) {
         setDisable(true)
-      }else{
+      } else {
+        setDisable(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const prevPageNavigator = async () => {
+    try {
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_SERVER_URL}/products`,
+        {
+          params: {
+            limit: 3,
+            page: prevPage,
+            isRecommended: true,
+          },
+        }
+      )
+
+      setDataProducts(data.results)
+      setNextPage(data.pageInfo.nextPage)
+      setprevPage(data.pageInfo.prevPage)
+      setCurrentPage(data.pageInfo.currentPage)
+
+      if (data.pageInfo.nextPage === null) {
+        setDisable(true)
+      } else {
         setDisable(false)
       }
     } catch (error) {
@@ -186,23 +236,20 @@ const ProductDetails = () => {
   }
   // recommendation products end
 
-
-
   const clickImage = (event) => {
-    const url = event.target.style.backgroundImage
-    const prefix = "url"
-    const imageUrl = url.slice(prefix.length).replaceAll(/[()"]/g, '')
+    const url = event.target.style.backgroundImage;
+    const prefix = "url";
+    const imageUrl = url.slice(prefix.length).replaceAll(/[()"]/g, "")
     setMainImage(imageUrl)
   }
-
 
   useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth'
-    });
-      
+      behavior: "smooth",
+    })
+
     recommendProducts()
 
     dataDetails()
@@ -237,8 +284,7 @@ const ProductDetails = () => {
                     backgroundSize: "cover",
                   }}
                   className={`flex-1 w-full h-full active:scale-95 transition-all duration-300`}
-                >
-                </div>
+                ></div>
               ))}
           </div>
         </div>
@@ -283,53 +329,53 @@ const ProductDetails = () => {
         </h1>
 
         <div className="flex justify-center gap-4 sm:gap-12 mb-44 sm:mb-52 w-md sm:w-fit flex-wrap gap-y-44">
-          {infoProduct && dataProducts ? (
-            dataProducts.map((product) =>
-            product.discount == 0 ? (
-              <CardProduct
-                id={product.id}
-                key={product.id}
-                productName={product.name}
-                description={product.description}
-                rating={product.rating}
-                price={product.basePrice}
-                image={product.image}
-                handleDetails={dataDetails}
-                tag={product.tag}
-              />
-            ) : (
-              <CardProduct
-                id={product.id}
-                key={product.id}
-                productName={product.name}
-                description={product.description}
-                rating={product.rating}
-                basePrice={product.basePrice}
-                discountPrice={product.basePrice - product.discount}
-                image={product.image}
-                handleDetails={dataDetails}
-                tag={product.tag}
-              />
-            )
-          )
-          ): ''}
+          {infoProduct && dataProducts
+            ? dataProducts.map((product) =>
+                product.discount == 0 ? (
+                  <CardProduct
+                    id={product.id}
+                    key={product.id}
+                    productName={product.name}
+                    description={product.description}
+                    rating={product.rating}
+                    price={product.basePrice}
+                    image={product.image}
+                    handleDetails={dataDetails}
+                    tag={product.tag}
+                  />
+                ) : (
+                  <CardProduct
+                    id={product.id}
+                    key={product.id}
+                    productName={product.name}
+                    description={product.description}
+                    rating={product.rating}
+                    basePrice={product.basePrice}
+                    discountPrice={product.basePrice - product.discount}
+                    image={product.image}
+                    handleDetails={dataDetails}
+                    tag={product.tag}
+                  />
+                )
+              )
+            : ""}
         </div>
 
-        {infoProduct && infoProduct.productCategory &&
-        <PageNavigation
-          totalPage={totalPage}
-          pageHandle={pageNavigator}
-          nextPageHandle={nextPageNavigator}
-          prevPageHandle={prevPageNavigator}
-          handleDisable={disable}
-          currentPage={currentPage}
-        />
-        }
+        {infoProduct && (
+          <PageNavigation
+            totalPage={totalPage}
+            pageHandle={pageNavigator}
+            nextPageHandle={nextPageNavigator}
+            prevPageHandle={prevPageNavigator}
+            handleDisable={disable}
+            currentPage={currentPage}
+          />
+        )}
       </div>
 
       <Footer />
     </body>
-  );
-};
+  )
+}
 
 export default ProductDetails;

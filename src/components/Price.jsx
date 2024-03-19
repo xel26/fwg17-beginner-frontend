@@ -11,7 +11,7 @@ const Price = ({basePrice, discountPrice, price}) => {
     }
 
     </div>
-  );
-};
+  )
+}
 
 export default Price
