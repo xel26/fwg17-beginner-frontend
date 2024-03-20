@@ -294,14 +294,9 @@ const Home = () => {
 
             <Link
               to={token ? '/products' : '/login'}
-              className="relative w-fit text-white bg-gradient-to-br from-[#7E6363] to-black py-2 px-3 rounded-md text-xs sm:text-sm font-semibold active:scale-95 transition-all overflow-hidden"
+              className={`relative text-white bg-gradient-to-br from-[#7E6363] to-black py-2 px-3 rounded-md text-xs sm:text-sm font-semibold active:scale-95 transition-all overflow-hidden max-w-fit duration-1000 delay-1000 ${display ? "opacity-100 " : "opacity-0 "}`}
             >
-              Get Started
-              <span
-                className={`absolute top-0 right-0 h-full bg-gradient-to-bl from-[#7E6363] to-black transition-all duration-1000 delay-1000 ${
-                  display ? "w-0" : " w-full"
-                }`}
-              ></span>
+              <p>Get Started</p>
             </Link>
             <div className="flex divide-x-2">
               <div className="flex-1 flex">

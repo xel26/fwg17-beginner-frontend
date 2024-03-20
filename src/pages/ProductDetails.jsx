@@ -61,7 +61,7 @@ const ProductDetails = () => {
   const addToCart = (quantity, size, variant, dataSize, dataVariant, id) => {
     const total =
       (infoProduct.basePrice -
-        infoProduct.discount.Int64 +
+        infoProduct.discount +
         (dataSize ? dataSize.additionalPrice : 0) +
         (dataVariant ? dataVariant.additionalPrice : 0)) *
       quantity;

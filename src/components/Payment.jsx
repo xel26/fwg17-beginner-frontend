@@ -128,9 +128,9 @@ const Payment = () => {
           >
             Checkout
           </button>
-          <p className="text-xs text-[#4F5665]">We Accept</p>
+          {/* <p className="text-xs text-[#4F5665]">We Accept</p> */}
 
-          <div className="flex flex-wrap justify-between gap-2 items-center">
+          {/* <div className="flex flex-wrap justify-between gap-2 items-center">
             <div>
               <img src={BRI} />
             </div>
@@ -154,11 +154,11 @@ const Payment = () => {
             <div>
               <img src={PayPal} />
             </div>
-          </div>
+          </div> */}
 
-          <p className="text-xs text-[#4F5665]">
+          {/* <p className="text-xs text-[#4F5665]">
             *Get Discount if you pay with Bank Central Asia
-          </p>
+          </p> */}
         </div>
       </div>
     )
