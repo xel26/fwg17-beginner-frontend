@@ -371,7 +371,7 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0 sm:px-6">
+        <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0">
           {dataProducts &&
             dataProducts.map((product) => (
               <CardProduct

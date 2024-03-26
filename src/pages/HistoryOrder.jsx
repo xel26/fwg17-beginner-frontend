@@ -4,10 +4,11 @@ import moment from 'moment'
 import {
   FiMessageSquare,
   FiAlignRight,
+  FiCoffee
 } from "react-icons/fi"
 
 import { useSelector } from "react-redux"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
@@ -22,6 +23,8 @@ const optionFilter = ["On Progress", "Sending Goods", "Finish Order"]
 
 
 const HistoryOrder = () => {
+  const navigate = useNavigate()
+
   const [searchParams, setSearchParams] = useSearchParams()
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
@@ -245,6 +248,11 @@ const HistoryOrder = () => {
     }, 6000)
   }
 
+  const explore = (event) => {
+    event.preventDefault()
+    navigate("/products")
+  }
+
   useEffect(() => {
     if (searchParams.size !== 0){
       filterStatus()
@@ -314,7 +322,7 @@ const HistoryOrder = () => {
                   )} ${moment(order.createdAt).format("YYYY")}`}
                   total={parseInt(order.subtotal)}
                   statusDelivery={order.status}
-                  image={defaultHistoryOrder}
+                  image={order.productsImage[0]}
                 />
               ))}
           </div>
@@ -339,17 +347,16 @@ const HistoryOrder = () => {
           </div>
 
           <div className="relative bg-black rounded-2xl w-fit p-1.5 flex items-center justify-center">
-            <FiMessageSquare color="white" size={25} />
-            <FiAlignRight className="absolute top-2.5 text-[#A87C7C] h-3" />
+            <FiCoffee color="white" size={25} />
+            {/* <FiAlignRight className="absolute top-2.5 text-[#A87C7C] h-3" /> */}
           </div>
-          <h4 className="text-[#4F5665] font-bold text-sm">Send Us Message</h4>
+          <h4 className="text-[#4F5665] font-bold text-sm">Coffee Shop Web</h4>
           <p className="text-[#4F5665] text-xs">
-            if your unable to find answer or find your product quickly, please
-            describe your problem and tell us. we will give you solution.
+          We provide high quality beans, good taste, and healthy meals made by love just for you. Start your day with us for a bigger smile!
           </p>
           <Button
-            handleSubmit={handleSendMessage}
-            value="Send Message"
+            handleSubmit={explore}
+            value="Explore Our Products"
             py="1.5"
           />
         </div>

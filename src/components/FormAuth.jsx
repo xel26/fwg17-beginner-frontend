@@ -180,7 +180,7 @@ const FormAuth = ({ handleAuth, type}) => {
               <Link to="/forgot-password" className="text-[#7E6363] flex justify-end text-sm">Forgot Password?</Link>
             ): type == "Create New Password" ? (
               <div className="flex justify-end text-sm">
-              <p>Did not receive the email?</p>
+              <p>Didn't receive the email?</p>
               <Link to="/forgot-password" className="text-[#7E6363]">Resend</Link>
               </div>
             ): ''
