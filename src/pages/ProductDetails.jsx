@@ -19,6 +19,7 @@ import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
 import { setDetailProduct } from "../redux/reducers/detailProduct";
+import Skeleton from "react-loading-skeleton";
 
 const ProductDetails = () => {
   const products = useSelector((state) => state.products.data)

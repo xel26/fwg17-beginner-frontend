@@ -19,6 +19,7 @@ import HistoryOrder from './pages/HistoryOrder'
 import OrderDetails from './pages/OrderDetails'
 import Profile from './pages/Profile'
 import PrivateRoute from './components/privateRoute'
+import { SkeletonTheme } from 'react-loading-skeleton'
 
 const router = createBrowserRouter([
   {
@@ -70,12 +71,14 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <RouterProvider router={router} />
-      </PersistGate>
-    </Provider>
-  )
+    <SkeletonTheme baseColor='#000' highlightColor='#3E3232'>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <RouterProvider router={router} />
+        </PersistGate>
+      </Provider>
+    </SkeletonTheme>
+  );
 }
 
 export default App
