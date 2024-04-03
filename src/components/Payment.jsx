@@ -6,6 +6,7 @@ import ovo from "../assets/media/ovo.png"
 import PayPal from "../assets/media/paypal.png"
 
 import Info from "./Info"
+import Alert from "./Alert"
 
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
@@ -52,12 +53,17 @@ const Payment = () => {
   const tax = Math.round(totalOrder * 0.025)
 
   const [OrderSuccess, setOrderSuccess] = useState()
+  const [processing, setProcessing] = useState(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const checkoutAction = async (event) => {
     event.preventDefault()
+
+    setTimeout(() => {
+      setProcessing(true)
+    }, 500);
 
     const form = new URLSearchParams()
     form.append("productId", productId)
@@ -76,9 +82,8 @@ const Payment = () => {
         }
       })
 
-      setTimeout(() => {
-        setOrderSuccess(true)
-      }, 1000)
+      setProcessing(false)
+      setOrderSuccess(true)
       
       setTimeout(() => {
         setOrderSuccess(false)
@@ -106,7 +111,11 @@ const Payment = () => {
     return (
       <div className=" flex-1 h-fit flex flex-col">
         <div className={`${OrderSuccess ? "block " : "hidden"} absolute left-2 sm:left-96 top-24`}>
-          <Info message="order placed successfully... have a coffee day!" />
+          <Alert showAlert={true} isSuccess={true} message="order placed successfully... have a coffee day!" />
+        </div>
+
+        <div className={`${processing ? "block " : "hidden"} absolute left-2 sm:left-96 top-24`}>
+          <Info message="Processing your order... Almost there, just a moment!" processing={true}/>
         </div>
 
         <div className="flex pt-1 h-12 font-semibold">

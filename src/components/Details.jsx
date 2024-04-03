@@ -1,19 +1,17 @@
 import axios from "axios"
 import { FiThumbsUp, FiShoppingCart, FiPlus, FiMinus } from "react-icons/fi"
 import { useState } from "react"
-import { Link } from "react-router-dom"
 
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 
 import Price from "./Price"
 import Rating from "./Rating"
 import Tag from "../components/Tag"
 import OptionVariety from "./OptionVariety"
-import Info from "./Info"
+import Alert from "./Alert"
 
 
 const Details = ({id, productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, variants, handleAddToCart, addToCart }) => {
-  const dataProfile = useSelector(state => state.profile.data)
   const token = useSelector(state => state.auth.token)
 
   // quantity start
@@ -51,7 +49,7 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
   }
 
 
-    const getDataVariant = async (variant) => {
+  const getDataVariant = async (variant) => {
       try {
         const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/data-variant?name=${variant}`, {
           headers: {
@@ -62,7 +60,7 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
       } catch (error) {
         console.log(error)
       }
-    }
+  }
 
     
   const [size, setSize] = useState()
@@ -85,12 +83,10 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
 
   return (
     <div
-      className="w-full sm:flex-1 flex flex-col gap-3 sm:gap-[0.45rem] h-5/6 "
+      className="w-full sm:flex-1 flex flex-col gap-1 sm:gap-2 h-5/6 "
     >
-      <div
-        className={`${addToCart ? "block" : "hidden"} absolute left-4 top-20 sm:left-[48rem] sm:top-16 w-full z-50`}
-      >
-        <Info message={`success add to cart. . . place your order now !`} />
+      <div className={`${addToCart ? "block" : "hidden"} absolute left-4 top-20 sm:left-[48rem] sm:top-16 z-50`}>
+        <Alert showAlert={true} isSuccess={true} message={`success add to cart. . . place your order now !`} />
       </div>
 
       {tag && <Tag text={tag} />}

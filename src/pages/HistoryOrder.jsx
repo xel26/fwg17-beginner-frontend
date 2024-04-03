@@ -14,7 +14,6 @@ import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import PageNavigation from "../components/PageNavigation"
 import Button from "../components/Button"
-import defaultHistoryOrder from "../assets/media/default-history-order.jpg"
 import CardHistoryOrder from "../components/CardHistoryOrder"
 import Info from '../components/Info'
 import Alert from "../components/Alert"
@@ -34,17 +33,22 @@ const HistoryOrder = () => {
   const [orders, setOrders] = useState()
   const [totalData, setTotalData] = useState(0)
   const [errorMessage, setErrorMessage] = useState()
-  const [error, setError] = useState(true)
+  const [error, setError] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
 
   const token = useSelector(state => state.auth.token)
 
   const dataOrders = async () => {
+    setIsProcessing(true)
+
     try {
       const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/history-order`, {
         headers: {
           'Authorization' : `Bearer ${token}`
         }
       })
+
+      setIsProcessing(false)
 
       setOrders(data.results)
       setTotalPage(data.pageInfo.totalPage)
@@ -58,11 +62,15 @@ const HistoryOrder = () => {
     } catch ({response:{data:{message}}}) {
       setErrorMessage(message)
       setError(true)
+      setIsProcessing(false)
     }
   }
 
 
   const filterStatus = async (event) => {
+    setOrders(false)
+    setIsProcessing(true)
+
     let filterStatus
     if (event){
       filterStatus = event.target.innerText
@@ -77,6 +85,8 @@ const HistoryOrder = () => {
           'Authorization' : `Bearer ${token}`
         }
       })
+
+      setIsProcessing(false)
    
       setOrders(data.results)
       setTotalPage(data.pageInfo.totalPage)
@@ -92,12 +102,16 @@ const HistoryOrder = () => {
       setError(true)
       setOrders(null)
       setFilter(filterStatus)
+      setIsProcessing(false)
       
     }
   }
 
 
   const pageNavigator = async (page) => {
+    setOrders(false)
+    setIsProcessing(true)
+
     window.scrollTo({
       top: 0,
       left: 0,
@@ -117,6 +131,7 @@ const HistoryOrder = () => {
             },
           }
         )
+        setIsProcessing(false)
 
         setOrders(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -132,6 +147,7 @@ const HistoryOrder = () => {
             },
           }
         )
+        setIsProcessing(false)
         
         setOrders(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -139,13 +155,21 @@ const HistoryOrder = () => {
         setCurrentPage(data.pageInfo.currentPage)
 
       }
-    } catch (error) {
-      console.log(error)
+    } catch ({response:{data:{message}}}) {
+      setErrorMessage(message)
+      setError(true)
+      setOrders(null)
+      setFilter(filterStatus)
+      setIsProcessing(false)
+      
     }
   }
 
 
   const nextPageNavigator = async () => {
+    setOrders(false)
+    setIsProcessing(true)
+
     window.scrollTo({
       // note: bug saat ke halaman terakhir
       top: 0,
@@ -166,6 +190,7 @@ const HistoryOrder = () => {
             },
           }
         )
+        setIsProcessing(false)
 
         setOrders(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -181,19 +206,28 @@ const HistoryOrder = () => {
             },
           }
         )
+        setIsProcessing(false)
 
         setOrders(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
       }
-    } catch (error) {
-      console.log(error)
+    } catch ({response:{data:{message}}}) {
+      setErrorMessage(message)
+      setError(true)
+      setOrders(null)
+      setFilter(filterStatus)
+      setIsProcessing(false)
+      
     }
   }
 
 
   const prevPageNavigator = async () => {
+    setOrders(false)
+    setIsProcessing(true)
+
     window.scrollTo({
       // note: bug saat ke halaman terakhir
       top: 0,
@@ -211,6 +245,7 @@ const HistoryOrder = () => {
             },
           }
         )
+        setIsProcessing(false)
 
         setOrders(data.results)
         setNextPage(data.pageInfo.nextPage)
@@ -226,14 +261,20 @@ const HistoryOrder = () => {
             },
           }
         )
+        setIsProcessing(false)
 
         setOrders(data.results)
         setNextPage(data.pageInfo.nextPage)
         setPrevPage(data.pageInfo.prevPage)
         setCurrentPage(data.pageInfo.currentPage)
       }
-    } catch (error) {
-      console.log(error)
+    } catch ({response:{data:{message}}}) {
+      setErrorMessage(message)
+      setError(true)
+      setOrders(null)
+      setFilter(filterStatus)
+      setIsProcessing(false)
+      
     }
   }
 
@@ -303,10 +344,12 @@ const HistoryOrder = () => {
               error ? "pb-12" : "pb-0"
             }`}
           >
-            <div className={`${error ? "block " : "hidden"} z-50 `}>
-              <Info
-                message={`${filter ? `No order history under the '${filter}' status currently!` : 'No order for all status currently!'}`}
-              />
+            <div className={`${error && !isProcessing ? "block " : "hidden"} z-50 `}>
+              <Info message={`${filter ? `No order history under the '${filter}' status currently!` : 'No order for all status currently!'}`}/>
+            </div>
+
+            <div className={`${isProcessing && !orders ? "block " : "hidden"} z-50 `}>
+              <Info message="Retrieving order history... wait a moment" processing={true}/>
             </div>
 
             {orders &&

@@ -4,13 +4,16 @@ import ButtonSwipe from "../components/ButtonSwipe";
 import PageIndicator from "../components/PageIndicator";
 import PageNavigation from "../components/PageNavigation";
 import CardProduct from "../components/CardProduct";
-import { FiList, FiSearch } from "react-icons/fi";
 import GreenKuponStiker from "../assets/media/stiker-kupon-hijau.png";
 import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
+import Info from "../components/Info";
+import LoadingCardProduct from "../components/LoadingCardProduct";
+
+
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import Info from "../components/Info";
+import { FiList, FiSearch } from "react-icons/fi";
 
 
 // filter start
@@ -236,7 +239,7 @@ const Products = () => {
     setMobileFilter(!mobileFilter)
   }
 
-  const [dataProducts, setDataProducts] = useState()
+  const [dataProducts, setDataProducts] = useState(false)
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
   const [prevPage, setPrevPage] = useState()
@@ -244,6 +247,8 @@ const Products = () => {
   const [queryParameter, setQueryParameter] = useState()
   const [error, setError] = useState(false)
 
+
+  const CountProducts = [1, 2, 3, 4, 5, 6]
 
   const listAllProducts = async () => {
     try {
@@ -260,6 +265,8 @@ const Products = () => {
 
 
   const searchProduct = async (event) => {
+    setDataProducts(false)
+
     if (event){
       event.preventDefault()
       searchParams.delete("searchKey")
@@ -332,7 +339,7 @@ const Products = () => {
       }
 
       setError(true)
-      setDataProducts(null)
+      setDataProducts(false)
       
       setTimeout(() => {
         setError(false)
@@ -344,6 +351,8 @@ const Products = () => {
 
 
   const pageNavigator = async (page) => {
+    setDataProducts(false)
+
     window.scrollTo({
       top: 450,
       left: 0,
@@ -378,6 +387,8 @@ const Products = () => {
 
 
   const nextPageNavigator = async () => {
+    setDataProducts(false)
+
     window.scrollTo({                           // note: bug saat ke halaman terakhir
       top: 450,
       left: 0,
@@ -412,6 +423,8 @@ const Products = () => {
 
   
   const prevPageNavigator = async () => {
+    setDataProducts(false)
+
     window.scrollTo({                           // note: bug saat ke halaman terakhir
       top: 450,
       left: 0,
@@ -584,7 +597,7 @@ const Products = () => {
               />
             </div>
 
-                {dataProducts &&
+                {dataProducts ?
                   dataProducts.map((product) =>
                     product.discount == 0 ? (
                       <CardProduct
@@ -610,7 +623,11 @@ const Products = () => {
                         tag={product.tag}
                       />
                     )
-                  )}
+                  ): CountProducts.map((_, index) => {
+                    return (
+                      <LoadingCardProduct key={index}/>
+                    )
+                  })}
               </div>
             </div>
 

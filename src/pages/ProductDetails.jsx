@@ -19,6 +19,8 @@ import CardProduct from "../components/CardProduct";
 import PageNavigation from "../components/PageNavigation";
 import Details from "../components/Details";
 import { setDetailProduct } from "../redux/reducers/detailProduct";
+import LoadingCardProduct from "../components/LoadingCardProduct";
+import LoadingProductDetails from "../components/LoadingProductDetails";
 import Skeleton from "react-loading-skeleton";
 
 const ProductDetails = () => {
@@ -31,10 +33,13 @@ const ProductDetails = () => {
 
   // details product start
   const { id } = useParams()
-  const [infoProduct, setInfoProduct] = useState()
+  const [infoProduct, setInfoProduct] = useState(false)
+  const countProductImages = [1, 2, 3]
   // console.log(infoProduct)
 
   const dataDetails = async (productId) => {
+    setInfoProduct(false)
+
     window.scrollTo({
       top: 0,
       left: 0,
@@ -59,6 +64,7 @@ const ProductDetails = () => {
 
   // add to redux start
   const [successAddToCart, setSuccessAddToCart] = useState(false)
+
   const addToCart = (quantity, size, variant, dataSize, dataVariant, id) => {
     const total =
       (infoProduct.basePrice -
@@ -124,12 +130,14 @@ const ProductDetails = () => {
   // add to redux end
 
   // recommendation products start
-  const [dataProducts, setDataProducts] = useState()
+  const [dataProducts, setDataProducts] = useState(false)
   const [totalPage, setTotalPage] = useState()
   const [nextPage, setNextPage] = useState()
   const [prevPage, setprevPage] = useState()
   const [disable, setDisable] = useState(false)
   const [currentPage, setCurrentPage] = useState()
+  
+  const CountRecommendProducts = [1, 2, 3]
 
   const recommendProducts = async () => {
     try {
@@ -153,6 +161,8 @@ const ProductDetails = () => {
   }
 
   const pageNavigator = async (page) => {
+    setDataProducts(false)
+
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_SERVER_URL}/products`,
@@ -181,6 +191,8 @@ const ProductDetails = () => {
   }
 
   const nextPageNavigator = async () => {
+    setDataProducts(false)
+
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_SERVER_URL}/products`,
@@ -209,6 +221,8 @@ const ProductDetails = () => {
   }
 
   const prevPageNavigator = async () => {
+    setDataProducts(false)
+    
     try {
       const { data } = await axios.get(
         `${import.meta.env.VITE_SERVER_URL}/products`,
@@ -262,7 +276,7 @@ const ProductDetails = () => {
 
       <section className="h-fit sm:h-screen w-5/6 flex flex-col sm:flex-row items-center mt-20 sm:mt-8 gap-4 ">
         <div className="w-full sm:flex-1 flex flex-col items-center gap-2 h-96 sm:h-5/6">
-          {infoProduct && (
+          {infoProduct ? (
             <div
               style={{
                 backgroundImage: `url('${mainImage}')`,
@@ -271,10 +285,10 @@ const ProductDetails = () => {
               }}
               className={`w-full sm:w-5/6 h-72 sm:h-[22.5rem]`}
             ></div>
-          )}
+          ) : <div className="w-full sm:w-5/6"> <Skeleton className="h-72 sm:h-[22.5rem]"/>  </div>}
 
           <div className="flex-1 flex justify-between gap-2 w-full sm:w-5/6">
-            {infoProduct &&
+            {infoProduct ?
               infoProduct.productImages.map((item) => (
                 <div
                   onClick={clickImage}
@@ -286,9 +300,15 @@ const ProductDetails = () => {
                   }}
                   className={`flex-1 w-full h-full active:scale-95 transition-all duration-300`}
                 ></div>
-              ))}
+              )) : countProductImages.map((_, index) => {
+                return (
+                  <div key={index} className="flex-1 w-full"> <Skeleton className="h-full"/> </div>
+                )
+              })}
           </div>
         </div>
+
+        {/* <LoadingProductDetails/> */}
 
         {infoProduct && infoProduct.discount == 0 ? (
           <Details
@@ -304,8 +324,7 @@ const ProductDetails = () => {
             handleAddToCart={addToCart}
             addToCart={successAddToCart}
           />
-        ) : (
-          infoProduct && (
+        ) : infoProduct ? (
             <Details
               id={infoProduct.id}
               productName={infoProduct.name}
@@ -320,8 +339,7 @@ const ProductDetails = () => {
               handleAddToCart={addToCart}
               addToCart={successAddToCart}
             />
-          )
-        )}
+        ): <LoadingProductDetails/>}
       </section>
 
       <div className="h-fit sm:h-screen flex flex-col justify-center items-center w-5/6 gap-4 mb-4 sm:mb-0">
@@ -359,7 +377,11 @@ const ProductDetails = () => {
                   />
                 )
               )
-            : ""}
+            : CountRecommendProducts.map((_, index) => {
+              return (
+                <LoadingCardProduct key={index}/>
+              )
+            })}
         </div>
 
         {infoProduct && (

@@ -3,16 +3,21 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from "../components/Alert";
+import Info from '../components/Info'
 
 const Register = () => {
   const [message, setMessage] = useState()
   const [showAlert, setShowAlert] = useState()
   const [isSuccess, setIsSuccess] = useState()
+  const [isProcessing, setIsProcessing] = useState(false)
 
   const navigate = useNavigate()
 
   const authRegister = async (event) => {
     event.preventDefault()
+
+    setIsProcessing(true)
+
     const { value: fullName } = event.target.fullName;
     const { value: email } = event.target.email;
     const { value: password } = event.target.password;
@@ -22,6 +27,7 @@ const Register = () => {
       setMessage('confirm password does not match!. . . please double-check')
       setIsSuccess(false)
       setShowAlert(true)
+      setIsProcessing(false)
 
       setTimeout(() => {
         setShowAlert(false)
@@ -40,6 +46,7 @@ const Register = () => {
         setMessage(data.message)
         setIsSuccess(true)
         setShowAlert(true)
+        setIsProcessing(false)
   
         setTimeout(() => {
           setShowAlert(false)
@@ -55,6 +62,7 @@ const Register = () => {
         setMessage(message)
         setIsSuccess(false)
         setShowAlert(true)
+        setIsProcessing(false)
   
         setTimeout(() => {
           setShowAlert(false)
@@ -71,10 +79,14 @@ const Register = () => {
       ></div>
 
       <div className="relative flex flex-1 items-center justify-center">
-        <div className="absolute top-9 left-0 sm:left-9 z-50">
-          <Alert showAlert={showAlert} isSuccess={isSuccess} message={message} />
-        </div>
-        <FormAuth handleAuth={authRegister} type="Register" />
+        <div className={`${!isProcessing ? 'block' : 'hidden'} absolute top-9 left-3 sm:left-9 z-50`}>
+              <Alert showAlert={showAlert} isSuccess={isSuccess} message={message} />
+          </div>
+      
+          <div className={`${isProcessing ? 'block' : 'hidden'} absolute top-9 left-3 sm:left-9 z-50`}>
+              <Info message="Registering... Validating your information" processing={true}/>
+          </div>
+        <FormAuth handleAuth={authRegister} type="Register" processing={isProcessing}/>
       </div>
     </div>
   )

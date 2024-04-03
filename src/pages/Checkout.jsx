@@ -64,8 +64,8 @@ const Checkout = () => {
           <div className="flex flex-col w-full sm:w-7/12 gap-6 sm:gap-16">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
-                <div className={`${products.length == 0 || !profile.address ? 'block ': 'hidden'} `}>
-                  <Info message={!profile.address ? "please add your address to create an order" : "empty cart. . . let's create a coffee moment !"} />
+                <div className={`${products.length == 0 || (!Object.keys(profile).length === 0 && !profile.address) ? 'block': 'hidden'} `}>
+                  <Info message={!Object.keys(profile).length === 0 && !profile.address ? "please add your address to create an order" : "empty cart. . . let's create a coffee moment !"} />
                 </div>
                 <h4 className="font-semibold">
                   {products.length != 0 && "Your Order"}

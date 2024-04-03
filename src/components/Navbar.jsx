@@ -45,7 +45,8 @@ const Navbar = ({home}) => {
   const navigate = useNavigate()
   
   const getProfile =  async () => {
-    if(token){
+    console.log("tes")
+    if(token && Object.keys(dataProfile).length === 0){
       try {
         const {data} = await axios.get(`${import.meta.env.VITE_SERVER_URL}/profile`, {
           headers: {

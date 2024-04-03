@@ -3,17 +3,21 @@ import FormAuth from '../components/FormAuth'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Alert from '../components/Alert'
+import Info from '../components/Info'
 
 const ForgotPassword = () => {
   const [message, setMessage] = useState()
   const [showAlert, setShowAlert] = useState()
   const [isSuccess, setIsSuccess] = useState()
+  const [isProcessing, setIsProcessing] = useState(false)
 
   const navigate = useNavigate()
 
 
   const reqCreatNewPass = async (event) => {
     event.preventDefault()
+
+    setIsProcessing(true)
 
     const {value: email} = event.target.email
 
@@ -26,6 +30,9 @@ const ForgotPassword = () => {
       setIsSuccess(true)
       setShowAlert(true)
 
+      setIsProcessing(false)
+
+
       setTimeout(() => {
         setShowAlert(false)
         navigate('/create-new-password')
@@ -37,6 +44,7 @@ const ForgotPassword = () => {
       setMessage(message)
       setIsSuccess(false)
       setShowAlert(true)
+      setIsProcessing(false)
 
       setTimeout(() => {
         setShowAlert(false)
@@ -52,10 +60,14 @@ const ForgotPassword = () => {
         ></div>
 
         <div className="relative flex flex-1 items-center justify-center md:justify-start sm:translate-x-[-2rem] md:translate-x-0">
-          <div className="absolute top-9 left-0 z-50">
+          <div className={`${!isProcessing ? 'block' : 'hidden'} absolute top-14 sm:top-16 left-3 sm:left-0 z-50`}>
             <Alert showAlert={showAlert} isSuccess={isSuccess} message={message} />
           </div>
-          <FormAuth handleAuth={reqCreatNewPass} type="Forgot Password" />
+
+          <div className={`${isProcessing ? 'block' : 'hidden'} absolute top-14 sm:top-16 left-3 sm:left-0 z-50`}>
+            <Info message="Verifying... Ensuring email credentials" processing={true}/>
+          </div>
+          <FormAuth handleAuth={reqCreatNewPass} type="Forgot Password" processing={isProcessing}/>
         </div>
       </div>
     )

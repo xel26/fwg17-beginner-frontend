@@ -18,7 +18,7 @@ const ButtonAuth = ({value}) => {
 }
 
 
-const FormAuth = ({ handleAuth, type}) => {
+const FormAuth = ({ handleAuth, type, processing}) => {
   const [register, setRegister] = useState([
     {
       name:"fullName",
@@ -195,6 +195,7 @@ const FormAuth = ({ handleAuth, type}) => {
                 : "Submit"
             }
             py="2"
+            isProcessing={processing}
           />
         </form>
 

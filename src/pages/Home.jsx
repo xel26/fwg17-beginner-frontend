@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FiCheckCircle } from "react-icons/fi";
 import { useSelector } from "react-redux";
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -402,6 +400,12 @@ const Home = () => {
                 <LoadingCardProduct key={index}/>
               )
             })}
+
+            {/* {CountRecommendProducts.map((_, index) => {
+              return (
+                <LoadingCardProduct key={index}/>
+              )
+            })} */}
         </div>
       </section>
 
@@ -425,6 +429,8 @@ const Home = () => {
       </section>
 
       <section className="flex justify-center items-center bg-gradient-to-b from-[#3E3232] to-black w-full sm:h-96 py-6 sm:py-12">
+      {/* <LoadingTestimonial/> */}
+
         {dataTesti ? (
           <Testimonial
             fullName={dataTesti[0].fullName}
@@ -440,6 +446,7 @@ const Home = () => {
             currentPage={currentPage}
           />
         ) : <LoadingTestimonial/>}
+
       </section>
 
       <Footer />

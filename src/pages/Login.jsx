@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Alert from '../components/Alert'
+import Info from '../components/Info'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { login as loginAction } from '../redux/reducers/auth'
@@ -13,6 +14,7 @@ const Login = () => {
   const [message, setMessage] = useState()
   const [showAlert, setShowAlert] = useState()
   const [isSuccess, setIsSuccess] = useState()
+  const [isProcessing, setIsProcessing] = useState(false)
 
   const navigate = useNavigate()
   
@@ -21,6 +23,8 @@ const Login = () => {
 
   const authLogin = async (event) => {
     event.preventDefault()
+    setIsProcessing(true)
+
     const {value: email} = event.target.email
     const {value: password} = event.target.password
 
@@ -31,6 +35,8 @@ const Login = () => {
     try{
       const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, form.toString())
       const {token: resultToken} = data.results
+
+      setIsProcessing(false)
       
       setMessage(data.message)
       setIsSuccess(true)
@@ -49,6 +55,7 @@ const Login = () => {
       setMessage(message)
       setIsSuccess(false)
       setShowAlert(true)
+      setIsProcessing(false)
 
       setTimeout(() => {
         setShowAlert(false)
@@ -70,10 +77,15 @@ const Login = () => {
         ></div>
 
         <div className="relative flex flex-1 items-center justify-center">
-          <div className="absolute top-7 left-0 sm:left-9 z-50">
+          <div className={`${!isProcessing ? 'block' : 'hidden'} absolute top-9 sm:top-7 left-3 sm:left-9 z-50`}>
             <Alert showAlert={showAlert} isSuccess={isSuccess} message={message} />
           </div>
-          <FormAuth handleAuth={authLogin} type="Login" />
+
+          <div className={`${isProcessing ? 'block' : 'hidden'} absolute top-9 sm:top-7 left-3 sm:left-9 z-50`}>
+            <Info message="Authenticating... Verifying your credentials" processing={true}/>
+          </div>
+
+          <FormAuth handleAuth={authLogin} type="Login" processing={isProcessing}/>
         </div>
       </div>
     )
