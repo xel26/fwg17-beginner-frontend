@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux"
 import { setProfile as setProfileAction } from "../redux/reducers/profile"
 import { useState } from "react"
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
@@ -11,7 +13,6 @@ import moment from "moment"
 import defaultPhoto from '../assets/media/default-profile.png'
 import Alert from "../components/Alert"
 import Info from "../components/Info"
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton"
 
 
 const Profile = () => {
@@ -20,8 +21,6 @@ const Profile = () => {
   const dispatch = useDispatch()
   
   const registrationDate = Object.keys(dataProfile).length !== 0 && moment(dataProfile.createdAt)
-  console.log(typeof registrationDate === 'object')
-  console.log(registrationDate, typeof registrationDate)
 
   // update profile start
   const [message, setMessage] = useState()
@@ -40,7 +39,7 @@ const Profile = () => {
       
       const fields = ['fullName', 'email', 'phoneNumber', 'address']
       fields.forEach((field) => {
-        if(dataProfile && event.target[field].value && dataProfile[field] !== event.target[field].value){
+        if(event.target[field].value && dataProfile[field] !== event.target[field].value){
           form.append(field, event.target[field].value)
         }
       })
@@ -94,24 +93,54 @@ const Profile = () => {
     }
 
 
+
+    const typeFile = ["image/png", "image/jpg", "image/jpeg"]
+
     const updatePicture = async (event) => {
-      event.preventDefault()
+    event.preventDefault()
 
-      setIsProcessing(true)
+    setIsProcessing(true)
 
-      const [file] = event.target.picture.files
-      console.log(file)
+    const [file] = event.target.picture.files
+    if (!typeFile.includes(file.type)){
+      setIsProcessing(false)
+      setMessage("only jpeg, jpg, and png files allowed")
+      setIsSuccess(false)
+      setShowAlert(true)
+      setIsProcessing(false)
 
-      const form  = new FormData()
-      form.append('picture', file)
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 4000)
+      return
+    }
 
+
+    if (file.size > 2 * 1024 * 1024){
+      setIsProcessing(false)
+      setMessage("The file size exceeds 2MB limit")
+      setIsSuccess(false)
+      setShowAlert(true)
+      setIsProcessing(false)
+
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 4000)
+      return
+    }
+
+      
       try {
+        const form  = new FormData()
+        form.append('picture', file)
+
         const {data} = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/profile`, form, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
           }
         })
+
         setIsProcessing(false)
 
         dispatch(setProfileAction(data.results))
@@ -125,8 +154,8 @@ const Profile = () => {
           setShowAlert(false)
         }, 3000)
 
-      } catch ({response:{data:{message}}}) {
-        setMessage(err)
+      } catch (error) {
+        setMessage(error.Error ? error.Error : error.response.data.message)
         setIsSuccess(false)
         setShowAlert(true)
         setIsProcessing(false)
@@ -283,7 +312,7 @@ const Profile = () => {
           {Object.keys(dataProfile).length !== 0 ? (
             <button
               disabled={
-                (preview && dataProfile) || !dataProfile.picture || isProcessing
+                preview || !dataProfile.picture || isProcessing
               }
               onClick={deletePicture}
               className={`text-xs bg-gradient-to-br from-[#e60000] to-black text-white w-56 sm:w-full rounded p-2 transition-all active:scale-95 disabled:active:scale-100 disabled:transition-none`}
@@ -387,8 +416,7 @@ const Profile = () => {
               name="password"
               label="Password"
               type="text"
-              placeholder="Enter Your Password"
-              defaultValue="******"
+              placeholder="******"
               passProfile={true}
             />
           ) : (
@@ -430,7 +458,7 @@ const Profile = () => {
           )}
 
           {Object.keys(dataProfile).length !== 0 ? (
-            <Button value="Update Profile" py="2" />
+            <Button value="Update Profile" py="2" isProcessing={isProcessing}/>
           ) : (
             <div className="w-full">
               <Skeleton className="text-xl" />

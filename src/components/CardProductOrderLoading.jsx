@@ -9,9 +9,9 @@ const CardProductOrderLoading = ({index}) => {
         </div>
         <div className="flex-1 flex flex-col sm:gap-3 justify-center">
           <div>
-            <Skeleton className="rounded-3xl text-[0.6rem] sm:text-xs p-1.5 w-16 sm:w-20 "/>
+            <Skeleton className="rounded-3xl text-[0.6rem] sm:text-xs p-1 w-14 sm:w-20 "/>
           </div>
-          <Skeleton className="font-bold text-xs sm:text-base"/>
+          <Skeleton className="text-xs sm:text-base"/>
           <div className="flex justify-between gap-2 sm:gap-4">
             <div className="w-full"> <Skeleton className="text-xs sm:text-base"/> </div>
             <div className="w-full"> <Skeleton className="text-xs sm:text-base"/> </div>

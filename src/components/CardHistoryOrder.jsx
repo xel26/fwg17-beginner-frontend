@@ -7,11 +7,11 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
           <img src={image} className="h-28 w-full object-cover object-center"/>
         </div>
 
-        <div className="flex-1 flex flex-col gap-4">
+        <div className="flex-1 flex flex-col gap-2 sm:gap-4">
           <div
-            className="grid grid-cols-2 place-content-between gap-y-6 sm:flex justify-between"
+            className="grid grid-cols-2 place-content-between gap-y-4 sm:flex justify-between"
           >
-            <div className="flex flex-col gap-2 text-[#4F5665]">
+            <div className="flex flex-col gap-1 sm:gap-2 text-[#4F5665]">
               <div className="flex items-center gap-1">
                 <i className="h-3.5 w-fit" data-feather="coffee"></i>
                 <p className="text-xs sm:text-base">No. Order</p>
@@ -21,7 +21,7 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
               </h5>
             </div>
 
-            <div className="flex flex-col gap-2 text-[#4F5665]">
+            <div className="flex flex-col gap-1 sm:gap-2 text-[#4F5665]">
               <div className="flex items-center gap-1">
                 <i className="h-3.5 w-fit" data-feather="calendar"></i>
                 <p className="text-xs sm:text-base">Date</p>
@@ -31,7 +31,7 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
               </h5>
             </div>
 
-            <div className="flex flex-col gap-2 text-[#4F5665]">
+            <div className="flex flex-col gap-1 sm:gap-2 text-[#4F5665]">
               <div className="flex items-center gap-1">
                 <i className="h-3.5 w-fit" data-feather="repeat"></i>
                 <p className="text-xs sm:text-base">Total</p>
@@ -41,13 +41,13 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
               </h5>
             </div>
 
-            <div className="flex flex-col gap-2 text-[#4F5665]">
+            <div className="flex flex-col gap-1 sm:gap-2 text-[#4F5665]">
               <div className="flex items-center gap-1">
                 <i className="h-3.5 w-fit" data-feather="refresh-ccw"></i>
                 <p className="text-xs sm:text-base">Status</p>
               </div>
               <h5
-                className="font-semibold text-white text-xs bg-gradient-to-br from-[#7E6363] to-black p-1.5 rounded-3xl translate-y-[-0.3rem] w-fit"
+                className="font-semibold text-white text-xs bg-gradient-to-br from-[#7E6363] to-black p-1.5 rounded-3xl translate-y-[-0.2rem] w-fit"
               >
                 {statusDelivery}
               </h5>

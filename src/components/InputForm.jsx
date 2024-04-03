@@ -77,7 +77,7 @@ const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, 
             name={name}
             type={type}
             placeholder={placeholder}
-            defaultValue={defaultValue}
+            defaultValue={defaultValue || undefined}
             disabled={name === "password" ? true : false}
           />
         ) : onChange ? (
