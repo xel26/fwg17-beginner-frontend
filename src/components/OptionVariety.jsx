@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux"
+import propTypes from "prop-types"
 
 
 const OptionVariety = ({option, onChange, size, variant, variantsProduct}) => {
@@ -57,6 +58,15 @@ const OptionVariety = ({option, onChange, size, variant, variantsProduct}) => {
         </div>
       </div>
     )
-  }
+}
+
+
+OptionVariety.propTypes = {
+  option: propTypes.string,
+  onChange: propTypes.func,
+  size: propTypes.string,
+  variant: propTypes.string,
+  variantsProduct: propTypes.array
+}
 
   export default OptionVariety

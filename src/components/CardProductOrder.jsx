@@ -10,6 +10,8 @@ import { removeSize } from "../redux/reducers/sizeProducts"
 import { removeVariant } from "../redux/reducers/variantProducts"
 import { removeQuantity } from "../redux/reducers/quantityProducts"
 import { removeId } from "../redux/reducers/productsId"
+import propTypes from "prop-types"
+
 
 const CardProductOrder = ({id, index, productName, quantity, size, variant, image, basePrice, discountPrice, tag}) => {
   const dispatch = useDispatch()
@@ -55,5 +57,20 @@ const CardProductOrder = ({id, index, productName, quantity, size, variant, imag
       </div>
     )
 }
+
+
+CardProductOrder.propTypes = {
+  id: propTypes.number,
+  index: propTypes.number,
+  productName: propTypes.string,
+  quantity: propTypes.number,
+  size: propTypes.string,
+  variant: propTypes.string,
+  image: propTypes.string,
+  basePrice: propTypes.number,
+  discountPrice: propTypes.number,
+  tag: propTypes.string
+}
+
 
 export default CardProductOrder

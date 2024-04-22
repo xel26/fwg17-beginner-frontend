@@ -1,23 +1,77 @@
-import { FaFacebookF, FaTwitter, FaTelegram, FaTelegramPlane } from "react-icons/fa"
+import { FaFacebookF, FaTwitter, FaTelegramPlane } from "react-icons/fa"
 import { FiCoffee} from "react-icons/fi"
 import { Link } from "react-router-dom"
+import propTypes from "prop-types"
 
-const FooterLink = ({destination1, text1, destination2, text2, destination3, text3, destination4, text4, destination5, text5}) => {
+const FooterLink = ({link}) => {
   return (
     <div className="flex flex-col gap-4 text-sm sm:text-base">
       <p className="font-semibold">Product</p>
       <div className="flex flex-col gap-2 text-[#4F5665]">
-        <Link to={destination1} className="hover:text-[#3E3232] transition-colors duration-300">{text1}</Link>
-        <Link to={destination2} className="hover:text-[#3E3232] transition-colors duration-300">{text2}</Link>
-        <Link to={destination3} className="hover:text-[#3E3232] transition-colors duration-300">{text3}</Link>
-        <Link to={destination4} className="hover:text-[#3E3232] transition-colors duration-300">{text4}</Link>
-        <Link to={destination5} className="hover:text-[#3E3232] transition-colors duration-300">{text5}</Link>
+        {link.map((item, index) => {
+          return (
+            <Link key={index} to={item.dest} className="hover:text-[#3E3232] transition-colors duration-300">{item.text}</Link>
+          )
+        })}
       </div>
     </div>
   )
 }
 
+
+
+FooterLink.propTypes = {
+  link: propTypes.array
+}
+
+
+
 const Footer = () => {
+  const footer1 = [
+    {
+      text: "Our Product",
+      dest: "#"
+    },
+    {
+      text: "Pricing",
+      dest: "#"
+    },
+    {
+      text: "Location",
+      dest: "#"
+    },
+    {
+      text: "Countries",
+      dest: "#"
+    },
+    {
+      text: "Blog",
+      dest: "#"
+    }
+  ]
+
+  const footer2 = [
+    {
+      text: "Partner",
+      dest: "#",
+    },
+    {
+      text: "FAQ",
+      dest: "#"
+    },
+    {
+      text: "About Us",
+      dest: "#"
+    },
+    {
+      text: "Privacy Policy",
+      dest: "#"
+    },
+    {
+      text: "Terms of Service",
+      dest: "#"
+    }
+  ]
 
     return (
       <footer className="flex justify-center items-center w-full h-fit py-6 sm:h-fit sm:py-12 bg-[#F8F8F8]">
@@ -39,31 +93,9 @@ const Footer = () => {
             </div>
 
             <div className="flex gap-5 sm:gap-20">
-              <FooterLink
-                destination1="#"
-                text1="Our Product"
-                destination2="#"
-                text2="Pricing"
-                destination3="#"
-                text3="Location"
-                destination4="#"
-                text4="Countries"
-                destination5="#"
-                text5="Blog"
-              />
+              <FooterLink link={footer1}/>
 
-              <FooterLink
-                destination1="#"
-                text1="Partner"
-                destination2="#"
-                text2="FAQ"
-                destination3="#"
-                text3="About Us"
-                destination4="#"
-                text4="Privacy Policy"
-                destination5="#"
-                text5="Terms of Service"
-              />
+              <FooterLink link={footer2}/>
             </div>
 
             <div className="flex flex-col gap-4 text-sm sm:text-base">

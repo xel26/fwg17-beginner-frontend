@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux'
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import CardProductOrderLoading from "../components/CardProductOrderLoading"
+import propTypes from "prop-types"
+
 
 const ListOrderInformation = ({field, value, color}) => {
     return (
@@ -38,6 +40,15 @@ const ListOrderInformation = ({field, value, color}) => {
       </div>
     )
 }
+
+
+ListOrderInformation.propTypes = {
+  field: propTypes.string,
+  value: propTypes.string,
+  color: propTypes.string
+}
+
+
 
 const OrderDetails = () => {
   // const products = useSelector(state => state.product.data)

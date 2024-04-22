@@ -1,4 +1,5 @@
 import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi'
+import propTypes from "prop-types"
 
 const Alert = ({showAlert, isSuccess, message}) => {
     return (
@@ -18,5 +19,13 @@ const Alert = ({showAlert, isSuccess, message}) => {
         </div>
     )
 }
+
+
+Alert.propTypes = {
+  showAlert: propTypes.bool,
+  isSuccess: propTypes.bool,
+  message: propTypes.string
+}
+
 
 export default Alert

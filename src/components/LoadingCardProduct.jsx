@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import propTypes from "prop-types"
 
 const LoadingCardProduct = ({key}) => {
   return (
@@ -33,5 +34,11 @@ const LoadingCardProduct = ({key}) => {
     </div>
   )
 }
+
+
+LoadingCardProduct.propTypes = {
+  key: propTypes.number
+}
+
 
 export default LoadingCardProduct

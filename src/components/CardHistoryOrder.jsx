@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom"
+import propTypes from "prop-types"
+
 
 const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image}) => {
     return (
@@ -61,5 +63,16 @@ const CardHistoryOrder = ({id, orderNumber, date, total, statusDelivery, image})
       </div>
     )
 }
+
+
+CardHistoryOrder.propTypes = {
+  id: propTypes.number,
+  orderNumber: propTypes.number,
+  date: propTypes.string,
+  total: propTypes.number,
+  statusDelivery: propTypes.string,
+  image: propTypes.string
+}
+
 
 export default CardHistoryOrder

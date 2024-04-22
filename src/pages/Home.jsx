@@ -12,6 +12,9 @@ import Testimonial from "../components/Testimonial";
 import CardProduct from "../components/CardProduct";
 import LoadingTestimonial from "../components/LoadingTestimonial"
 import LoadingCardProduct from "../components/LoadingCardProduct";
+import propTypes from "prop-types"
+
+
 
 const Data = ({ value, text }) => {
   return (
@@ -31,6 +34,13 @@ const Data = ({ value, text }) => {
   );
 };
 
+
+Data.propTypes = {
+  value: propTypes.string,
+  text: propTypes.string
+}
+
+
 const ListProvide = ({ text }) => {
   return (
     <div className="flex gap-4">
@@ -41,6 +51,13 @@ const ListProvide = ({ text }) => {
     </div>
   );
 };
+
+
+ListProvide.propTypes = {
+  text: propTypes.string
+}
+
+
 
 // recommendation products start
 export const recommendProducts = async (setData) => {
@@ -75,7 +92,7 @@ const Home = () => {
   // animasi landing page end
 
   // animasi provide page start
-  const [listProvide, setListProvide] = useState([
+  const listProvide = [
     {
       text: "High quality beans",
     },
@@ -88,7 +105,7 @@ const Home = () => {
     {
       text: "Chat with our staff to get better experience for ordering",
     },
-  ]);
+  ]
 
   // const [show, setShow] = useState(false)
   // const provideSection = useRef()
@@ -112,7 +129,7 @@ const Home = () => {
   const [prevDisable, setPrevDisable] = useState(false);
   const [nextDisable, setNextDisable] = useState(false);
   const [totalPage, setTotalPage] = useState();
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState();
 
 
   
@@ -373,11 +390,11 @@ const Home = () => {
           <h1
             className={`relative text-2xl text-center sm:text-5xl font-medium sm:mb-2 px-4`}
           >
-            Here is People's <span className="text-[#7E6363]">Favorite</span>
+            Here is People&apos;s <span className="text-[#7E6363]">Favorite</span>
           </h1>
           <hr className="border-[#7E6363] border-2 sm:border-4 w-16" />
           <p className="text-[#4f5665] text-xs sm:text-base text-center px-4">
-            Let's choose and have a bit taste of poeple's favorite. It might be
+            Let&apos;s choose and have a bit taste of poeple&apos;s favorite. It might be
             yours too!
           </p>
         </div>

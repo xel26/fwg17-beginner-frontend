@@ -1,4 +1,5 @@
 import { FaStar } from "react-icons/fa"
+import propTypes from "prop-types"
 
 const Rating = ({rating, color}) => {
     const stars = []
@@ -10,9 +11,7 @@ const Rating = ({rating, color}) => {
         <div className="flex items-center gap-2 sm:gap-4">
         <div className="flex gap-1 sm:gap-2">
           {stars.map((index) => (
-            index <= parseInt(rating)
-            ? <FaStar key={index} color="orange" className="text-xs sm:text-base hover:animate-spin"/>
-            : <FaStar key={index} color="#a7a9ad" className="text-xs sm:text-base hover:animate-spin"/>
+            <FaStar key={index} color={index <= parseInt(rating) ? 'orange' : '#a7a9ad'} className="text-xs sm:text-base hover:animate-spin"/>
           ))}
         </div>
         <p className={`text-xs sm:text-base ${color ? 'text-white' : 'text-[#4F5665]'}`} id="rating-number">
@@ -21,5 +20,12 @@ const Rating = ({rating, color}) => {
       </div>
     )
 }
+
+
+Rating.propTypes = {
+  rating: propTypes.number,
+  color: propTypes.string
+}
+
 
 export default Rating

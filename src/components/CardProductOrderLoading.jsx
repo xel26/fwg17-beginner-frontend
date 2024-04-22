@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import propTypes from "prop-types"
 
 const CardProductOrderLoading = ({index}) => {
     return (
@@ -21,6 +22,10 @@ const CardProductOrderLoading = ({index}) => {
         </div>
       </div>
     )
+}
+
+CardProductOrderLoading.propTypes = {
+  index: propTypes.number
 }
 
 export default CardProductOrderLoading

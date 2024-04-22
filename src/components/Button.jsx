@@ -1,3 +1,4 @@
+import propTypes from "prop-types"
 
 const Button = ({value, py, handleSubmit, isProcessing}) => {
   return (
@@ -5,5 +6,14 @@ const Button = ({value, py, handleSubmit, isProcessing}) => {
 disabled:transition-none disabled:active:scale-100`}>{value}</button>
   )
 }
+
+
+Button.propTypes = {
+  value: propTypes.string,
+  py: propTypes.string,
+  handleSubmit: propTypes.func,
+  isProcessing: propTypes.bool
+}
+
 
 export default Button

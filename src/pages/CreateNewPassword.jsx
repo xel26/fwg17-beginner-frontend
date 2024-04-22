@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import FormAuth from '../components/FormAuth'
 import axios from 'axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Alert from '../components/Alert'
 import Info from '../components/Info'
 

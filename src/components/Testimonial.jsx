@@ -2,6 +2,8 @@ import PageIndicator from "../components/PageIndicator"
 import CustomerImage from "../assets/media/home-customer-image1.jpg"
 import ButtonSwipe from "../components/ButtonSwipe"
 import Rating from "./Rating"
+import propTypes from "prop-types"
+
 
 const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, handlePrevPage, nextDisable, prevDisable, totalPage, currentPage}) => {
   return (
@@ -28,5 +30,21 @@ const Testimonial = ({ fullName, role, feedback, rate, image, handleNextPage, ha
     </div>
   )
 }
+
+
+Testimonial.propTypes = {
+  fullName: propTypes.string,
+  role: propTypes.string,
+  feedback: propTypes.string,
+  rate: propTypes.number,
+  image: propTypes.string,
+  handleNextPage: propTypes.func,
+  handlePrevPage: propTypes.func,
+  nextDisable: propTypes.bool,
+  prevDisable: propTypes.bool,
+  totalPage: propTypes.number,
+  currentPage: propTypes.number
+}
+
 
 export default Testimonial

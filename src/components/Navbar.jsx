@@ -18,6 +18,7 @@ import { resetId } from "../redux/reducers/productsId"
 import { resetEmail } from "../redux/reducers/emailCustomer"
 import { resetFullName } from "../redux/reducers/FullNameCustomer"
 import { resetdeliveryAddress } from "../redux/reducers/deliveryAddress"
+import propTypes from "prop-types"
 
 import defaultPhoto from '../assets/media/default-profile.png'
 
@@ -33,10 +34,18 @@ const LinkNav = ({mobile, path, value}) => {
   )
 }
 
+
+LinkNav.propTypes = {
+  mobile: propTypes.bool,
+  path: propTypes.string,
+  value: propTypes.string
+}
+
+
 const Navbar = ({home}) => {
 
   const [navMobile, setNavMobile] = useState(false)
-  const [navSearch, setNavSearch] = useState(false)
+  // const [navSearch, setNavSearch] = useState(false)
   
   const token = useSelector(state => state.auth.token)
   const dataProfile = useSelector(state => state.profile.data)
@@ -106,7 +115,7 @@ const Navbar = ({home}) => {
         </div>
 
         <div className="relative flex items-center gap-2 sm:gap-5 sm:w-[32rem] justify-end">
-          <form
+          {/* <form
             className={`${
               !navSearch ? "hidden" : "flex"
             } absolute items-center ${
@@ -119,7 +128,7 @@ const Navbar = ({home}) => {
               placeholder="search"
             />
             <button className="hidden" type="submit"></button>
-          </form>
+          </form> */}
           {/* <FiSearch
             onClick={() => setNavSearch(!navSearch)}
             color="white"
@@ -285,6 +294,10 @@ const Navbar = ({home}) => {
       </div>
     </nav>
   )
+}
+
+Navbar.propTypes = {
+  home: propTypes.bool
 }
 
 export default Navbar

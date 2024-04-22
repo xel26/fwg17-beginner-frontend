@@ -1,4 +1,6 @@
 import { FiCoffee, FiRefreshCw } from "react-icons/fi"
+import propTypes from "prop-types"
+
 
 const Info = ({message, processing}) => {
     return(
@@ -9,6 +11,11 @@ const Info = ({message, processing}) => {
         <p>{message}</p>
       </div>
     )
+}
+
+Info.propTypes = {
+  message: propTypes.string,
+  processing: propTypes.bool
 }
 
 export default Info

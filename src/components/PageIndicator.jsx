@@ -1,3 +1,5 @@
+import propTypes from "prop-types"
+
 const PageIndicator = ({totalPage, currentPage}) => {
   const pageIndicator = []
   for(let i = 1; i <= parseInt(totalPage); i++){
@@ -15,5 +17,12 @@ const PageIndicator = ({totalPage, currentPage}) => {
       </div>
     )
 }
+
+
+PageIndicator.propTypes = {
+  totalPage: propTypes.number,
+  currentPage: propTypes.number
+}
+
 
 export default PageIndicator

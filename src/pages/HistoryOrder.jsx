@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import moment from 'moment'
-import {
-  FiMessageSquare,
-  FiAlignRight,
-  FiCoffee
-} from "react-icons/fi"
+import {FiCoffee} from "react-icons/fi"
 
 import { useSelector } from "react-redux"
 import { useNavigate, useSearchParams } from "react-router-dom"
@@ -16,7 +12,6 @@ import PageNavigation from "../components/PageNavigation"
 import Button from "../components/Button"
 import CardHistoryOrder from "../components/CardHistoryOrder"
 import Info from '../components/Info'
-import Alert from "../components/Alert"
 
 const optionFilter = ["On Progress", "Sending Goods", "Finish Order"]
 
@@ -32,7 +27,6 @@ const HistoryOrder = () => {
   const [filter, setFilter] = useState()
   const [orders, setOrders] = useState()
   const [totalData, setTotalData] = useState(0)
-  const [errorMessage, setErrorMessage] = useState()
   const [error, setError] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
 
@@ -60,7 +54,6 @@ const HistoryOrder = () => {
       setError(false)
 
     } catch ({response:{data:{message}}}) {
-      setErrorMessage(message)
       setError(true)
       setIsProcessing(false)
     }
@@ -98,7 +91,6 @@ const HistoryOrder = () => {
       setError(false)
 
     } catch ({response:{data:{message}}}) {
-      setErrorMessage(message)
       setError(true)
       setOrders(null)
       setFilter(filterStatus)
@@ -156,7 +148,6 @@ const HistoryOrder = () => {
 
       }
     } catch ({response:{data:{message}}}) {
-      setErrorMessage(message)
       setError(true)
       setOrders(null)
       setFilter(filterStatus)
@@ -214,7 +205,6 @@ const HistoryOrder = () => {
         setCurrentPage(data.pageInfo.currentPage)
       }
     } catch ({response:{data:{message}}}) {
-      setErrorMessage(message)
       setError(true)
       setOrders(null)
       setFilter(filterStatus)
@@ -269,7 +259,6 @@ const HistoryOrder = () => {
         setCurrentPage(data.pageInfo.currentPage)
       }
     } catch ({response:{data:{message}}}) {
-      setErrorMessage(message)
       setError(true)
       setOrders(null)
       setFilter(filterStatus)
@@ -278,16 +267,14 @@ const HistoryOrder = () => {
     }
   }
 
+  // const handleSendMessage = (event) => {
+  //   event.preventDefault()
+  //   setShowAlert(true)
 
-  const [showAlert, setShowAlert] = useState()
-  const handleSendMessage = (event) => {
-    event.preventDefault()
-    setShowAlert(true)
-
-    setTimeout(() => {
-      setShowAlert(false)
-    }, 6000)
-  }
+  //   setTimeout(() => {
+  //     setShowAlert(false)
+  //   }, 6000)
+  // }
 
   const explore = (event) => {
     event.preventDefault()
@@ -382,12 +369,6 @@ const HistoryOrder = () => {
         </div>
 
         <div className="relative flex-1 flex flex-col gap-2 border border-[#E8E8E8] h-fit p-2 mt-4 sm:mt-0">
-          <div className="absolute -top-20 -left-6 sm:-left-14 z-50 ">
-          <Alert
-            showAlert={showAlert} isSuccess={false}
-            message="Sorry, could not send the message for now. This feature is currently unavailable !"
-          />
-          </div>
 
           <div className="relative bg-black rounded-2xl w-fit p-1.5 flex items-center justify-center">
             <FiCoffee color="white" size={25} />

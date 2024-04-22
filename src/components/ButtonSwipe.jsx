@@ -1,5 +1,6 @@
 import { FiArrowLeft } from 'react-icons/fi'
 import { FiArrowRight } from 'react-icons/fi'
+import propTypes from "prop-types"
 
 const ButtonSwipe = ({handleNextPage, handlePrevPage, nextDisable, prevDisable}) => {
     return (
@@ -14,5 +15,14 @@ const ButtonSwipe = ({handleNextPage, handlePrevPage, nextDisable, prevDisable})
       </>
     )
 }
+
+
+ButtonSwipe.propTypes = {
+  handleNextPage: propTypes.func,
+  handlePrevPage: propTypes.func,
+  nextDisable: propTypes.bool,
+  prevDisable: propTypes.bool
+}
+
 
 export default ButtonSwipe

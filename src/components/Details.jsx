@@ -10,6 +10,8 @@ import Tag from "../components/Tag"
 import OptionVariety from "./OptionVariety"
 import Alert from "./Alert"
 
+import propTypes from "prop-types"
+
 
 const Details = ({id, productName, rating, review, description, basePrice, discountPrice, price, tag, isRecommended, variants, handleAddToCart, addToCart }) => {
   const token = useSelector(state => state.auth.token)
@@ -194,5 +196,23 @@ const Details = ({id, productName, rating, review, description, basePrice, disco
     </div>
   )
 }
+
+
+Details.propTypes = {
+  id: propTypes.number,
+  productName: propTypes.string,
+  rating: propTypes.number,
+  review: propTypes.number,
+  description: propTypes.string,
+  basePrice: propTypes.number,
+  discountPrice: propTypes.number,
+  price: propTypes.number,
+  tag: propTypes.string,
+  isRecommended: propTypes.bool,
+  variants: propTypes.array,
+  handleAddToCart: propTypes.func,
+  addToCart: propTypes.bool
+}
+
 
 export default Details

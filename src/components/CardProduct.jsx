@@ -3,6 +3,7 @@ import Tag from "./Tag"
 import { Link } from "react-router-dom"
 import Price from "./Price"
 import Product1 from '../assets/media/detail-product1.jpg'
+import propTypes from "prop-types"
 
 const CardProduct = ({id, productName, description, rating, basePrice, discountPrice, price, image, handleDetails, tag }) => {
   return (
@@ -39,5 +40,20 @@ const CardProduct = ({id, productName, description, rating, basePrice, discountP
     </div>
   )
 }
+
+
+CardProduct.propTypes = {
+  id: propTypes.number,
+  productName: propTypes.string,
+  description: propTypes.string,
+  rating: propTypes.number,
+  basePrice: propTypes.number,
+  discountPrice: propTypes.number,
+  price: propTypes.number,
+  image: propTypes.string,
+  handleDetails: propTypes.func,
+  tag: propTypes.string
+}
+
 
 export default CardProduct

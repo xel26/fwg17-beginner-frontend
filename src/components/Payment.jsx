@@ -1,9 +1,9 @@
-import BRI from "../assets/media/BRI.png"
-import DANA from "../assets/media/DANA.png"
-import BCA from "../assets/media/BCA.png"
-import gopay from "../assets/media/gopay.png"
-import ovo from "../assets/media/ovo.png"
-import PayPal from "../assets/media/paypal.png"
+// import BRI from "../assets/media/BRI.png"
+// import DANA from "../assets/media/DANA.png"
+// import BCA from "../assets/media/BCA.png"
+// import gopay from "../assets/media/gopay.png"
+// import ovo from "../assets/media/ovo.png"
+// import PayPal from "../assets/media/paypal.png"
 
 import Info from "./Info"
 import Alert from "./Alert"
@@ -22,6 +22,7 @@ import { resetEmail } from "../redux/reducers/emailCustomer"
 import { resetFullName } from "../redux/reducers/FullNameCustomer"
 import { resetdeliveryAddress } from "../redux/reducers/deliveryAddress"
 import { useState } from "react"
+import propTypes from "prop-types"
 
 
 const PaymentList = ({list, idr}) => {
@@ -34,6 +35,13 @@ const PaymentList = ({list, idr}) => {
     </div>
   )
 }
+
+
+PaymentList.propTypes = {
+  list: propTypes.string,
+  idr: propTypes.number
+}
+
 
 const Payment = () => {
   const profile = useSelector(state => state.profile.data)

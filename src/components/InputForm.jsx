@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { FiUser, FiMail, FiMapPin, FiLock, FiPhoneCall, FiEye, FiEyeOff, FiCode } from "react-icons/fi"
 import { Link } from "react-router-dom"
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import "react-loading-skeleton/dist/skeleton.css"
+import propTypes from "prop-types"
 
 const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, profile, onChange, creatPass}) => {
   const [show, setShow] = useState(false)
@@ -147,5 +147,19 @@ const InputForm = ({ name, label, type, placeholder, defaultValue, passProfile, 
     </label>
   )
 }
+
+
+InputForm.propTypes = {
+  name: propTypes.string,
+  label: propTypes.string,
+  type: propTypes.string,
+  placeholder: propTypes.string,
+  defaultValue: propTypes.string,
+  passProfile: propTypes.bool,
+  profile: propTypes.bool,
+  onChange: propTypes.func,
+  creatPass: propTypes.bool
+}
+
 
 export default InputForm

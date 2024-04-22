@@ -6,6 +6,8 @@ import google from '../assets/media/google-logo.png'
 import { useState } from "react"
 import { FiCoffee } from "react-icons/fi"
 
+import propTypes from "prop-types"
+
 const ButtonAuth = ({value}) => {
   return (
     <Link to="#"
@@ -18,8 +20,13 @@ const ButtonAuth = ({value}) => {
 }
 
 
+ButtonAuth.propTypes = {
+  value: propTypes.string
+}
+
+
 const FormAuth = ({ handleAuth, type, processing}) => {
-  const [register, setRegister] = useState([
+  const register = [
     {
       name:"fullName",
       label:"Full Name",
@@ -44,9 +51,9 @@ const FormAuth = ({ handleAuth, type, processing}) => {
       type:"password",
       placeholder:"Enter Your Password Again"
     }
-  ])
+  ]
 
-  const [login, setLogin] = useState([
+  const login = [
     {
       name:"email",
       label:"Email",
@@ -59,18 +66,18 @@ const FormAuth = ({ handleAuth, type, processing}) => {
       type:"password",
       placeholder:"Enter Your Password"
     }
-  ])
+  ]
 
-  const [forgotPass, setForgotPass] = useState([
+  const forgotPass = useState[
     {
       name:"email",
       label:"Email",
       type:"email",
       placeholder:"Enter Your Email"
     }
-  ])
+  ]
 
-  const [createNewPassword, setCreateNewPassword] = useState([
+  const createNewPassword = [
     {
       name:"otp",
       label:"OTP",
@@ -89,7 +96,7 @@ const FormAuth = ({ handleAuth, type, processing}) => {
       type:"password",
       placeholder:"Enter Confirm Password"
     },
-  ])
+  ]
 
   return (
     <div className="flex flex-col w-11/12">
@@ -180,7 +187,7 @@ const FormAuth = ({ handleAuth, type, processing}) => {
               <Link to="/forgot-password" className="text-[#7E6363] flex justify-end text-sm">Forgot Password?</Link>
             ): type == "Create New Password" ? (
               <div className="flex justify-end text-sm">
-              <p>Didn't receive the email?</p>
+              <p>Didn&apos;t receive the email?</p>
               <Link to="/forgot-password" className="text-[#7E6363]">Resend</Link>
               </div>
             ): ''
@@ -233,5 +240,13 @@ const FormAuth = ({ handleAuth, type, processing}) => {
     </div>
   )
 }
+
+
+FormAuth.propTypes = {
+  handleAuth: propTypes.func,
+  type: propTypes.string,
+  processing: propTypes.bool
+}
+
 
 export default FormAuth

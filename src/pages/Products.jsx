@@ -1,11 +1,9 @@
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import ButtonSwipe from "../components/ButtonSwipe";
-import PageIndicator from "../components/PageIndicator";
 import PageNavigation from "../components/PageNavigation";
 import CardProduct from "../components/CardProduct";
-import GreenKuponStiker from "../assets/media/stiker-kupon-hijau.png";
-import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
+// import GreenKuponStiker from "../assets/media/stiker-kupon-hijau.png";
+// import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
 import Info from "../components/Info";
 import LoadingCardProduct from "../components/LoadingCardProduct";
 
@@ -14,6 +12,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { FiList, FiSearch } from "react-icons/fi";
+import propTypes from "prop-types"
 
 
 // filter start
@@ -30,8 +29,14 @@ const CheckBox = ({label, value, name}) => {
   )
 }
 
+CheckBox.propTypes = {  // bawaan react
+  label: propTypes.string, // dari propTypes
+  value: propTypes.string,
+  name: propTypes.string
+}
+
 const FilterProduct = ({ filterBy }) => {
-  const [category, setCategory] = useState([
+  const category = [
     {
       label: "Favorite Product",
       value: "favorite product",
@@ -57,9 +62,9 @@ const FilterProduct = ({ filterBy }) => {
       value: "add on",
       name: "category"
     }
-  ])
+  ]
 
-  const [sortBy, setSortBy] = useState([
+  const sortBy = [
     // {
     //   label: "Buy1Get1",
     //   value: "buy1get1",
@@ -90,7 +95,7 @@ const FilterProduct = ({ filterBy }) => {
       value: "basePrice",
       name: "sortBy"
     },
-  ])
+  ]
 
   return (
     <div className="flex flex-col gap-3 text-xs">
@@ -113,6 +118,10 @@ const FilterProduct = ({ filterBy }) => {
       }
     </div>
   )
+}
+
+FilterProduct.propTypes = {
+  filterBy: propTypes.string
 }
 
 const Filter = ({mobile, handleFilter}) => {
@@ -161,38 +170,43 @@ const Filter = ({mobile, handleFilter}) => {
       </form>
     )
 }
+
+Filter.propTypes = {
+  mobile: propTypes.bool,
+  handleFilter: propTypes.func
+}
 // filter end
 
 
 
 
-const Kupon = ({ title, description, klaim, bg }) => {
-  return (
-    <div
-      className={`flex ${
-        bg == "green" ? "bg-[#88B788]" : "bg-[#F5C361]"
-      } rounded-2xl items-center pl-2 w-64 sm:w-72 h-20 sm:h-auto`}
-    >
-      <div>
-        <img
-          className="h-20 sm:h-24 translate-y-1"
-          src={klaim ? GreenKuponStiker : YellowKuponStiker}
-        />
-      </div>
-      <div className="flex flex-col gap-1">
-        <div className={`flex flex-col ${klaim ? "gap-0" : "gap-3"}`}>
-          <h5 className="text-xs sm:text-sm font-bold">{title}</h5>
-          <p className="text-[0.7rem] sm:text-xs">{description}</p>
-        </div>
-        {klaim ? (
-          <p className="text-[0.7rem] sm:text-xs text-white">Klaim Kupon</p>
-        ) : (
-          ""
-        )}
-      </div>
-    </div>
-  )
-}
+// const Kupon = ({ title, description, klaim, bg }) => {
+//   return (
+//     <div
+//       className={`flex ${
+//         bg == "green" ? "bg-[#88B788]" : "bg-[#F5C361]"
+//       } rounded-2xl items-center pl-2 w-64 sm:w-72 h-20 sm:h-auto`}
+//     >
+//       <div>
+//         <img
+//           className="h-20 sm:h-24 translate-y-1"
+//           src={klaim ? GreenKuponStiker : YellowKuponStiker}
+//         />
+//       </div>
+//       <div className="flex flex-col gap-1">
+//         <div className={`flex flex-col ${klaim ? "gap-0" : "gap-3"}`}>
+//           <h5 className="text-xs sm:text-sm font-bold">{title}</h5>
+//           <p className="text-[0.7rem] sm:text-xs">{description}</p>
+//         </div>
+//         {klaim ? (
+//           <p className="text-[0.7rem] sm:text-xs text-white">Klaim Kupon</p>
+//         ) : (
+//           ""
+//         )}
+//       </div>
+//     </div>
+//   )
+// }
 
 
 
@@ -201,38 +215,40 @@ const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const [display, setDisplay] =useState(false)
 
-  const [kupon, setKupon] = useState([
-    {
-      klaim:true,
-      title:"HAPPY MOTHER'S DAY!",
-      description:`Get one of our favorite menu \n for free!`,
-      bg:"green",
-    },
-    {
-      klaim:true,
-      title:"HAPPY MOTHER'S DAY!",
-      description:`Get one of our favorite menu \n for free!`,
-      bg:"green",
-    },
-    {
-      klaim:true,
-      title:"HAPPY MOTHER'S DAY!",
-      description:`Get one of our favorite menu \n for free!`,
-      bg:"green",
-    },
-    {
-      klaim:true,
-      title:"HAPPY MOTHER'S DAY!",
-      description:`Get one of our favorite menu \n for free!`,
-      bg:"green",
-    },
-    {
-      klaim:false,
-      title:`Get a cup of coffee for free \n on sunday morning`,
-      description:"Only at 7 to 9 AM",
-      bg:"yellow"
-    }
-  ])
+
+  // const [kupon, setKupon] = useState([
+  //   {
+  //     klaim:true,
+  //     title:"HAPPY MOTHER'S DAY!",
+  //     description:`Get one of our favorite menu \n for free!`,
+  //     bg:"green",
+  //   },
+  //   {
+  //     klaim:true,
+  //     title:"HAPPY MOTHER'S DAY!",
+  //     description:`Get one of our favorite menu \n for free!`,
+  //     bg:"green",
+  //   },
+  //   {
+  //     klaim:true,
+  //     title:"HAPPY MOTHER'S DAY!",
+  //     description:`Get one of our favorite menu \n for free!`,
+  //     bg:"green",
+  //   },
+  //   {
+  //     klaim:true,
+  //     title:"HAPPY MOTHER'S DAY!",
+  //     description:`Get one of our favorite menu \n for free!`,
+  //     bg:"green",
+  //   },
+  //   {
+  //     klaim:false,
+  //     title:`Get a cup of coffee for free \n on sunday morning`,
+  //     description:"Only at 7 to 9 AM",
+  //     bg:"yellow"
+  //   }
+  // ])
+
 
   const [mobileFilter, setMobileFilter] = useState(false)
   const filterMobile = () => {

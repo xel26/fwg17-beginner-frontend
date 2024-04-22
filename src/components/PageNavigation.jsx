@@ -1,5 +1,6 @@
-
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi"
+import propTypes from "prop-types"
+
 
 const PageNavigation = ({totalPage, pageHandle, nextPageHandle, prevPageHandle, currentPage}) => {
   const pages = []
@@ -40,5 +41,15 @@ const PageNavigation = ({totalPage, pageHandle, nextPageHandle, prevPageHandle, 
     </div>
   )
 }
+
+
+PageNavigation.propTypes = {
+  totalPage: propTypes.number,
+  pageHandle: propTypes.func,
+  nextPageHandle: propTypes.func,
+  prevPageHandle: propTypes.func,
+  currentPage: propTypes.number
+}
+
 
 export default PageNavigation
