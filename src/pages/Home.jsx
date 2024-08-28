@@ -409,7 +409,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="h-fit py-6 mt-10 sm:h-screen flex flex-col items-center justify-center w-full bg-[#E8E8E84D] gap-12">
+      <section className="h-fit py-6 mt-10 sm:mt-24 sm:h-screen flex flex-col items-center justify-center w-full bg-[#E8E8E84D] gap-12">
         <div className="flex flex-col items-center gap-2 sm:gap-4">
           <h1 className="text-2xl sm:text-5xl font-medium text-center px-4 sm:px-0">
             <span className="text-[#7E6363]">Visit Our Store</span> in the Spot
