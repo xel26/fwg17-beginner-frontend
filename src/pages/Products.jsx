@@ -4,6 +4,7 @@ import ButtonSwipe from "../components/ButtonSwipe";
 import PageIndicator from "../components/PageIndicator";
 import PageNavigation from "../components/PageNavigation";
 import CardProduct from "../components/CardProduct";
+import { CardProduct2 } from "../components/CardProduct";
 import GreenKuponStiker from "../assets/media/stiker-kupon-hijau.png";
 import YellowKuponStiker from "../assets/media/stiker-kupon-kuning.png";
 import Info from "../components/Info";
@@ -600,7 +601,7 @@ const Products = () => {
                 {dataProducts ?
                   dataProducts.map((product) =>
                     product.discount == 0 ? (
-                      <CardProduct
+                      <CardProduct2
                         key={product.id}
                         id={product.id}
                         productName={product.name}
@@ -608,10 +609,11 @@ const Products = () => {
                         rating={product.rating}
                         price={product.basePrice}
                         image={product.image}
+                        images={product.productImages}
                         tag={product.tag}
                       />
                     ) : (
-                      <CardProduct
+                      <CardProduct2
                         key={product.id}
                         id={product.id}
                         productName={product.name}
@@ -620,6 +622,7 @@ const Products = () => {
                         basePrice={product.basePrice}
                         discountPrice={product.basePrice - product.discount}
                         image={product.image}
+                        images={product.productImages}
                         tag={product.tag}
                       />
                     )

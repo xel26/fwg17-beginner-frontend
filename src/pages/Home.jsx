@@ -10,6 +10,7 @@ import Map from "../assets/media/home-map.png";
 import MapMobile from "../assets/media/map-mobile.png";
 import Testimonial from "../components/Testimonial";
 import CardProduct from "../components/CardProduct";
+import { CardProduct2 } from "../components/CardProduct";
 import LoadingTestimonial from "../components/LoadingTestimonial"
 import LoadingCardProduct from "../components/LoadingCardProduct";
 
@@ -368,7 +369,7 @@ const Home = () => {
         <div className="bg-[url('../assets/media/staff-image.jpg')] flex-1 bg-center bg-cover"></div>
       </section>
 
-      <section className="h-fit sm:h-screen flex flex-col items-center sm:pt-10 w-full sm:w-5/6 gap-6 sm:gap-12">
+      <section className="h-fit sm:h-screen flex flex-col items-center sm:pt-10 gap-6 sm:gap-12">
         <div className="flex flex-col items-center gap-2 sm:gap-4">
           <h1
             className={`relative text-2xl text-center sm:text-5xl font-medium sm:mb-2 px-4`}
@@ -382,10 +383,10 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-6 w-fit mx-6 sm:mx-0">
+         <div className="gap-y-44 gap-x-6 flex flex-wrap justify-center mb-44 sm:gap-14 mx-6 sm:mx-0">
           {dataProducts ?
             dataProducts.map((product) => (
-              <CardProduct
+              <CardProduct2
                 id={product.id}
                 key={product.id}
                 productName={product.name}
@@ -393,6 +394,7 @@ const Home = () => {
                 rating={product.rating}
                 price={product.basePrice}
                 image={product.image}
+                images={product.productImages}
                 tag={product.tag}
               />
             )) : CountRecommendProducts.map((_, index) => {
@@ -400,16 +402,11 @@ const Home = () => {
                 <LoadingCardProduct key={index}/>
               )
             })}
-
-            {/* {CountRecommendProducts.map((_, index) => {
-              return (
-                <LoadingCardProduct key={index}/>
-              )
-            })} */}
         </div>
+
       </section>
 
-      <section className="h-fit py-6 mt-10 sm:h-screen flex flex-col items-center justify-center w-full bg-[#E8E8E84D] gap-12">
+      <section className="h-fit py-6 mt-10 sm:mt-24 sm:h-screen flex flex-col items-center justify-center w-full bg-[#E8E8E84D] gap-12">
         <div className="flex flex-col items-center gap-2 sm:gap-4">
           <h1 className="text-2xl sm:text-5xl font-medium text-center px-4 sm:px-0">
             <span className="text-[#7E6363]">Visit Our Store</span> in the Spot
